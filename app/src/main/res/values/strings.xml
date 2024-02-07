@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FoodPlanner</string>
+    <string name="TitleOfApp">Food Planner</string>
+    <string name="slogan">best plan for your day</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+    <string name="sign_up_with_email">Sign Up with Email</string>
+    <string name="facebook_app_id">1402524423970821</string>
+    <string name="facebook_client_token">d5ab004d3f3ff2c04682b2095ff67f45</string>
+    <string name="fb_login_protocol_scheme">fb1402524423970821</string>
+</resources>
