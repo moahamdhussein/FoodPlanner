@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.foodplanner.MainScreen.View.HomeActivity;
+import com.example.foodplanner.RegisterationForm.View.CreateNewAccount;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                Intent intent = new Intent(MainActivity.this, CreateNewAccount.class);
                 startActivity(intent);
                 finish();
             }

@@ -1,5 +1,6 @@
 package com.example.foodplanner.MainScreen.presenter;
 
-public interface ICategoryPresenter {
+public interface IHomePresenter {
     void getCategory();
+    void getRandomMeal();
 }

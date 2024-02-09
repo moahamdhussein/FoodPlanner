@@ -47,6 +47,7 @@ private static final String TAG="HomeAdapter";
         holder.tvTitle.setText(categories.get(holder.getAdapterPosition()).getStrCategory());
         Glide.with(context).load(categories.get(position).getStrCategoryThumb())
                 .into(holder.imageView);
+        holder.tvDescription.setText(categories.get(holder.getAdapterPosition()).getStrCategoryDescription());
 
     }
 
@@ -56,7 +57,7 @@ private static final String TAG="HomeAdapter";
     }
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
-        private TextView tvTitle;
+        private TextView tvTitle,tvDescription;
         private View layout;
 
 
@@ -67,6 +68,7 @@ private static final String TAG="HomeAdapter";
             layout = itemView;
             tvTitle =layout.findViewById(R.id.tv_title);
             imageView = layout.findViewById(R.id.iv_category);
+            tvDescription = layout.findViewById(R.id.tv_description);
             Log.i(TAG, "ViewHolder: ");
         }
     }

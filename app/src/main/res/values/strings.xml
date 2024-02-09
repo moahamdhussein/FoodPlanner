@@ -8,4 +8,10 @@
     <string name="facebook_app_id">1402524423970821</string>
     <string name="facebook_client_token">d5ab004d3f3ff2c04682b2095ff67f45</string>
     <string name="fb_login_protocol_scheme">fb1402524423970821</string>
+    <string name="category">Category</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signup">SignUp</string>
+    <string name="sub_title">Save delicious recipes and get personalized content</string>
+    <string name="random_meal">Random meal</string>
 </resources>

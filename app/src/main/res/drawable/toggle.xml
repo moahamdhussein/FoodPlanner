@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector  xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item  app:passwordToggleDrawable="@drawable/eye" app:passwordToggleEnabled="true" />
+    <item  app:passwordToggleDrawable="@drawable/open_eye" app:passwordToggleEnabled="false"/>
+</selector>

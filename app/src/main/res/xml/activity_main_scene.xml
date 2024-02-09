@@ -19,8 +19,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="100dp"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:rotationY="-360" />
+            motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@+id/tv_slogan"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +27,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintTop_toBottomOf="@id/tv_title"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:rotationY="-360" />
+            android:layout_marginTop="10dp" />
         <Constraint
             android:id="@+id/animationView"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -37,8 +35,7 @@
             android:layout_height="500dp"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="50dp"
-            android:rotationY="-360" />
+            android:layout_marginTop="50dp" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -49,8 +46,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintTop_toBottomOf="@id/tv_title"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="10dp"
-            android:rotationY="360" />
+            android:layout_marginTop="10dp" />
         <Constraint
             android:id="@+id/tv_title"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +54,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="100dp"
-            motion:layout_constraintStart_toStartOf="parent"
-            android:rotationY="360" />
+            motion:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@+id/animationView"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +62,6 @@
             android:layout_height="500dp"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="50dp"
-            android:rotationY="360" />
+            android:layout_marginTop="50dp" />
     </ConstraintSet>
 </MotionScene>

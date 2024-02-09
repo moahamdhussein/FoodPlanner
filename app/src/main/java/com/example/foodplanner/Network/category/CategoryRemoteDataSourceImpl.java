@@ -1,8 +1,10 @@
-package com.example.foodplanner.Network;
+package com.example.foodplanner.Network.category;
 
 
 
 import com.example.foodplanner.MainScreen.model.ParentCategories;
+import com.example.foodplanner.Network.ApiServices;
+import com.example.foodplanner.Network.NetworkCallback;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,7 +36,7 @@ public class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource{
     }
 
     @Override
-    public void makeNetworkCall(NetworkCallback callback) {
+    public void makeNetworkCallback(NetworkCallback callback) {
         Call<ParentCategories> call = service.getAllCategories();
         call.enqueue(new Callback<ParentCategories>() {
             @Override
