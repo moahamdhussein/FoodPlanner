@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.example.foodplanner.MainScreen.model.Category;
 import com.example.foodplanner.MainScreen.model.HomeRepository;
 import com.example.foodplanner.MainScreen.model.Meal;

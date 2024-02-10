@@ -1,4 +1,4 @@
-package com.example.foodplanner;
+package com.example.foodplanner.MainScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

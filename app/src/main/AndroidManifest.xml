@@ -18,7 +18,7 @@
             android:name=".RegisterationForm.View.CreateNewAccount"
             android:exported="false" />
         <activity
-            android:name=".MainScreen"
+            android:name=".MainScreen.MainScreen"
             android:exported="false" />
         <activity
             android:name=".LoginScreen.LoginActivity"
