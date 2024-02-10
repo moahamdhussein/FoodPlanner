@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:layout_marginBottom="10dp"
+    android:background="#E3F4F4"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="10dp"
+    app:cardUseCompatPadding="true">
+
+    <ImageView
+        android:id="@+id/iv_ingredient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E3F4F4"
+        android:scaleType="fitXY"
+        android:src="@drawable/background_login" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="#74000000"
+        android:backgroundTint="@android:color/transparent"
+        android:backgroundTintMode="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_category" />
+
+    <TextView
+        android:id="@+id/tv_title_ingredient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="@id/view"
+        tools:text="Miscellaneous" />
+</com.google.android.material.card.MaterialCardView>

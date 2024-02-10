@@ -7,4 +7,5 @@ interface IHomeRepository {
 
     void getRandomMean(NetworkCallback callback);
 
+    void getAllIngredient(NetworkCallback callback);
 }

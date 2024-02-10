@@ -19,21 +19,21 @@ import com.example.foodplanner.R;
 
 import java.util.List;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
 
 private List<Category> categories;
 
 private final Context context;
-private static final String TAG="HomeAdapter";
+private static final String TAG="CategoryAdapter";
 
-    public HomeAdapter(Context context,List<Category> categories) {
+    public CategoryAdapter(Context context, List<Category> categories) {
         this.context = context;
         this.categories = categories;
     }
 
     @NonNull
     @Override
-    public HomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.category_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
@@ -44,11 +44,10 @@ private static final String TAG="HomeAdapter";
         this.categories = categories;
     }
     @Override
-    public void onBindViewHolder(@NonNull HomeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.tvTitle.setText(categories.get(holder.getAdapterPosition()).getStrCategory());
         Glide.with(context).load(categories.get(position).getStrCategoryThumb())
                 .into(holder.imageView);
-//        Picasso.get().load(categories.get(holder.getAdapterPosition()).getStrCategoryThumb()).into(holder.imageView);
         holder.tvDescription.setText(categories.get(holder.getAdapterPosition()).getStrCategoryDescription());
 
     }

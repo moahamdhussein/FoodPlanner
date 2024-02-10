@@ -19,10 +19,7 @@ public class MainScreen extends AppCompatActivity  {
         setContentView(R.layout.activity_home);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setHomeAsUpIndicator(R.drawable.menu);
-//        actionBar.setDisplayShowHomeEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView,navController);
 

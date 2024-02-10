@@ -1,9 +1,12 @@
 package com.example.foodplanner.MainScreen.presenter;
 
 
+import android.util.Log;
+
 import com.example.foodplanner.MainScreen.View.IHome;
 import com.example.foodplanner.MainScreen.model.Category;
 import com.example.foodplanner.MainScreen.model.HomeRepository;
+import com.example.foodplanner.MainScreen.model.Ingredients;
 import com.example.foodplanner.MainScreen.model.Meal;
 import com.example.foodplanner.Network.NetworkCallback;
 
@@ -47,8 +50,19 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
       view.showErrorMessage(msg);
    }
 
-  @Override
+   @Override
+   public void onSuccessResultsIngredients(List<Ingredients> ingredients) {
+      Log.i(TAG, "onSuccessResultsIngredients: "+ingredients.size());
+      view.setIngredientData(ingredients);
+   }
+
+   @Override
    public void getRandomMeal() {
       homeRepository.getRandomMean(this);
+   }
+
+   public void getAllIngredient() {
+      homeRepository.getAllIngredient(this);
+
    }
 }
