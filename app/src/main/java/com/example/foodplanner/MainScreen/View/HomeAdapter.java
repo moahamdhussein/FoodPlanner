@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.MainScreen.model.Category;
 import com.example.foodplanner.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,6 +48,7 @@ private static final String TAG="HomeAdapter";
         holder.tvTitle.setText(categories.get(holder.getAdapterPosition()).getStrCategory());
         Glide.with(context).load(categories.get(position).getStrCategoryThumb())
                 .into(holder.imageView);
+//        Picasso.get().load(categories.get(holder.getAdapterPosition()).getStrCategoryThumb()).into(holder.imageView);
         holder.tvDescription.setText(categories.get(holder.getAdapterPosition()).getStrCategoryDescription());
 
     }
