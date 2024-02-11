@@ -16,7 +16,7 @@ import java.util.List;
 public interface NetworkCallback {
    public void onSuccessResults(List<Category> categories);
 
-   public void onSuccessResultsRandomMeal(List<Meal> meals);
+   public void onSuccessResultsRandomMeal(Meal meals);
    public void onFailureResult(String msg);
    public  void onSuccessResultsIngredients(List<Ingredients> ingredients);
 

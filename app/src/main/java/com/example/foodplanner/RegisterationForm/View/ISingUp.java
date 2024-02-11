@@ -1,5 +1,5 @@
 package com.example.foodplanner.RegisterationForm.View;
 
-public interface OnSignUpClick {
-  public void onClick();
+public interface ISingUp {
+ void onSuccessComplete();
 }

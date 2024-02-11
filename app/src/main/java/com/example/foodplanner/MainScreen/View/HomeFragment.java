@@ -43,6 +43,7 @@ public class HomeFragment extends Fragment implements IHome{
     LinearLayoutManager layoutManager , linearLayoutManager;
     ImageView ivRandomMeal;
     TextView tvRandomMealTitle, tv_RandomMealCategory;
+    View layoutRandomMeal;
 
     private static final String TAG = "HomeFragment";
 
@@ -67,6 +68,7 @@ public class HomeFragment extends Fragment implements IHome{
         tvRandomMealTitle =view.findViewById(R.id.tv_random_meal_title);
         tv_RandomMealCategory =view.findViewById(R.id.tv_random_meal_category);
         ingredientRecyclerView =view.findViewById(R.id.my_ingredients_view);
+        layoutRandomMeal = view.findViewById(R.id.layout_random_meal);
 
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -84,6 +86,8 @@ public class HomeFragment extends Fragment implements IHome{
         ingredientAdapter = new IngredientAdapter(getContext() ,new ArrayList<>());
         ingredientRecyclerView.setAdapter(ingredientAdapter);
 
+
+
         HomePresenter presenter = new HomePresenter(this,
                 HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
                         RandomRemoteDataSourceImpl.getInstance(),
@@ -91,6 +95,13 @@ public class HomeFragment extends Fragment implements IHome{
         presenter.getCategory();
         presenter.getRandomMeal();
         presenter.getAllIngredient();
+
+        layoutRandomMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.OnRandomMealClick();
+            }
+        });
     }
 
     @Override
@@ -115,4 +126,11 @@ public class HomeFragment extends Fragment implements IHome{
         ingredientAdapter.setList(ingredients.subList(0,20));
         ingredientAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onDailyMailClick(Meal meal) {
+        Toast.makeText(getContext(), meal.getIdMeal(), Toast.LENGTH_SHORT).show();
+    }
+
+
 }

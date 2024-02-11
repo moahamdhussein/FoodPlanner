@@ -5,7 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_login"
-    tools:context=".LoginScreen.LoginActivity">
+    tools:context=".LoginScreen.View.LoginFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#74000000" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
@@ -77,8 +82,8 @@
         android:id="@+id/btn_facebook"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="#486fb3"
         android:text="@string/facebook"
         app:icon="@drawable/facebook"
@@ -106,5 +111,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_facebook" />
 
+    <TextView
+        android:id="@+id/tv_have_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans"
+        android:text="@string/already_have_an_account"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/btn_signup"
+        app:layout_constraintTop_toBottomOf="@id/btn_signup" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/log_in"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_have_account"
+        app:layout_constraintTop_toBottomOf="@id/btn_signup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

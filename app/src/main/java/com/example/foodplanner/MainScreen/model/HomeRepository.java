@@ -17,6 +17,8 @@ public class HomeRepository implements IHomeRepository {
     private static final String TAG = "HomeRepository";
     private static HomeRepository repository= null;
 
+
+
     public  static HomeRepository getInstance(CategoryRemoteDataSource remoteDataSource,RandomRemoteDataSource randomRemoteDataSource ,IngredientsRemoteDataSource ingredientsRemoteDataSource){
         if (repository ==null){
             repository = new HomeRepository(remoteDataSource,randomRemoteDataSource,ingredientsRemoteDataSource);
@@ -45,6 +47,4 @@ public class HomeRepository implements IHomeRepository {
         Log.i(TAG, "getAllIngredient: Done");
         ingredientsRemoteDataSource.makeNetworkCallback(callback);
     }
-
-
 }

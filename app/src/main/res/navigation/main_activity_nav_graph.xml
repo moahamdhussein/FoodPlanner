@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_nav_graph"
+    app:startDestination="@id/spashScreenFragment">
+
+    <fragment
+        android:id="@+id/spashScreenFragment"
+        android:name="com.example.foodplanner.SplashScreen.SpashScreenFragment"
+        android:label="fragment_spash_screen"
+        tools:layout="@layout/fragment_spash_screen" >
+        <action
+            android:id="@+id/action_spashScreenFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.foodplanner.LoginScreen.View.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_singupFragment"
+            app:destination="@id/singupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_loginFormFragment"
+            app:destination="@id/loginFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFormFragment"
+        android:name="com.example.foodplanner.LoginUsingEmail.View.LoginFormFragment"
+        android:label="fragment_login_form"
+        tools:layout="@layout/fragment_login_form" />
+    <fragment
+        android:id="@+id/singupFragment"
+        android:name="com.example.foodplanner.RegisterationForm.View.SingupFragment"
+        android:label="fragment_singup"
+        tools:layout="@layout/fragment_singup" />
+</navigation>

@@ -17,4 +17,6 @@ public interface IHome {
 
  public void setIngredientData(List<Ingredients> ingredients);
 
+ public  void onDailyMailClick(Meal meal);
+
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F8FF"
-    tools:context=".RegisterationForm.View.CreateNewAccount">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".RegisterationForm.View.SingupFragment">
 
 
     <TextView
@@ -13,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/open_sans"
         android:text="@string/signup"
         android:textColor="@color/black"
@@ -40,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/slogan"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/login_animation" />
+        app:lottie_rawRes="@raw/singup" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
@@ -102,15 +101,16 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#8CB9BD"
+        android:backgroundTint="#4a6cd1"
         android:text="@string/sign_up_with_email"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:icon="@drawable/email_logo"
         app:iconGravity="textStart"
         app:iconSize="30dp"
-        app:iconTint="@color/black"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_Password" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

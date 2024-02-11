@@ -5,6 +5,7 @@ package com.example.foodplanner.Network.Random;
 import android.util.Log;
 
 
+import com.example.foodplanner.MainScreen.model.Meal;
 import com.example.foodplanner.MainScreen.model.ParentMeal;
 import com.example.foodplanner.Network.ApiServices;
 import com.example.foodplanner.Network.NetworkCallback;
@@ -22,7 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
     private ApiServices service ;
 
-    private static RandomRemoteDataSourceImpl client = null;
+    private Meal meal;
+
+     public Meal getMeal() {
+         return meal;
+     }
+
+     private static RandomRemoteDataSourceImpl client = null;
 
     private RandomRemoteDataSourceImpl() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -44,8 +51,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
         call.enqueue(new Callback<ParentMeal>() {
             @Override
             public void onResponse(Call<ParentMeal> call, Response<ParentMeal> response) {
-                Log.i(TAG, "onResponse: "+response.body().getMeals().toString());
-                callback.onSuccessResultsRandomMeal(response.body() != null ? response.body().getMeals() : null);
+                meal = response.body().meals.get(0);
+                callback.onSuccessResultsRandomMeal(meal);
             }
 
             @Override

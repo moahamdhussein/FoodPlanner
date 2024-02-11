@@ -20,7 +20,11 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    private HomeRepository homeRepository;
 
 
+   private Meal meal;
 
+   public Meal getMeal() {
+      return meal;
+   }
 
    public HomePresenter(IHome view, HomeRepository repository ) {
       this.view = view;
@@ -41,8 +45,9 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    }
 
    @Override
-   public void onSuccessResultsRandomMeal(List<Meal> meals) {
-      view.setRandomMeal(meals.get(0));
+   public void onSuccessResultsRandomMeal(Meal meal) {
+      this.meal = meal;
+      view.setRandomMeal(meal);
    }
 
    @Override
@@ -64,5 +69,9 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    public void getAllIngredient() {
       homeRepository.getAllIngredient(this);
 
+   }
+
+   public void OnRandomMealClick() {
+      view.onDailyMailClick(meal);
    }
 }

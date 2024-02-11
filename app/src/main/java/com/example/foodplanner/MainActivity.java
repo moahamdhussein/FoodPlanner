@@ -1,6 +1,9 @@
 package com.example.foodplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,40 +18,24 @@ import com.example.foodplanner.MainScreen.MainScreen;
 
 public class MainActivity extends AppCompatActivity {
 
-    Animation topAnim, bottomAnim;
-    LottieAnimationView lottieAnimationView;
-    TextView tvTitle, tvSlogan;
-    Handler handler;
+    private NavController navController;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
-        bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
-
-        lottieAnimationView = findViewById(R.id.animationView);
+        getSupportActionBar().hide();
 
 
+        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this,navController);
+    }
 
-        tvTitle = findViewById(R.id.tv_title);
-        tvSlogan = findViewById(R.id.tv_slogan);
-
-        lottieAnimationView.setAnimation(topAnim);
-
-        tvTitle.setAnimation(bottomAnim);
-        tvSlogan.setAnimation(bottomAnim);
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, MainScreen.class);
-                startActivity(intent);
-                finish();
-            }
-        },3200);
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        return navController.navigateUp()|| super.onSupportNavigateUp();
     }
 }
