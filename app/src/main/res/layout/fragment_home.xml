@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainScreen.View.HomeFragment">
 
+
     <TextView
         android:id="@+id/tv_trending_food"
         android:layout_width="match_parent"
@@ -44,7 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/background_login" />
+                android:src="@drawable/take_away" />
 
             <View
                 android:id="@+id/view"
@@ -133,5 +134,19 @@
         app:layout_constraintTop_toBottomOf="@id/tv_ingredients_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_bar"
+        app:lottie_rawRes="@raw/animation1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F3F8FF"
+        app:lottie_autoPlay="true"
+        android:foregroundGravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:lottie_loop="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

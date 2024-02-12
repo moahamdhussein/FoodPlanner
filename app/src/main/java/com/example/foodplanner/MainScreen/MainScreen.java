@@ -1,5 +1,6 @@
 package com.example.foodplanner.MainScreen;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -13,6 +14,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainScreen extends AppCompatActivity  {
 
     BottomNavigationView bottomNavigationView;
+
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +23,19 @@ public class MainScreen extends AppCompatActivity  {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(bottomNavigationView,navController);
+        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this,navController);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        return navController.navigateUp()||super.onSupportNavigateUp();
 
+    }
 }

@@ -47,4 +47,11 @@ public class HomeRepository implements IHomeRepository {
         Log.i(TAG, "getAllIngredient: Done");
         ingredientsRemoteDataSource.makeNetworkCallback(callback);
     }
+    public void getMealWithName(NetworkCallback callback,String name){
+        randomRemoteDataSource.getMealWithName(callback,name);
+    }
+
+    public void getMeals(NetworkCallback callback , String name,String type){
+        randomRemoteDataSource.getMeals(callback,name,type);
+    }
 }

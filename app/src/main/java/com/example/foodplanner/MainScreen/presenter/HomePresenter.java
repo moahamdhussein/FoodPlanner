@@ -56,6 +56,11 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    }
 
    @Override
+   public void onSuccessResultsMealS(List<Meal> meals) {
+
+   }
+
+   @Override
    public void onSuccessResultsIngredients(List<Ingredients> ingredients) {
       Log.i(TAG, "onSuccessResultsIngredients: "+ingredients.size());
       view.setIngredientData(ingredients);

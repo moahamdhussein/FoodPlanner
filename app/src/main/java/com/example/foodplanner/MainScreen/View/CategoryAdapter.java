@@ -25,10 +25,12 @@ private List<Category> categories;
 
 private final Context context;
 private static final String TAG="CategoryAdapter";
+private IHome view;
 
-    public CategoryAdapter(Context context, List<Category> categories) {
+    public CategoryAdapter(Context context, List<Category> categories,IHome view) {
         this.context = context;
         this.categories = categories;
+        this.view = view;
     }
 
     @NonNull
@@ -49,7 +51,12 @@ private static final String TAG="CategoryAdapter";
         Glide.with(context).load(categories.get(position).getStrCategoryThumb())
                 .into(holder.imageView);
         holder.tvDescription.setText(categories.get(holder.getAdapterPosition()).getStrCategoryDescription());
-
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.categoryClick(v,categories.get(holder.getAdapterPosition()).getStrCategory());
+            }
+        });
     }
 
     @Override

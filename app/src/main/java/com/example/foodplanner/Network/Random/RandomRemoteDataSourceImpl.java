@@ -63,4 +63,55 @@ import retrofit2.converter.gson.GsonConverterFactory;
         });
 
     }
-}
+     @Override
+     public void getMealWithName(NetworkCallback callback , String name) {
+         Call<ParentMeal> call = service.getMealUsingName(name);
+         Log.i(TAG, "getMealWithName: "+name);
+         call.enqueue(new Callback<ParentMeal>() {
+             @Override
+             public void onResponse(Call<ParentMeal> call, Response<ParentMeal> response) {
+
+                 meal = response.body().meals.get(0);
+                 Log.i(TAG, "onResponse: "+meal.getStrMeal());
+                 callback.onSuccessResultsRandomMeal(meal);
+             }
+
+             @Override
+             public void onFailure(Call<ParentMeal> call, Throwable t) {
+                 callback.onFailureResult(t.getMessage());
+                 t.printStackTrace();
+             }
+         });
+
+     }
+
+     @Override
+     public void getMeals(NetworkCallback callback, String name , String type) {
+
+         Call<ParentMeal> call;
+        if (type.equalsIgnoreCase("c")){
+            Log.i(TAG, "getMeals: "+type);
+            call = service.getMealsFilteredBasedOnCategory(name);
+        }else {
+            call = service.getMealsFilteredBasedOnIngredient(name);
+        }
+
+
+         Log.i(TAG, "getMealsName: "+name);
+
+         Log.i(TAG, "getMeals: "+call.request().toString());
+         call.enqueue(new Callback<ParentMeal>() {
+             @Override
+             public void onResponse(Call<ParentMeal> call, Response<ParentMeal> response) {
+                 Log.i(TAG, "onResponse: "+response.body().getMeals());
+                 callback.onSuccessResultsMealS(response.body().getMeals());
+             }
+             @Override
+             public void onFailure(Call<ParentMeal> call, Throwable t) {
+                 callback.onFailureResult(t.getMessage());
+
+                 t.printStackTrace();
+             }
+         });
+     }
+ }

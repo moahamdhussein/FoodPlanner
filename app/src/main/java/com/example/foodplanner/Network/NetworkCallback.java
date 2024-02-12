@@ -18,6 +18,8 @@ public interface NetworkCallback {
 
    public void onSuccessResultsRandomMeal(Meal meals);
    public void onFailureResult(String msg);
+
+   public void onSuccessResultsMealS(List<Meal> meals);
    public  void onSuccessResultsIngredients(List<Ingredients> ingredients);
 
 

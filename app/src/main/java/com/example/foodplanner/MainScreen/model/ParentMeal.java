@@ -1,9 +1,12 @@
 package com.example.foodplanner.MainScreen.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 
 public class ParentMeal{
+   @SerializedName("meals")
    public ArrayList<Meal> meals;
 
    public ArrayList<Meal> getMeals() {

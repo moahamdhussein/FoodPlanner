@@ -7,18 +7,18 @@
 
     <fragment
         android:id="@+id/spashScreenFragment"
-        android:name="com.example.foodplanner.SplashScreen.SpashScreenFragment"
-        android:label="fragment_spash_screen"
-        tools:layout="@layout/fragment_spash_screen" >
+        android:name="com.example.foodplanner.MainActivity.SplashScreen.SpashScreenFragment"
+        android:label="Spash Screen"
+        tools:layout="@layout/fragment_spash_screen">
         <action
             android:id="@+id/action_spashScreenFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.foodplanner.LoginScreen.View.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:name="com.example.foodplanner.MainActivity.LoginScreen.View.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_singupFragment"
             app:destination="@id/singupFragment" />
@@ -28,12 +28,12 @@
     </fragment>
     <fragment
         android:id="@+id/loginFormFragment"
-        android:name="com.example.foodplanner.LoginUsingEmail.View.LoginFormFragment"
-        android:label="fragment_login_form"
+        android:name="com.example.foodplanner.MainActivity.LoginUsingEmail.View.LoginFormFragment"
+        android:label="Login Form"
         tools:layout="@layout/fragment_login_form" />
     <fragment
         android:id="@+id/singupFragment"
-        android:name="com.example.foodplanner.RegisterationForm.View.SingupFragment"
-        android:label="fragment_singup"
+        android:name="com.example.foodplanner.MainActivity.RegisterationForm.View.SingupFragment"
+        android:label="Singup"
         tools:layout="@layout/fragment_singup" />
 </navigation>

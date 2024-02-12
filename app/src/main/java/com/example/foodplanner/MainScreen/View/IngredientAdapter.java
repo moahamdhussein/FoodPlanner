@@ -23,9 +23,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     private final Context context;
 
-    public IngredientAdapter( Context context,List<Ingredients> ingredients) {
+    private IHome view;
+
+    public IngredientAdapter( Context context,List<Ingredients> ingredients,IHome view) {
         this.ingredients = ingredients;
         this.context = context;
+        this.view = view;
     }
 
     private static final String TAG = "IngredientAdapter";
@@ -45,6 +48,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         Glide.with(context)
                 .load("https://www.themealdb.com/images/ingredients/"+ingredients.get(holder.getAdapterPosition()).getStrIngredient()+".png")
                 .into(holder.imageView);
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.ingredientClick(v,ingredients.get(holder.getAdapterPosition()).getStrIngredient());
+            }
+        });
 
     }
     public void setList(List<Ingredients> ingredients) {
