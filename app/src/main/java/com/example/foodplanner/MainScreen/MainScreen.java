@@ -23,12 +23,12 @@ public class MainScreen extends AppCompatActivity  {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this,R.id.nav_host_home_fragment);
         NavigationUI.setupActionBarWithNavController(this,navController);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
 
     }

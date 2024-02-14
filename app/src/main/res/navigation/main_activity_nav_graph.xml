@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_spash_screen">
         <action
             android:id="@+id/action_spashScreenFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/spashScreenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

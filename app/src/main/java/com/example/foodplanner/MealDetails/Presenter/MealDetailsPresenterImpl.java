@@ -1,5 +1,7 @@
 package com.example.foodplanner.MealDetails.Presenter;
 
+import android.util.Log;
+
 import com.example.foodplanner.MealDetails.View.IMealDetailsFragment;
 import com.example.foodplanner.MainScreen.model.Category;
 import com.example.foodplanner.MainScreen.model.HomeRepository;
@@ -14,6 +16,8 @@ public class MealDetailsPresenterImpl implements NetworkCallback ,IMealDetailsPr
     private IMealDetailsFragment view;
 
     private HomeRepository homeRepository;
+
+    private static final String TAG = "MealDetailsPresenterImp";
 
     public MealDetailsPresenterImpl(IMealDetailsFragment view, HomeRepository homeRepository) {
         this.view = view;
@@ -32,6 +36,10 @@ public class MealDetailsPresenterImpl implements NetworkCallback ,IMealDetailsPr
 
     @Override
     public void onSuccessResultsRandomMeal(Meal meals) {
+        meals.setIngredientAndMeasurement();
+
+        Log.i(TAG, "onSuccessResultsRandomMeal: " +meals.getIngredient().toString());
+        Log.i(TAG, "onSuccessResultsRandomMeal: " +meals.getMeasurement().toString());
         view.getMealDetails(meals);
     }
 

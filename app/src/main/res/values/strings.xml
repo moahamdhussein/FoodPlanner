@@ -21,4 +21,6 @@
     <string name="already_have_an_account">Already Have an account?</string>
     <string name="log_in"><u>Log in</u></string>
     <string name="meal_image">Meal Image</string>
+    <string name="instructions">Instructions</string>
+    <string name="video_for_preparation_meal">Video for preparation meal</string>
 </resources>

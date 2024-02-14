@@ -32,7 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.annotation.Native;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class HomeFragment extends Fragment implements IHome{
 
@@ -151,6 +153,7 @@ public class HomeFragment extends Fragment implements IHome{
     }
     @Override
     public void setIngredientData(List<Ingredients> ingredients) {
+//        Collections.shuffle(ingredients);
         ingredientAdapter.setList(ingredients.subList(0,20));
         ingredientAdapter.notifyDataSetChanged();
         ingredientRecyclerView.setVisibility(View.VISIBLE);

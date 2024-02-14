@@ -5,16 +5,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
-import com.airbnb.lottie.LottieAnimationView;
-import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
-        navController = Navigation.findNavController(this,R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this,R.id.nav_host_home_fragment);
         NavigationUI.setupActionBarWithNavController(this,navController);
     }
 
