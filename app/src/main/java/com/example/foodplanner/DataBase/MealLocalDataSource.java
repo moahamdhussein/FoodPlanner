@@ -1,11 +1,17 @@
 package com.example.foodplanner.DataBase;
 
-import androidx.lifecycle.LiveData;
 
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Meal;
 
 import java.util.List;
 
-interface MealLocalDataSource {
-    LiveData<List<Meal>> getStoredMeal();
+import io.reactivex.rxjava3.core.Flowable;
+
+
+public interface MealLocalDataSource {
+    Flowable<List<Meal>> getStoredMeal();
+
+    void insertFavouriteMeal(Meal meal);
+
+    void deleteFromFavourite(Meal meal);
 }

@@ -19,10 +19,11 @@ import android.widget.Toast;
 
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.foodplanner.MainScreen.model.Category;
-import com.example.foodplanner.MainScreen.model.HomeRepository;
-import com.example.foodplanner.MainScreen.model.Ingredients;
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.Ingredients;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.MainScreen.presenter.HomePresenter;
 import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
@@ -30,11 +31,8 @@ import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.squareup.picasso.Picasso;
 
-import java.lang.annotation.Native;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class HomeFragment extends Fragment implements IHome{
 
@@ -104,7 +102,7 @@ public class HomeFragment extends Fragment implements IHome{
         presenter = new HomePresenter(this,
                 HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
                         RandomRemoteDataSourceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance()));
+                IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())));
         presenter.getCategory();
         presenter.getRandomMeal();
         presenter.getAllIngredient();

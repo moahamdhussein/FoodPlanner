@@ -1,10 +1,9 @@
 package com.example.foodplanner.Meals.Presenter;
 
-import com.example.foodplanner.MainScreen.model.Category;
-import com.example.foodplanner.MainScreen.model.HomeRepository;
-import com.example.foodplanner.MainScreen.model.Ingredients;
-import com.example.foodplanner.MainScreen.model.Meal;
-import com.example.foodplanner.MealDetails.View.IMealDetailsFragment;
+import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.Ingredients;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.Meals.View.IMealsFragment;
 import com.example.foodplanner.Network.NetworkCallback;
 

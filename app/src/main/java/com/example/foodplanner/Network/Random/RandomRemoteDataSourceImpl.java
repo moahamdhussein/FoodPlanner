@@ -1,43 +1,47 @@
 package com.example.foodplanner.Network.Random;
 
 
-
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 
-import com.example.foodplanner.MainScreen.model.Meal;
-import com.example.foodplanner.MainScreen.model.ParentMeal;
+import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.ParentMeal;
 import com.example.foodplanner.Network.ApiServices;
 import com.example.foodplanner.Network.NetworkCallback;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
- public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
+@SuppressLint("CheckResult")
+public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
     private static final String TAG = "CategoryRemoteDataSourc";
 
     private static final String BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
 
-    private ApiServices service ;
+    private ApiServices service;
 
     private Meal meal;
 
-     public Meal getMeal() {
-         return meal;
-     }
+    public Meal getMeal() {
+        return meal;
+    }
 
-     private static RandomRemoteDataSourceImpl client = null;
+    private static RandomRemoteDataSourceImpl client = null;
 
     private RandomRemoteDataSourceImpl() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         service = retrofit.create(ApiServices.class);
     }
+
     public static RandomRemoteDataSourceImpl getInstance() {
         if (client == null) {
             client = new RandomRemoteDataSourceImpl();
@@ -45,73 +49,53 @@ import retrofit2.converter.gson.GsonConverterFactory;
         return client;
     }
 
+
     @Override
     public void makeNetworkCallback(NetworkCallback callback) {
-        Call<ParentMeal> call = service.getRandomMeal();
-        call.enqueue(new Callback<ParentMeal>() {
-            @Override
-            public void onResponse(Call<ParentMeal> call, Response<ParentMeal> response) {
-                meal = response.body().meals.get(0);
-                callback.onSuccessResultsRandomMeal(meal);
-            }
+        Observable<ParentMeal> observable = service.getRandomMeal();
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
 
-            @Override
-            public void onFailure(Call<ParentMeal> call, Throwable t) {
-                callback.onFailureResult(t.getMessage());
-                t.printStackTrace();
-            }
-        });
+                        parentMeal -> callback.onSuccessResultsRandomMeal(parentMeal.getMeals().get(0)),
+                        throwable -> callback.onFailureResult(throwable.getMessage()),
+                        () -> {}
+                );
 
     }
-     @Override
-     public void getMealWithName(NetworkCallback callback , String name) {
-         Call<ParentMeal> call = service.getMealUsingName(name);
-         Log.i(TAG, "getMealWithName: "+name);
-         call.enqueue(new Callback<ParentMeal>() {
-             @Override
-             public void onResponse(Call<ParentMeal> call, Response<ParentMeal> response) {
 
-                 meal = response.body().meals.get(0);
-                 Log.i(TAG, "onResponse: "+meal.getStrMeal());
-                 callback.onSuccessResultsRandomMeal(meal);
-             }
+    @Override
+    public void getMealWithName(NetworkCallback callback, String name) {
 
-             @Override
-             public void onFailure(Call<ParentMeal> call, Throwable t) {
-                 callback.onFailureResult(t.getMessage());
-                 t.printStackTrace();
-             }
-         });
+        Observable<ParentMeal> observable =service.getMealUsingName(name);
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        parentMeal-> callback.onSuccessResultsRandomMeal(parentMeal.getMeals().get(0)),
+                        throwable -> Log.i(TAG, "getMealWithName: "+throwable.getMessage()),
+                        ()->{}
 
-     }
+                );
 
-     @Override
-     public void getMeals(NetworkCallback callback, String name , String type) {
 
-         Call<ParentMeal> call;
-        if (type.equalsIgnoreCase("c")){
-            Log.i(TAG, "getMeals: "+type);
-            call = service.getMealsFilteredBasedOnCategory(name);
-        }else {
-            call = service.getMealsFilteredBasedOnIngredient(name);
+    }
+
+
+    @Override
+    public void getMeals(NetworkCallback callback, String name, String type) {
+
+        Observable<ParentMeal> observable;
+        if (type.equalsIgnoreCase("c")) {
+            Log.i(TAG, "getMeals: " + type);
+            observable = service.getMealsFilteredBasedOnCategory(name);
+        } else {
+            observable = service.getMealsFilteredBasedOnIngredient(name);
         }
 
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe( parentMeal->
+                        callback.onSuccessResultsMealS(parentMeal.getMeals()),
+                        throwable -> Log.i(TAG, "getMeals: "+throwable.getMessage()),
+                        ()->{})
+        ;
 
-         Log.i(TAG, "getMealsName: "+name);
-
-         Log.i(TAG, "getMeals: "+call.request().toString());
-         call.enqueue(new Callback<ParentMeal>() {
-             @Override
-             public void onResponse(Call<ParentMeal> call, Response<ParentMeal> response) {
-                 Log.i(TAG, "onResponse: "+response.body().getMeals());
-                 callback.onSuccessResultsMealS(response.body().getMeals());
-             }
-             @Override
-             public void onFailure(Call<ParentMeal> call, Throwable t) {
-                 callback.onFailureResult(t.getMessage());
-
-                 t.printStackTrace();
-             }
-         });
-     }
- }
+    }
+}

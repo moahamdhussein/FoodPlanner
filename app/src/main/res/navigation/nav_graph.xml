@@ -39,4 +39,9 @@
             android:id="@+id/action_mealsFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.foodplanner.FavoriteList.View.FavouriteFragment"
+        android:label="Test"
+        tools:layout="@layout/fragment_favourite" />
 </navigation>

@@ -1,15 +1,14 @@
 package com.example.foodplanner.Network.Ingredients;
 
-import android.util.Log;
-
-import com.example.foodplanner.MainScreen.model.ParentIngredients;
+import com.example.foodplanner.model.ParentIngredients;
 import com.example.foodplanner.Network.ApiServices;
 import com.example.foodplanner.Network.NetworkCallback;
 
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,10 +21,13 @@ public class IngredientsRemoteDataSourceImpl implements  IngredientsRemoteDataSo
 
    private static IngredientsRemoteDataSourceImpl client = null;
 
+
    private IngredientsRemoteDataSourceImpl() {
       Retrofit retrofit = new Retrofit.Builder()
               .baseUrl(BASE_URL)
+
               .addConverterFactory(GsonConverterFactory.create())
+              .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
               .build();
       service = retrofit.create(ApiServices.class);
    }
@@ -38,20 +40,15 @@ public class IngredientsRemoteDataSourceImpl implements  IngredientsRemoteDataSo
 
    @Override
    public void makeNetworkCallback(NetworkCallback callback) {
-      Call<ParentIngredients> call = service.getAllIngredients();
-      call.enqueue(new Callback<ParentIngredients>() {
-         @Override
-         public void onResponse(Call<ParentIngredients> call, Response<ParentIngredients> response) {
-            Log.i(TAG, "onResponse: "+response.body().getIngredients().size());
-            callback.onSuccessResultsIngredients(response.body().getIngredients());
-         }
 
-         @Override
-         public void onFailure(Call<ParentIngredients> call, Throwable t) {
-            callback.onFailureResult(t.getMessage());
-            t.printStackTrace();
-         }
-      });
+      Observable<ParentIngredients> observable = service.getAllIngredients();
+      observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+              .subscribe(
+                      parentIngredients-> callback.onSuccessResultsIngredients(parentIngredients.getIngredients()),
+                      throwable -> callback.onFailureResult(throwable.getMessage()),
+                      ()->{}
+      );
+
 
    }
 

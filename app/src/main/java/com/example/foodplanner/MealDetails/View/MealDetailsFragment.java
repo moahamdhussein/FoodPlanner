@@ -12,22 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Constant;
+import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
-import com.example.foodplanner.MainScreen.model.HomeRepository;
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
 import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -36,15 +35,18 @@ import java.util.ArrayList;
 
 public class MealDetailsFragment extends Fragment implements IMealDetailsFragment {
 
-    TextView tvTitle, tvCategory,tvArea,tvInstructions;
-    YouTubePlayerView playerView;
-    ImageView ivMeal;
-
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-    MealDetailsAdapter adapter;
+    private TextView tvTitle, tvCategory,tvArea,tvInstructions;
+    private YouTubePlayerView playerView;
+    private ImageView ivMeal;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private MealDetailsAdapter adapter;
     private static final String TAG = "MealDetailsFragment";
-    MealDetailsPresenterImpl presenter;
+    private MealDetailsPresenterImpl presenter;
+    private boolean Colored = false ;
+    private FloatingActionButton fabAddToFav;
+
+    private Meal meal;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         recyclerView = view.findViewById(R.id.rv_ingredients);
         tvInstructions = view.findViewById(R.id.tv_instructions);
         playerView = view.findViewById(R.id.wv_video_link);
+        fabAddToFav = view.findViewById(R.id.fab_add_to_fav);
         getLifecycle().addObserver(playerView);
 
 
@@ -84,21 +87,36 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         Log.i(TAG, "onViewCreated: "+Constant.CountryCode.get("American"));
         presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
                 RandomRemoteDataSourceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance()));
+                IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())));
         Log.i(TAG, "onViewCreated: "+MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
         presenter.getMealDetails(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
+        fabAddToFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Colored ){
+                    Colored = !Colored;
+                    fabAddToFav.setIcon(R.drawable.favorite_outline);
+                    presenter.removeFromFavourite(meal);
+                }else {
+                    Colored = !Colored;
+                    fabAddToFav.setIcon(R.drawable.favorite__colored);
+                    presenter.addToFav(meal);
+                }
 
+            }
+        });
     }
     @Override
     public void getMealDetails(Meal meal){
+        this.meal = meal;
         tvTitle.setText(meal.getStrMeal());
         tvCategory.setText(meal.getStrCategory());
         tvArea.setText(meal.getStrArea());
         Glide.with(getContext()).load(meal.getStrMealThumb())
                 .into(ivMeal);
+
         Log.i(TAG, "onViewCreated: "+Constant.CountryCode.get(meal.getStrArea()));
         tvInstructions.setText(meal.getStrInstructions());
-
         playerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
 
 

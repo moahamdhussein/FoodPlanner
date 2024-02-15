@@ -67,4 +67,13 @@ dependencies {
 
     implementation ("androidx.room:room-runtime:2.6.1")
     annotationProcessor ("androidx.room:room-compiler:2.6.1")
+
+
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.6")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
+
+    implementation ("androidx.room:room-rxjava3:2.4.0")
+
+    implementation ("com.getbase:floatingactionbutton:1.10.1")
 }

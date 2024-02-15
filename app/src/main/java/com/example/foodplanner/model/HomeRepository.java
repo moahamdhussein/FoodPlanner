@@ -1,16 +1,23 @@
-package com.example.foodplanner.MainScreen.model;
+package com.example.foodplanner.model;
 
 import android.util.Log;
 
+import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSource;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSource;
 import com.example.foodplanner.Network.category.CategoryRemoteDataSource;
 import com.example.foodplanner.Network.NetworkCallback;
 
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
+
 public class HomeRepository implements IHomeRepository {
 
     CategoryRemoteDataSource categoryRemoteDataSource;
     RandomRemoteDataSource randomRemoteDataSource;
+
+    MealLocalDataSourceImpl localDataSource;
 
     IngredientsRemoteDataSource ingredientsRemoteDataSource;
 
@@ -19,17 +26,18 @@ public class HomeRepository implements IHomeRepository {
 
 
 
-    public  static HomeRepository getInstance(CategoryRemoteDataSource remoteDataSource,RandomRemoteDataSource randomRemoteDataSource ,IngredientsRemoteDataSource ingredientsRemoteDataSource){
+    public  static HomeRepository getInstance(CategoryRemoteDataSource remoteDataSource,RandomRemoteDataSource randomRemoteDataSource ,IngredientsRemoteDataSource ingredientsRemoteDataSource,MealLocalDataSourceImpl localDataSource){
         if (repository ==null){
-            repository = new HomeRepository(remoteDataSource,randomRemoteDataSource,ingredientsRemoteDataSource);
+            repository = new HomeRepository(remoteDataSource,randomRemoteDataSource,ingredientsRemoteDataSource,localDataSource);
         }
         return repository;
     }
 
-    private HomeRepository(CategoryRemoteDataSource remoteDataSource, RandomRemoteDataSource randomRemoteDataSource , IngredientsRemoteDataSource ingredientsRemoteDataSource) {
+    private HomeRepository(CategoryRemoteDataSource remoteDataSource, RandomRemoteDataSource randomRemoteDataSource , IngredientsRemoteDataSource ingredientsRemoteDataSource,MealLocalDataSourceImpl localDataSource) {
         this.categoryRemoteDataSource = remoteDataSource;
         this.randomRemoteDataSource =randomRemoteDataSource;
         this.ingredientsRemoteDataSource = ingredientsRemoteDataSource;
+        this.localDataSource = localDataSource;
     }
 
     @Override
@@ -53,5 +61,17 @@ public class HomeRepository implements IHomeRepository {
 
     public void getMeals(NetworkCallback callback , String name,String type){
         randomRemoteDataSource.getMeals(callback,name,type);
+    }
+
+    public void insertMeal(Meal meal) {
+        localDataSource.insertFavouriteMeal(meal);
+    }
+
+    public void deleteMeal(Meal meal){
+        localDataSource.deleteFromFavourite(meal);
+    }
+
+    public Flowable<List<Meal>> getStoredMeals(){
+        return localDataSource.getStoredMeal();
     }
 }

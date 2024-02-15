@@ -5,11 +5,9 @@ package com.example.foodplanner.Network;
 
 
 
-import com.example.foodplanner.MainScreen.model.Category;
-import com.example.foodplanner.MainScreen.model.Ingredients;
-import com.example.foodplanner.MainScreen.model.Meal;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.auth.AuthResult;
+import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.Ingredients;
+import com.example.foodplanner.model.Meal;
 
 import java.util.List;
 

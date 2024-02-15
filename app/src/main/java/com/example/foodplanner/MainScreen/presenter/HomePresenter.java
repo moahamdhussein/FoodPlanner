@@ -4,10 +4,10 @@ package com.example.foodplanner.MainScreen.presenter;
 import android.util.Log;
 
 import com.example.foodplanner.MainScreen.View.IHome;
-import com.example.foodplanner.MainScreen.model.Category;
-import com.example.foodplanner.MainScreen.model.HomeRepository;
-import com.example.foodplanner.MainScreen.model.Ingredients;
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.Ingredients;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;

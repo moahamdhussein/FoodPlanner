@@ -1,16 +1,27 @@
 package com.example.foodplanner.DataBase;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Meal;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 
 @Dao
 public interface MealDao {
 
     @Query("SELECT * FROM  favourite_meal")
-    LiveData<List<Meal>> getAllFavouriteMeals();
+    Flowable<List<Meal>> getAllFavouriteMeals();
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable insertFavouriteMeal(Meal meal);
+
+    @Delete
+    Completable deleteFromFavourite(Meal meal);
 }

@@ -3,10 +3,10 @@ package com.example.foodplanner.MealDetails.Presenter;
 import android.util.Log;
 
 import com.example.foodplanner.MealDetails.View.IMealDetailsFragment;
-import com.example.foodplanner.MainScreen.model.Category;
-import com.example.foodplanner.MainScreen.model.HomeRepository;
-import com.example.foodplanner.MainScreen.model.Ingredients;
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.Ingredients;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;
@@ -56,5 +56,14 @@ public class MealDetailsPresenterImpl implements NetworkCallback ,IMealDetailsPr
     @Override
     public void onSuccessResultsIngredients(List<Ingredients> ingredients) {
 
+    }
+
+    public void addToFav(Meal meal) {
+
+        homeRepository.insertMeal(meal);
+    }
+
+    public void removeFromFavourite(Meal meal){
+        homeRepository.deleteMeal(meal);
     }
 }

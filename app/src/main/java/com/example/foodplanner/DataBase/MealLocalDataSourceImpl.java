@@ -1,19 +1,21 @@
 package com.example.foodplanner.DataBase;
 
 import android.content.Context;
+import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Meal;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MealLocalDataSourceImpl implements MealLocalDataSource {
 
     private MealDao dao;
-
-    private static MealLocalDataSource localDataSource = null;
-    private LiveData<List<Meal>> storedMeal;
+    private static final String TAG = "MealLocalDataSourceImpl";
+    private static MealLocalDataSourceImpl localDataSource = null;
+    private Flowable<List<Meal>> storedMeal;
 
     private MealLocalDataSourceImpl(Context context){
         AppDataBase appDataBase = AppDataBase.getInstance(context.getApplicationContext());
@@ -21,7 +23,7 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
         storedMeal = dao.getAllFavouriteMeals();
     }
 
-    public static MealLocalDataSource getInstance(Context context){
+    public static MealLocalDataSourceImpl getInstance(Context context){
         if (localDataSource == null){
             localDataSource = new MealLocalDataSourceImpl(context);
         }
@@ -29,7 +31,20 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
     }
 
     @Override
-    public LiveData<List<Meal>> getStoredMeal(){
+    public Flowable<List<Meal>> getStoredMeal(){
         return storedMeal;
     }
+
+    @Override
+    public void insertFavouriteMeal(Meal meal) {
+        Log.i(TAG, "insertFavouriteMeal: "+meal.toString());
+        dao.insertFavouriteMeal(meal).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    @Override
+    public void deleteFromFavourite(Meal meal) {
+        dao.deleteFromFavourite(meal).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+
 }

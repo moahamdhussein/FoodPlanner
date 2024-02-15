@@ -5,17 +5,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.foodplanner.MainScreen.model.HomeRepository;
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.Meals.Presenter.MealsPresenterImpl;
 import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
@@ -63,7 +62,7 @@ public class MealsFragment extends Fragment implements IMealsFragment {
 
         presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
                 RandomRemoteDataSourceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance()));
+                IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())));
 
 
         presenter.getMeals(MealsFragmentArgs.fromBundle(getArguments()).getQueryName()

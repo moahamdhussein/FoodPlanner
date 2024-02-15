@@ -1,6 +1,6 @@
 package com.example.foodplanner.MealDetails.View;
 
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Meal;
 
 public interface IMealDetailsFragment {
 

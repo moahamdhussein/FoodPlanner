@@ -23,4 +23,5 @@
     <string name="meal_image">Meal Image</string>
     <string name="instructions">Instructions</string>
     <string name="video_for_preparation_meal">Video for preparation meal</string>
+    <string name="favourite_meals">Favourite Meals</string>
 </resources>

@@ -1,7 +1,5 @@
-package com.example.foodplanner.MainScreen.model;
+package com.example.foodplanner.model;
 
-
-import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -11,8 +9,6 @@ import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.regex.Pattern;
 
 @Entity(tableName = "favourite_meal")
 public class Meal {
@@ -37,6 +33,16 @@ public class Meal {
     @ColumnInfo(name = "image url")
     private String strMealThumb;
 
+//    @ColumnInfo(name = "image_bitmap")
+//    byte[] imageInByte;
+
+//    public byte[] getImageInByte() {
+//        return imageInByte;
+//    }
+//
+//    public void setImageInByte(byte[] imageInByte) {
+//        this.imageInByte = imageInByte;
+//    }
 
     public String getStrYoutube() {
         return strYoutube;
@@ -129,7 +135,6 @@ public class Meal {
     private String strMeasure19;
     @Ignore
     private String strMeasure20;
-
 
 
 

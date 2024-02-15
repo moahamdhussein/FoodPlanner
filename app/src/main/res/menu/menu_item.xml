@@ -4,6 +4,14 @@
 
     <item
         android:id="@+id/homeFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:icon="@drawable/person"
         android:title="Home" />
+    <item
+        android:id="@+id/favouriteFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/favorite"
+        android:title="Favourite" />
 </menu>

@@ -3,9 +3,9 @@ package com.example.foodplanner.MainScreen.View;
 
 import android.view.View;
 
-import com.example.foodplanner.MainScreen.model.Category;
-import com.example.foodplanner.MainScreen.model.Ingredients;
-import com.example.foodplanner.MainScreen.model.Meal;
+import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.Ingredients;
+import com.example.foodplanner.model.Meal;
 
 import java.util.List;
 
