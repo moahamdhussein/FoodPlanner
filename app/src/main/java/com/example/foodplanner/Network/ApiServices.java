@@ -1,6 +1,7 @@
 package com.example.foodplanner.Network;
 
 
+import com.example.foodplanner.model.ParentArea;
 import com.example.foodplanner.model.ParentCategories;
 import com.example.foodplanner.model.ParentIngredients;
 import com.example.foodplanner.model.ParentMeal;
@@ -26,7 +27,16 @@ public interface ApiServices {
 
     @GET("filter.php?i=")
     Observable<ParentMeal> getMealsFilteredBasedOnIngredient(@Query(value = "i") String name);
+    @GET("search.php?s=")
+    Observable<ParentMeal> searchForAMealWithName(@Query("s") String name);
+
+    @GET("filter.php?a=")
+    Observable<ParentMeal> getMealsFilteredBasedOnArea(@Query("a") String name);
+
+    @GET("list.php?a=list")
+    Observable<ParentArea> getAllCountries();
+
+
+
 
 }
-
-//www.themealdb.com/api/json/v1/1/search.php?s=

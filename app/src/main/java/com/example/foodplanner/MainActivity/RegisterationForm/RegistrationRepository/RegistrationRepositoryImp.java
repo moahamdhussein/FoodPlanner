@@ -16,8 +16,10 @@ public class RegistrationRepositoryImp {
 
 
     public FirebaseUser createNewAccount(String email, String password,Activity activity,OnCompleteListener<AuthResult> onCompleteListener) {
+
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(activity,onCompleteListener);
+
             return firebaseAuth.getCurrentUser();
 
     }

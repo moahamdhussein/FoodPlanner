@@ -81,15 +81,16 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
 
         adapter = new MealDetailsAdapter(new ArrayList<>(),new ArrayList<>(),getContext());
         recyclerView.setAdapter(adapter);
-
-
-
+        String mealName = MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName();
         Log.i(TAG, "onViewCreated: "+Constant.CountryCode.get("American"));
-        presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
-                RandomRemoteDataSourceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())));
+        presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
+                RandomRemoteDataSourceImpl.getInstance(getContext()),
+                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
         Log.i(TAG, "onViewCreated: "+MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
+
+
         presenter.getMealDetails(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
+
         fabAddToFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +115,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         tvArea.setText(meal.getStrArea());
         Glide.with(getContext()).load(meal.getStrMealThumb())
                 .into(ivMeal);
-
         Log.i(TAG, "onViewCreated: "+Constant.CountryCode.get(meal.getStrArea()));
         tvInstructions.setText(meal.getStrInstructions());
         playerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
@@ -128,8 +128,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
                 youTubePlayer.cueVideo(videoId, 0);
             }
         });
-
-
         adapter.setList(meal.getIngredient(),meal.getMeasurement());
         adapter.notifyDataSetChanged();
 

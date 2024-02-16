@@ -14,4 +14,8 @@
         android:layout_height="wrap_content"
         android:icon="@drawable/favorite"
         android:title="Favourite" />
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/search"
+        android:title="Search" />
 </menu>

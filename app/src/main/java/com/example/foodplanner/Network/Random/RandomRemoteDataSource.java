@@ -8,4 +8,8 @@ public interface RandomRemoteDataSource {
     void getMealWithName(NetworkCallback callback,String name);
 
     void getMeals(NetworkCallback callback , String name,String type);
+
+    void searchForAMealWithName(NetworkCallback callback , String name,String type);
+
+    void getAllCountries(NetworkCallback callback);
 }

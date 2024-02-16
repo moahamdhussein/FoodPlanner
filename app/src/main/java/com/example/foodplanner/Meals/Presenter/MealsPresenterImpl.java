@@ -1,5 +1,6 @@
 package com.example.foodplanner.Meals.Presenter;
 
+import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Ingredients;
@@ -44,6 +45,11 @@ public class MealsPresenterImpl implements NetworkCallback {
 
    @Override
    public void onSuccessResultsIngredients(List<Ingredients> ingredients) {
+
+   }
+
+   @Override
+   public void onSuccessAreaResult(List<Area> areas) {
 
    }
 }

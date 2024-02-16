@@ -21,7 +21,7 @@
         android:id="@+id/infoFragment"
         android:name="com.example.foodplanner.MealDetails.View.MealDetailsFragment"
         android:label="Meal Deatils"
-        tools:layout="@layout/fragment_meal_details" >
+        tools:layout="@layout/fragment_meal_details">
         <argument
             android:name="mealName"
             app:argType="string" />
@@ -43,5 +43,18 @@
         android:id="@+id/favouriteFragment"
         android:name="com.example.foodplanner.FavoriteList.View.FavouriteFragment"
         android:label="Test"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.foodplanner.SerachScreen.View.SearchFragment"
+        tools:layout="@layout/fragment_search"
+        android:label="search">
+        <action
+            android:id="@+id/action_searchFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
 </navigation>

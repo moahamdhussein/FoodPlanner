@@ -60,9 +60,9 @@ public class MealsFragment extends Fragment implements IMealsFragment {
         mealsAdapter = new MealsAdapter(getContext(),new ArrayList<>());
         recyclerView.setAdapter(mealsAdapter);
 
-        presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
-                RandomRemoteDataSourceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())));
+        presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
+                RandomRemoteDataSourceImpl.getInstance(getContext()),
+                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
 
 
         presenter.getMeals(MealsFragmentArgs.fromBundle(getArguments()).getQueryName()

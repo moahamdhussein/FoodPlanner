@@ -59,6 +59,10 @@ public class HomeRepository implements IHomeRepository {
         randomRemoteDataSource.getMealWithName(callback,name);
     }
 
+    public void searchForAMeal(NetworkCallback callback,String name,String type){
+        randomRemoteDataSource.searchForAMealWithName(callback,name,type);
+    }
+
     public void getMeals(NetworkCallback callback , String name,String type){
         randomRemoteDataSource.getMeals(callback,name,type);
     }
@@ -73,5 +77,9 @@ public class HomeRepository implements IHomeRepository {
 
     public Flowable<List<Meal>> getStoredMeals(){
         return localDataSource.getStoredMeal();
+    }
+
+    public void getAllContinues(NetworkCallback callback) {
+        randomRemoteDataSource.getAllCountries(callback);
     }
 }

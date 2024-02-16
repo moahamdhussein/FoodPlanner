@@ -1,6 +1,7 @@
 package com.example.foodplanner.MainActivity.RegisterationForm.Presenter;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -41,6 +42,7 @@ public class RegisterPresenter implements OnCompleteListener, IRegisterPresenter
                 view.onSuccessComplete();
 
             }else {
+                Log.i(TAG, "onComplete: "+task.getException());
 
             }
     }

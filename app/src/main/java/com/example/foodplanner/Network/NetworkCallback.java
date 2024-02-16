@@ -5,6 +5,7 @@ package com.example.foodplanner.Network;
 
 
 
+import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.Ingredients;
 import com.example.foodplanner.model.Meal;
@@ -19,6 +20,8 @@ public interface NetworkCallback {
 
    public void onSuccessResultsMealS(List<Meal> meals);
    public  void onSuccessResultsIngredients(List<Ingredients> ingredients);
+
+   public  void onSuccessAreaResult(List<Area> areas);
 
 
 }

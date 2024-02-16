@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -100,9 +101,9 @@ public class HomeFragment extends Fragment implements IHome{
 
 
         presenter = new HomePresenter(this,
-                HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(),
-                        RandomRemoteDataSourceImpl.getInstance(),
-                IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())));
+                HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
+                        RandomRemoteDataSourceImpl.getInstance(getContext()),
+                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
         presenter.getCategory();
         presenter.getRandomMeal();
         presenter.getAllIngredient();
@@ -112,11 +113,11 @@ public class HomeFragment extends Fragment implements IHome{
         layoutRandomMeal.setVisibility(View.GONE);
         categoryRecyclerView.setVisibility(View.GONE);
         ingredientRecyclerView.setVisibility(View.GONE);
-
+        presenter.getAllContinues();
         layoutRandomMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(HomeFragmentDirections
+                Navigation.findNavController(view).navigate((NavDirections) HomeFragmentDirections
                         .actionHomeFragmentToInfoFragment(tvRandomMealTitle.getText().toString()));
                 Log.i(TAG, "onClick: "+tvRandomMealTitle.getText().toString());
             }
@@ -130,8 +131,6 @@ public class HomeFragment extends Fragment implements IHome{
         tvCategoryTitle.setVisibility(View.VISIBLE);
         categoryRecyclerView.setVisibility(View.VISIBLE);
         loadingBar.setVisibility(View.GONE);
-
-
     }
 
     @Override
@@ -167,14 +166,13 @@ public class HomeFragment extends Fragment implements IHome{
 
     @Override
     public void categoryClick(View view,String name) {
-        Navigation.findNavController(view).navigate(HomeFragmentDirections
+        Navigation.findNavController(view).navigate((NavDirections) HomeFragmentDirections
                 .actionHomeFragmentToMealsFragment("c",name));
     }
 
     @Override
     public void ingredientClick(View view,String name) {
-        Navigation.findNavController(view).navigate(HomeFragmentDirections
-                .actionHomeFragmentToMealsFragment("i",name));
+        Navigation.findNavController(view).navigate((NavDirections) HomeFragmentDirections.actionHomeFragmentToMealsFragment("i",name));
     }
 
 

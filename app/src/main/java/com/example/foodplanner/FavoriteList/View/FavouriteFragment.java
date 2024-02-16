@@ -61,8 +61,8 @@ public class FavouriteFragment extends Fragment implements IFavouriteFragment, O
         adapter = new FavouriteAdapter(getContext(),new ArrayList<>(),this);
         recyclerFavouriteList.setAdapter(adapter);
         presenter = new FavouritePresenterImpl(this, HomeRepository.getInstance(
-                CategoryRemoteDataSourceImpl.getInstance(), RandomRemoteDataSourceImpl.getInstance()
-                , IngredientsRemoteDataSourceImpl.getInstance(), MealLocalDataSourceImpl.getInstance(getContext())
+                CategoryRemoteDataSourceImpl.getInstance(getContext()), RandomRemoteDataSourceImpl.getInstance(getContext())
+                , IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())
         ));
         presenter.getLocalData();
 

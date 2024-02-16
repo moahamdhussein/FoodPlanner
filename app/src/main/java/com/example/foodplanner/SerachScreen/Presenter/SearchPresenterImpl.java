@@ -1,26 +1,23 @@
-package com.example.foodplanner.MealDetails.Presenter;
+package com.example.foodplanner.SerachScreen.Presenter;
 
-import android.util.Log;
-
-import com.example.foodplanner.MealDetails.View.IMealDetailsFragment;
+import com.example.foodplanner.Network.NetworkCallback;
+import com.example.foodplanner.SerachScreen.View.ISearchFragment;
 import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Ingredients;
 import com.example.foodplanner.model.Meal;
-import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;
 
-public class MealDetailsPresenterImpl implements NetworkCallback ,IMealDetailsPresenter {
-
-    private IMealDetailsFragment view;
+public class SearchPresenterImpl implements NetworkCallback, SearchPresenter {
 
     private HomeRepository homeRepository;
+    private static final String TAG = "SearchPresenterImpl";
 
-    private static final String TAG = "MealDetailsPresenterImp";
+    private ISearchFragment view;
 
-    public MealDetailsPresenterImpl(IMealDetailsFragment view, HomeRepository homeRepository) {
+    public SearchPresenterImpl( ISearchFragment view,HomeRepository homeRepository) {
         this.view = view;
         this.homeRepository = homeRepository;
     }
@@ -31,25 +28,22 @@ public class MealDetailsPresenterImpl implements NetworkCallback ,IMealDetailsPr
     }
 
     @Override
-    public void getMealDetails(String name){
-        homeRepository.getMealWithName(this,name);
+    public void searchForAMeal(String type, String name){
+        homeRepository.searchForAMeal(this ,name,type);
     }
 
     @Override
     public void onSuccessResultsRandomMeal(Meal meals) {
-        meals.setIngredientAndMeasurement();
 
-        view.getMealDetails(meals);
     }
 
     @Override
     public void onFailureResult(String msg) {
-
     }
 
     @Override
     public void onSuccessResultsMealS(List<Meal> meals) {
-
+        view.setData(meals);
     }
 
     @Override
@@ -60,14 +54,5 @@ public class MealDetailsPresenterImpl implements NetworkCallback ,IMealDetailsPr
     @Override
     public void onSuccessAreaResult(List<Area> areas) {
 
-    }
-
-    public void addToFav(Meal meal) {
-
-        homeRepository.insertMeal(meal);
-    }
-
-    public void removeFromFavourite(Meal meal){
-        homeRepository.deleteMeal(meal);
     }
 }

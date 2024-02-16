@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorDarkTransparent">#C6000000</color>
+    <color name="checkedChips">#95E644</color>
 </resources>

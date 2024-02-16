@@ -24,4 +24,8 @@
     <string name="instructions">Instructions</string>
     <string name="video_for_preparation_meal">Video for preparation meal</string>
     <string name="favourite_meals">Favourite Meals</string>
+    <string name="default_web_client_id">66089852740-q7s43pn0joveggtb2cs2pdun96cmbva4.apps.googleusercontent.com</string>
+    <string name="area">Area</string>
+    <string name="meal">Meal</string>
+    <string name="country">Country</string>
 </resources>

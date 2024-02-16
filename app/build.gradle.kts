@@ -55,8 +55,10 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.13.2")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     implementation ("com.squareup.picasso:picasso:2.71828")
 
@@ -76,4 +78,7 @@ dependencies {
     implementation ("androidx.room:room-rxjava3:2.4.0")
 
     implementation ("com.getbase:floatingactionbutton:1.10.1")
+
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+
 }

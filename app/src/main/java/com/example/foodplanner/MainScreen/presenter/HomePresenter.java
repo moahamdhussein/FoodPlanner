@@ -3,7 +3,9 @@ package com.example.foodplanner.MainScreen.presenter;
 
 import android.util.Log;
 
+import com.example.foodplanner.Constant;
 import com.example.foodplanner.MainScreen.View.IHome;
+import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Ingredients;
@@ -67,6 +69,11 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    }
 
    @Override
+   public void onSuccessAreaResult(List<Area> areas) {
+      Log.i(TAG, "onSuccessAreaResult: "+ Constant.CountryCode.get("American"));
+   }
+
+   @Override
    public void getRandomMeal() {
       homeRepository.getRandomMean(this);
    }
@@ -79,4 +86,8 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    public void OnRandomMealClick() {
       view.onDailyMailClick(meal);
    }
+
+    public void getAllContinues() {
+      homeRepository.getAllContinues(this);
+    }
 }

@@ -139,8 +139,12 @@ public class Meal {
 
 
     public String youtubeId(){
-        String id[] = strYoutube.split("v=");
-        return id[1];
+        if (!strYoutube.isEmpty()&& strYoutube!=null){
+            String id[] = strYoutube.split("v=");
+            return id[1];
+        }
+        return " ";
+
     }
     @Ignore
     private List<String> measurement;
