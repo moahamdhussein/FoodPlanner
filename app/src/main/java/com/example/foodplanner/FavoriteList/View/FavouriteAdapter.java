@@ -49,8 +49,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
    @Override
    public void onBindViewHolder(@NonNull FavouriteAdapter.ViewHolder holder, int position) {
-      Log.i(TAG, "onBindViewHolder: ");
-//      Log.i(TAG, "onBindViewHolder: "+meals.get(holder.getAdapterPosition()).toString());
       Glide.with(context).load(meals.get(holder.getAdapterPosition()).getStrMealThumb())
               .into(holder.imageHead);
       holder.tvTitle.setText(meals.get(holder.getAdapterPosition()).getStrMeal());

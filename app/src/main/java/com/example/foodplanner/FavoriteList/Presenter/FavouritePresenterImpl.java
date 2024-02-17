@@ -20,7 +20,6 @@ public class FavouritePresenterImpl implements IFavouritePresenter {
     public void getLocalData(){
         view.setData(repository.getStoredMeals());
     }
-
     @Override
     public void removeItem(Meal meal){
         repository.deleteMeal(meal);

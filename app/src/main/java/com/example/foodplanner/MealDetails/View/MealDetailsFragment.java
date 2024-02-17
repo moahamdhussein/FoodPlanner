@@ -1,5 +1,6 @@
 package com.example.foodplanner.MealDetails.View;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Constant;
@@ -32,6 +35,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MealDetailsFragment extends Fragment implements IMealDetailsFragment {
 
@@ -44,7 +48,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
     private static final String TAG = "MealDetailsFragment";
     private MealDetailsPresenterImpl presenter;
     private boolean Colored = false ;
-    private FloatingActionButton fabAddToFav;
+    private FloatingActionButton fabAddToFav,addToPlanning;
 
     private Meal meal;
     @Override
@@ -72,6 +76,8 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         tvInstructions = view.findViewById(R.id.tv_instructions);
         playerView = view.findViewById(R.id.wv_video_link);
         fabAddToFav = view.findViewById(R.id.fab_add_to_fav);
+        addToPlanning = view.findViewById(R.id.fab_add_to_plan);
+
         getLifecycle().addObserver(playerView);
 
 
@@ -94,15 +100,50 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         fabAddToFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Colored ){
+                if (Colored ) {
                     Colored = !Colored;
                     fabAddToFav.setIcon(R.drawable.favorite_outline);
+
                     presenter.removeFromFavourite(meal);
                 }else {
                     Colored = !Colored;
                     fabAddToFav.setIcon(R.drawable.favorite__colored);
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    String date=year+"-"+(month+1)+"-"+dayOfMonth;
+                    meal.setPlanDate(date);
+                    meal.setDbType("Favourite");
                     presenter.addToFav(meal);
                 }
+
+            }
+        });
+
+        addToPlanning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                Log.i(TAG, "onClick: "+year+"-"+(month+1)+"-"+dayOfMonth);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                // Do something with the selected date
+                                String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                                Toast.makeText(getContext(), "Meal Saved with Date: " + selectedDate, Toast.LENGTH_SHORT).show();
+                                meal.setPlanDate(selectedDate);
+                                meal.setDbType("Plan");
+                                presenter.addToFav(meal);
+                            }
+                        }, year, month, dayOfMonth);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
 
             }
         });

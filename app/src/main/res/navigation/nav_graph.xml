@@ -57,4 +57,9 @@
             android:id="@+id/action_searchFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/planningFragment"
+        android:name="com.example.foodplanner.Planning.View.PlanningFragment"
+        android:label="fragment_planning"
+        tools:layout="@layout/fragment_planning" />
 </navigation>

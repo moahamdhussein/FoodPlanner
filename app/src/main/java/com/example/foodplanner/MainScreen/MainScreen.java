@@ -38,12 +38,18 @@ public class MainScreen extends AppCompatActivity  {
 
                 if (item.getItemId() == R.id.favouriteFragment){
                     navController.navigate(R.id.favouriteFragment);
+
                     return true;
                 }else if (item.getItemId() == R.id.homeFragment){
                     navController.navigate(R.id.homeFragment);
                     return true;
                 }else if (item.getItemId() == R.id.searchFragment){
                     navController.navigate(R.id.searchFragment);
+
+                    return true;
+                }else if (item.getItemId() ==R.id.planningFragment){
+                    navController.navigate(R.id.planningFragment);
+
                     return true;
                 }else {
                     return false;

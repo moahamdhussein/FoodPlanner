@@ -10,7 +10,9 @@ import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
+import kotlinx.coroutines.flow.Flow;
 
 public class HomeRepository implements IHomeRepository {
 
@@ -77,6 +79,10 @@ public class HomeRepository implements IHomeRepository {
 
     public Flowable<List<Meal>> getStoredMeals(){
         return localDataSource.getStoredMeal();
+    }
+
+    public Flowable<List<Meal>> getAllSavedMeal(){
+        return localDataSource.getAllSavedMeal();
     }
 
     public void getAllContinues(NetworkCallback callback) {

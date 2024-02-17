@@ -17,10 +17,13 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
     private static MealLocalDataSourceImpl localDataSource = null;
     private Flowable<List<Meal>> storedMeal;
 
+    private Flowable<List<Meal>> savedMeal;
+
     private MealLocalDataSourceImpl(Context context){
         AppDataBase appDataBase = AppDataBase.getInstance(context.getApplicationContext());
         dao = appDataBase.getMealDao();
         storedMeal = dao.getAllFavouriteMeals();
+        savedMeal =dao.getAllSavedMeal();
     }
 
     public static MealLocalDataSourceImpl getInstance(Context context){
@@ -34,6 +37,12 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
     public Flowable<List<Meal>> getStoredMeal(){
         return storedMeal;
     }
+
+    @Override
+    public Flowable<List<Meal>> getAllSavedMeal() {
+        return  savedMeal;
+    }
+
 
     @Override
     public void insertFavouriteMeal(Meal meal) {
