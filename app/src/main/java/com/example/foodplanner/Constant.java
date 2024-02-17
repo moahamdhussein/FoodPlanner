@@ -33,7 +33,7 @@ public class Constant {
       CountryCode.put("Thai", "TH");
       CountryCode.put("Tunisian", "TN");
       CountryCode.put("Turkish", "TR");
-      CountryCode.put("Unknown", "UNK");
+      CountryCode.put("Unknown", "UY");
       CountryCode.put("Vietnamese", "VN");
    }
 }

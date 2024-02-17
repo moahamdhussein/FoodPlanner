@@ -10,13 +10,35 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "favourite_meal")
+@Entity(tableName = "favourite_meal",primaryKeys = {"dbType","name","planDate"})
+
 public class Meal {
 
+    @NonNull
+    String dbType;
+
+    @NonNull
+    String planDate;
+
+    public String getPlanDate() {
+        return planDate;
+    }
+
+    public void setPlanDate(String planDate) {
+        this.planDate = planDate;
+    }
+
+    public String getDbType() {
+        return dbType;
+    }
+
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
+    }
 
     @ColumnInfo(name = "id")
     private String idMeal;
-    @PrimaryKey
+
     @NonNull
     @ColumnInfo(name = "name")
     private String strMeal;

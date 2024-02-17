@@ -3,6 +3,7 @@ package com.example.foodplanner.MainScreen.View;
 
 import android.view.View;
 
+import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.Ingredients;
 import com.example.foodplanner.model.Meal;
@@ -23,5 +24,9 @@ public interface IHome {
 
  public void categoryClick(View view,String name);
  public void ingredientClick(View view,String name);
+
+ public void setAreaList(List<Area> areas);
+
+ public void areaClick(View view , String name);
 
 }

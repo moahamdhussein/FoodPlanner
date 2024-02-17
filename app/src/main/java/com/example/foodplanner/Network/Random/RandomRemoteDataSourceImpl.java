@@ -134,8 +134,10 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
         if (type.equalsIgnoreCase("c")) {
             Log.i(TAG, "getMeals: " + type);
             observable = service.getMealsFilteredBasedOnCategory(name);
-        } else {
+        } else if (type.equalsIgnoreCase("i")){
             observable = service.getMealsFilteredBasedOnIngredient(name);
+        }else {
+            observable = service.getMealsFilteredBasedOnArea(name);
         }
 
         observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

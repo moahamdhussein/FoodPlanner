@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceIm
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
 import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
+import com.example.foodplanner.SerachScreen.View.SearchFragmentDirections;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Meal;
 
@@ -27,7 +29,7 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
 
-public class FavouriteFragment extends Fragment implements IFavouriteFragment, OnRemoveClick {
+public class FavouriteFragment extends Fragment implements IFavouriteFragment, OnRemoveClick ,OnFavouriteItemClick{
 
     RecyclerView recyclerFavouriteList;
 
@@ -58,7 +60,7 @@ public class FavouriteFragment extends Fragment implements IFavouriteFragment, O
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         recyclerFavouriteList.setLayoutManager(gridLayoutManager);
-        adapter = new FavouriteAdapter(getContext(),new ArrayList<>(),this);
+        adapter = new FavouriteAdapter(getContext(),new ArrayList<>(),this,this);
         recyclerFavouriteList.setAdapter(adapter);
         presenter = new FavouritePresenterImpl(this, HomeRepository.getInstance(
                 CategoryRemoteDataSourceImpl.getInstance(getContext()), RandomRemoteDataSourceImpl.getInstance(getContext())
@@ -78,5 +80,11 @@ public class FavouriteFragment extends Fragment implements IFavouriteFragment, O
 
         meals.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> adapter.setList(items));
+    }
+
+    @Override
+    public void onFavItemClick(View view, Meal meal) {
+        Navigation.findNavController(view).
+                navigate(FavouriteFragmentDirections.actionFavouriteFragmentToInfoFragment(meal.getStrMeal()));
     }
 }

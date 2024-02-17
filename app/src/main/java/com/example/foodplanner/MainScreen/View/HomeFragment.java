@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Ingredients;
@@ -33,18 +33,21 @@ import com.example.foodplanner.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements IHome{
 
 
-    RecyclerView categoryRecyclerView,ingredientRecyclerView;
+    RecyclerView categoryRecyclerView,ingredientRecyclerView,areaRecyclerView;
 
     CategoryAdapter categoryAdapter;
 
     IngredientAdapter ingredientAdapter;
 
-    LinearLayoutManager layoutManager , linearLayoutManager;
+    AreaAdapter areaAdapter;
+
+    LinearLayoutManager categoryLayoutManager, ingredientLayoutManager,areaLayoutManager;
     ImageView ivRandomMeal;
     TextView tvRandomMealTitle, tv_RandomMealCategory ,tvCategoryTitle,tvIngredientTitle,tvTrendingFoodTitle;
     View layoutRandomMeal;
@@ -69,35 +72,7 @@ public class HomeFragment extends Fragment implements IHome{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        categoryRecyclerView = view.findViewById(R.id.category_recycler_view);
-        ivRandomMeal = view.findViewById(R.id.iv_random_meal);
-        tvRandomMealTitle =view.findViewById(R.id.tv_random_meal_title);
-        tv_RandomMealCategory =view.findViewById(R.id.tv_random_meal_category);
-        ingredientRecyclerView =view.findViewById(R.id.my_ingredients_view);
-        layoutRandomMeal = view.findViewById(R.id.cd_random_meal);
-        loadingBar =view.findViewById(R.id.loading_bar);
-        tvCategoryTitle = view.findViewById(R.id.tv_category_title);
-        tvIngredientTitle = view.findViewById(R.id.tv_ingredients_title);
-        tvTrendingFoodTitle = view.findViewById(R.id.tv_trending_food);
-
-
-
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-
-
-        categoryRecyclerView.setLayoutManager(layoutManager);
-        ingredientRecyclerView.setLayoutManager(linearLayoutManager);
-
-
-        categoryAdapter = new CategoryAdapter(getContext(), new ArrayList<>(),this);
-        categoryRecyclerView.setAdapter(categoryAdapter);
-
-        ingredientAdapter = new IngredientAdapter(getContext() ,new ArrayList<>(),this);
-        ingredientRecyclerView.setAdapter(ingredientAdapter);
-
+        Initialization(view);
 
 
         presenter = new HomePresenter(this,
@@ -117,11 +92,41 @@ public class HomeFragment extends Fragment implements IHome{
         layoutRandomMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate((NavDirections) HomeFragmentDirections
+                Navigation.findNavController(view).navigate(HomeFragmentDirections
                         .actionHomeFragmentToInfoFragment(tvRandomMealTitle.getText().toString()));
-                Log.i(TAG, "onClick: "+tvRandomMealTitle.getText().toString());
             }
         });
+    }
+
+    private void Initialization(@NonNull View view) {
+        categoryRecyclerView = view.findViewById(R.id.category_recycler_view);
+        ivRandomMeal = view.findViewById(R.id.iv_random_meal);
+        tvRandomMealTitle = view.findViewById(R.id.tv_random_meal_title);
+        tv_RandomMealCategory = view.findViewById(R.id.tv_random_meal_category);
+        ingredientRecyclerView = view.findViewById(R.id.my_ingredients_view);
+        layoutRandomMeal = view.findViewById(R.id.cd_random_meal);
+        loadingBar = view.findViewById(R.id.loading_bar);
+        tvCategoryTitle = view.findViewById(R.id.tv_category_title);
+        tvIngredientTitle = view.findViewById(R.id.tv_ingredients_title);
+        tvTrendingFoodTitle = view.findViewById(R.id.tv_trending_food);
+        areaRecyclerView = view.findViewById(R.id.my_area_view);
+
+        areaLayoutManager = new LinearLayoutManager(getContext());
+        areaLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        categoryLayoutManager = new LinearLayoutManager(getContext());
+        categoryLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        ingredientLayoutManager = new LinearLayoutManager(getContext());
+        ingredientLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+
+        areaRecyclerView.setLayoutManager(areaLayoutManager);
+        categoryRecyclerView.setLayoutManager(categoryLayoutManager);
+        ingredientRecyclerView.setLayoutManager(ingredientLayoutManager);
+        areaAdapter = new AreaAdapter(getContext(),new ArrayList<>(),this);
+        areaRecyclerView.setAdapter(areaAdapter);
+        categoryAdapter = new CategoryAdapter(getContext(), new ArrayList<>(),this);
+        categoryRecyclerView.setAdapter(categoryAdapter);
+        ingredientAdapter = new IngredientAdapter(getContext() ,new ArrayList<>(),this);
+        ingredientRecyclerView.setAdapter(ingredientAdapter);
     }
 
     @Override
@@ -147,10 +152,11 @@ public class HomeFragment extends Fragment implements IHome{
         tvTrendingFoodTitle.setVisibility(View.VISIBLE);
         loadingBar.setVisibility(View.GONE);
 
+
     }
     @Override
     public void setIngredientData(List<Ingredients> ingredients) {
-//        Collections.shuffle(ingredients);
+        Collections.shuffle(ingredients);
         ingredientAdapter.setList(ingredients.subList(0,20));
         ingredientAdapter.notifyDataSetChanged();
         ingredientRecyclerView.setVisibility(View.VISIBLE);
@@ -158,6 +164,12 @@ public class HomeFragment extends Fragment implements IHome{
         loadingBar.setVisibility(View.GONE);
 
     }
+    @Override
+    public void setAreaList(List<Area> areas){
+
+        areaAdapter.setList(areas);
+        areaAdapter.notifyDataSetChanged();
+    };
 
     @Override
     public void onDailyMailClick(Meal meal) {
@@ -166,14 +178,22 @@ public class HomeFragment extends Fragment implements IHome{
 
     @Override
     public void categoryClick(View view,String name) {
-        Navigation.findNavController(view).navigate((NavDirections) HomeFragmentDirections
+        Navigation.findNavController(view).navigate(HomeFragmentDirections
                 .actionHomeFragmentToMealsFragment("c",name));
+    }
+    @Override
+    public void areaClick(View view , String name){
+        Navigation.findNavController(view).navigate(HomeFragmentDirections
+                .actionHomeFragmentToMealsFragment("a",name));
     }
 
     @Override
     public void ingredientClick(View view,String name) {
-        Navigation.findNavController(view).navigate((NavDirections) HomeFragmentDirections.actionHomeFragmentToMealsFragment("i",name));
+        Navigation.findNavController(view).navigate( HomeFragmentDirections.
+                actionHomeFragmentToMealsFragment("i",name));
     }
+
+
 
 
 }

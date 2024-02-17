@@ -23,14 +23,17 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
    Context context;
    List<Meal> meals;
 
-   OnRemoveClick listener;
+   OnRemoveClick removeListener;
+
+   OnFavouriteItemClick favouriteListener;
 
    private static final String TAG = "FavouriteAdapter";
 
-   public FavouriteAdapter(Context context, List<Meal> meals,OnRemoveClick listener) {
+   public FavouriteAdapter(Context context, List<Meal> meals,OnRemoveClick removeListener,OnFavouriteItemClick favouriteListener) {
       this.context = context;
       this.meals = meals;
-      this.listener = listener;
+      this.removeListener = removeListener;
+      this.favouriteListener = favouriteListener;
    }
 
 
@@ -55,7 +58,13 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
       holder.fabDeleteItem.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            listener.onRemoveClick(meals.get(holder.getAdapterPosition()));
+            removeListener.onRemoveClick(meals.get(holder.getAdapterPosition()));
+         }
+      });
+      holder.layout.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+            favouriteListener.onFavItemClick(v,meals.get(holder.getAdapterPosition()));
          }
       });
    }

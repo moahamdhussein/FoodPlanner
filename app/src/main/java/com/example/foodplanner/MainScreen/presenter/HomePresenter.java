@@ -70,7 +70,7 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
 
    @Override
    public void onSuccessAreaResult(List<Area> areas) {
-      Log.i(TAG, "onSuccessAreaResult: "+ Constant.CountryCode.get("American"));
+      view.setAreaList(areas);
    }
 
    @Override
