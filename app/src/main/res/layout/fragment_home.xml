@@ -159,7 +159,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loading_bar"
-        app:lottie_rawRes="@raw/animation1"
+        app:lottie_rawRes="@raw/animation8"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#F3F8FF"

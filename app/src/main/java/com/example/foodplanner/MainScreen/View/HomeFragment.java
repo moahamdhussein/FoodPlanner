@@ -30,6 +30,8 @@ import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceIm
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
 import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -88,6 +90,8 @@ public class HomeFragment extends Fragment implements IHome{
         layoutRandomMeal.setVisibility(View.GONE);
         categoryRecyclerView.setVisibility(View.GONE);
         ingredientRecyclerView.setVisibility(View.GONE);
+
+
         presenter.getAllContinues();
         layoutRandomMeal.setOnClickListener(new View.OnClickListener() {
             @Override

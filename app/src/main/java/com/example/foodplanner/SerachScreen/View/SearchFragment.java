@@ -151,7 +151,6 @@ public class SearchFragment extends Fragment implements ISearchFragment, OnItemC
                         Log.i(TAG, "onCheckedChanged:     " + type);
                     }
                 });
-
             }
         });
 

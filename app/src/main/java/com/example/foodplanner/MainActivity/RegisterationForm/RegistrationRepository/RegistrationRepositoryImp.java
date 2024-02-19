@@ -14,14 +14,10 @@ public class RegistrationRepositoryImp {
 
     private static final String TAG = "RegistrationRepositoryI";
 
-
     public FirebaseUser createNewAccount(String email, String password,Activity activity,OnCompleteListener<AuthResult> onCompleteListener) {
-
             firebaseAuth = FirebaseAuth.getInstance();
             firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(activity,onCompleteListener);
-
             return firebaseAuth.getCurrentUser();
-
     }
     public FirebaseUser login(String email, String password,Activity activity,OnCompleteListener<AuthResult> onCompleteListener) {
         firebaseAuth = FirebaseAuth.getInstance();

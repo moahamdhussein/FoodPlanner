@@ -22,4 +22,8 @@
         android:id="@+id/planningFragment"
         android:icon="@drawable/save"
         android:title="Saved" />
+    <item
+        android:id="@+id/settingFragment"
+        android:icon="@drawable/settings"
+        android:title="setting" />
 </menu>

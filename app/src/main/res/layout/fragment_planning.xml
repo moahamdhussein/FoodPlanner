@@ -21,7 +21,7 @@
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        tools:text="2022-06-26"
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_marginTop="30dp"
@@ -32,7 +32,7 @@
         android:id="@+id/iv_drop_down_date_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="17dp"
         app:layout_constraintStart_toEndOf="@id/tv_date"
         android:src="@drawable/baseline_arrow_drop_down_24"
         app:layout_constraintTop_toBottomOf="@id/textTitle"/>

@@ -60,7 +60,6 @@ public class LoginFragment extends Fragment {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult();
-                Log.i(TAG, "onActivityResult: "+account.getIdToken());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (Exception e) {
                 Log.w(TAG, "Google sign in failed", e);

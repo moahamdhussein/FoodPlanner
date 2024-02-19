@@ -46,7 +46,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
       Log.i(TAG, "onCreateViewHolder: ");
       return vh;
    }
-
    @Override
    public void onBindViewHolder(@NonNull FavouriteAdapter.ViewHolder holder, int position) {
       Glide.with(context).load(meals.get(holder.getAdapterPosition()).getStrMealThumb())

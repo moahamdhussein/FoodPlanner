@@ -103,17 +103,11 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
                 if (Colored ) {
                     Colored = !Colored;
                     fabAddToFav.setIcon(R.drawable.favorite_outline);
-
                     presenter.removeFromFavourite(meal);
                 }else {
                     Colored = !Colored;
                     fabAddToFav.setIcon(R.drawable.favorite__colored);
-                    Calendar calendar = Calendar.getInstance();
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH);
-                    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                    String date=year+"-"+(month+1)+"-"+dayOfMonth;
-                    meal.setPlanDate(date);
+                    meal.setPlanDate("-");
                     meal.setDbType("Favourite");
                     presenter.addToFav(meal);
                 }
@@ -156,16 +150,13 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         tvArea.setText(meal.getStrArea());
         Glide.with(getContext()).load(meal.getStrMealThumb())
                 .into(ivMeal);
-        Log.i(TAG, "onViewCreated: "+Constant.CountryCode.get(meal.getStrArea()));
         tvInstructions.setText(meal.getStrInstructions());
         playerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
 
 
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                Log.i(TAG, "onReady: "+meal.youtubeId());
                 String videoId = meal.youtubeId();
-                Log.i(TAG, "onReady: "+videoId);
                 youTubePlayer.cueVideo(videoId, 0);
             }
         });
