@@ -21,7 +21,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.foodplanner.MainActivity.MainActivity;
 import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.R;
 

@@ -1,7 +1,6 @@
 package com.example.foodplanner.Network.Random;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -39,7 +38,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
+public class RemoteDataSourceImpl implements RemoteDataSource {
     private static final String TAG = "RandomRemoteDataSourceI";
 
     private static final String BASE_URL = "https://www.themealdb.com/api/json/v1/1/";
@@ -57,9 +56,9 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
         return meal;
     }
 
-    private static RandomRemoteDataSourceImpl client = null;
+    private static RemoteDataSourceImpl client = null;
 
-    private RandomRemoteDataSourceImpl(Context context) {
+    private RemoteDataSourceImpl(Context context) {
         int size = 10 * 1024 * 1024;
         Cache cache = new Cache(context.getCacheDir(), size);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -78,9 +77,9 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
         localDataSource = MealLocalDataSourceImpl.getInstance(context);
     }
 
-    public static RandomRemoteDataSourceImpl getInstance(Context context) {
+    public static RemoteDataSourceImpl getInstance(Context context) {
         if (client == null) {
-            client = new RandomRemoteDataSourceImpl(context);
+            client = new RemoteDataSourceImpl(context);
         }
         return client;
     }
@@ -138,21 +137,7 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
             }
         });
 
-//        Map<String, Object> map = documentSnapshot.getData();
-//        List<Map<String, Object>> mealList = (List<Map<String, Object>>) map.get(user.getUid());
-//        for (int i = 0; i < mealList.size(); i++) {
-//            Log.i(TAG, "onSuccess: " + i + "    " + mealList.get(i).get("dbType"));
-//            meal.setDbType(String.valueOf(mealList.get(i).get("dbType")));
-//            meal.setIdMeal(String.valueOf(mealList.get(i).get("idMeal")));
-//            meal.setPlanDate(String.valueOf(mealList.get(i).get("planDate")));
-//            meal.setStrArea(String.valueOf(mealList.get(i).get("strArea")));
-//            meal.setStrCategory(String.valueOf(mealList.get(i).get("strCategory")));
-//            meal.setStrInstructions(String.valueOf(mealList.get(i).get("strInstructions")));
-//            meal.setStrMeal(String.valueOf(mealList.get(i).get("strMeal")));
-//            meal.setStrMealThumb(String.valueOf(mealList.get(i).get("strMealThumb")));
-//            meal.setStrYoutube(String.valueOf(mealList.get(i).get("strYoutube")));
-//        }
-//        Log.i(TAG, "onSuccess: Done");
+
     }
 
 

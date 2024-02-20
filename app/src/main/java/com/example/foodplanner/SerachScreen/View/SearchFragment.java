@@ -17,8 +17,9 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
+import com.example.foodplanner.SerachScreen.Presenter.SearchPresenter;
 import com.example.foodplanner.SerachScreen.Presenter.SearchPresenterImpl;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.pojos.Meal;
@@ -39,7 +40,7 @@ public class SearchFragment extends Fragment implements ISearchFragment, OnItemC
     private static final String TAG = "SearchFragment";
     private SearchView searchView;
 
-    private SearchPresenterImpl presenter;
+    private SearchPresenter presenter;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -91,7 +92,7 @@ public class SearchFragment extends Fragment implements ISearchFragment, OnItemC
         type = "s";
 
         presenter = new SearchPresenterImpl(this, HomeRepository
-                .getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+                .getInstance(RemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
 
 
         Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {

@@ -1,4 +1,5 @@
 package com.example.foodplanner.setting.presenter;
 
-interface ISettingPresenter {
+public interface ISettingPresenter {
+    void backup();
 }

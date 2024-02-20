@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.foodplanner.MainActivity.LoginUsingEmail.Presenter.ILoginFormPresenter;
 import com.example.foodplanner.MainActivity.LoginUsingEmail.Presenter.LoginFormPresenter;
 import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.R;
@@ -23,7 +24,7 @@ public class LoginFormFragment extends Fragment implements View.OnClickListener,
     Button btnLogin;
     EditText etEmail,etPassword;
 
-    LoginFormPresenter presenter;
+    ILoginFormPresenter presenter;
 
     private static final String TAG = "LoginFormFragment";
 

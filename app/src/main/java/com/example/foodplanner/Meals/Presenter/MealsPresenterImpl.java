@@ -1,8 +1,8 @@
 package com.example.foodplanner.Meals.Presenter;
 
+import com.example.foodplanner.model.IHomeRepository;
 import com.example.foodplanner.model.pojos.Area;
 import com.example.foodplanner.model.pojos.Category;
-import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.pojos.Ingredients;
 import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Meals.View.IMealsFragment;
@@ -10,17 +10,18 @@ import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;
 
-public class MealsPresenterImpl implements NetworkCallback {
+public class MealsPresenterImpl implements NetworkCallback, MealsPresenter {
 
    private IMealsFragment view;
-   private HomeRepository homeRepository;
+   private IHomeRepository homeRepository;
 
-   public MealsPresenterImpl(IMealsFragment view, HomeRepository homeRepository) {
+   public MealsPresenterImpl(IMealsFragment view, IHomeRepository homeRepository) {
       this.view = view;
       this.homeRepository = homeRepository;
    }
 
-   public void getMeals(String query,String type){
+   @Override
+   public void getMeals(String query, String type){
       homeRepository.getMeals(this,query,type);
    }
    @Override

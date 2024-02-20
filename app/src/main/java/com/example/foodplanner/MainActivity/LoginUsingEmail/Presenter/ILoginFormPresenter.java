@@ -1,5 +1,5 @@
 package com.example.foodplanner.MainActivity.LoginUsingEmail.Presenter;
 
-interface ILoginFormPresenter {
+public interface ILoginFormPresenter {
     void login(String name, String password);
 }

@@ -4,6 +4,7 @@ package com.example.foodplanner.MainScreen.presenter;
 import android.util.Log;
 
 import com.example.foodplanner.MainScreen.View.IHome;
+import com.example.foodplanner.model.IHomeRepository;
 import com.example.foodplanner.model.pojos.Area;
 import com.example.foodplanner.model.pojos.Category;
 import com.example.foodplanner.model.HomeRepository;
@@ -18,7 +19,7 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
    private static final String TAG = "HomePresenter";
 
    private IHome view;
-   private HomeRepository homeRepository;
+   private IHomeRepository homeRepository;
 
 
    private Meal meal;
@@ -27,7 +28,7 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
       return meal;
    }
 
-   public HomePresenter(IHome view, HomeRepository repository ) {
+   public HomePresenter(IHome view, IHomeRepository repository ) {
       this.view = view;
       this.homeRepository = repository;
 

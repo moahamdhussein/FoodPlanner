@@ -12,20 +12,20 @@ import java.util.List;
 
 public interface IHome {
 
- public void showData(List<Category> products);
+ void showData(List<Category> products);
 
- public void showErrorMessage(String error);
+ void showErrorMessage(String error);
 
- public void setRandomMeal(Meal meal);
+ void setRandomMeal(Meal meal);
 
- public void setIngredientData(List<Ingredients> ingredients);
+ void setIngredientData(List<Ingredients> ingredients);
 
 
- public void categoryClick(View view,String name);
- public void ingredientClick(View view,String name);
+ void categoryClick(View view,String name);
+ void ingredientClick(View view,String name);
 
- public void setAreaList(List<Area> areas);
+ void setAreaList(List<Area> areas);
 
- public void areaClick(View view , String name);
+  void areaClick(View view , String name);
 
 }

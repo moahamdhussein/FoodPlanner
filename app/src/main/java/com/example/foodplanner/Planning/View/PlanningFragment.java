@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.Planning.Presenter.PlanningPresenterImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
@@ -115,7 +115,7 @@ public class PlanningFragment extends Fragment implements IPlanningFragment, OnR
         adapter = new PlanningAdapter(getContext(), new ArrayList<>(), this);
         planningRecyclerView.setAdapter(adapter);
         presenter = new PlanningPresenterImpl(this, HomeRepository.getInstance(
-                RandomRemoteDataSourceImpl.getInstance(getContext())
+                RemoteDataSourceImpl.getInstance(getContext())
                 , MealLocalDataSourceImpl.getInstance(getContext())
         ));
         calendar = Calendar.getInstance();

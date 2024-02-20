@@ -5,7 +5,7 @@ import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.List;
 
-public interface RandomRemoteDataSource {
+public interface RemoteDataSource {
     void makeNetworkCallback(NetworkCallback callback);
 
     void getMealWithName(NetworkCallback callback,String name);

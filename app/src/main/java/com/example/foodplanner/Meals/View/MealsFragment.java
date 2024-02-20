@@ -13,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import com.example.foodplanner.Meals.Presenter.MealsPresenter;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Meals.Presenter.MealsPresenterImpl;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class MealsFragment extends Fragment implements IMealsFragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private MealsAdapter mealsAdapter;
-    private MealsPresenterImpl presenter;
+    private MealsPresenter presenter;
     private static final String TAG = "MealsFragment";
 
     @Override
@@ -48,7 +49,7 @@ public class MealsFragment extends Fragment implements IMealsFragment {
         super.onViewCreated(view, savedInstanceState);
         initialization(view);
 
-        presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()),
+        presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(RemoteDataSourceImpl.getInstance(getContext()),
                MealLocalDataSourceImpl.getInstance(getContext())));
 
         presenter.getMeals(MealsFragmentArgs.fromBundle(getArguments()).getQueryName()

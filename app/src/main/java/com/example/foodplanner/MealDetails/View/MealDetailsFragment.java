@@ -26,10 +26,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import com.example.foodplanner.MealDetails.Presenter.IMealDetailsPresenter;
 import com.example.foodplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.pojos.Meal;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -48,7 +49,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
     private LinearLayoutManager layoutManager;
     private MealDetailsAdapter adapter;
     private static final String TAG = "MealDetailsFragment";
-    private MealDetailsPresenterImpl presenter;
+    private IMealDetailsPresenter presenter;
     private boolean Colored = false;
     private FloatingActionButton fabAddToFav, addToPlanning;
 
@@ -76,7 +77,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("setting", MODE_PRIVATE);
         boolean isGuest = sharedPreferences.getBoolean("isGuest", false);
 
-        presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()),
+        presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(RemoteDataSourceImpl.getInstance(getContext()),
                  MealLocalDataSourceImpl.getInstance(getContext())));
 
         presenter.getMealDetails(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());

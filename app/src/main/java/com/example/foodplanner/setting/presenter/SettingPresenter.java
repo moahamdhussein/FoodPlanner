@@ -1,11 +1,8 @@
 package com.example.foodplanner.setting.presenter;
 
 
-import android.util.Log;
-
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.setting.view.ISettingFragment;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class SettingPresenter implements ISettingPresenter {
 
@@ -19,6 +16,7 @@ public class SettingPresenter implements ISettingPresenter {
 
     private static final String TAG = "SettingPresenter";
 
+    @Override
     public void backup() {
 
         homeRepository.backup();

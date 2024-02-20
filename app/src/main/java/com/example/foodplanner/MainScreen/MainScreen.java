@@ -21,7 +21,7 @@ import android.view.View;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.InterNetConnectivity;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -61,7 +61,7 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
 
         if (isConnected &&isLoggedIn&&!isBackup){
             Log.i(TAG, "onCreate: is backup  "+isBackup);
-           RandomRemoteDataSourceImpl.getInstance(this).getDataFromFireBase();
+           RemoteDataSourceImpl.getInstance(this).getDataFromFireBase();
            editor.putBoolean("backup",true);
            editor.apply();
             Log.i(TAG, "onCreate: is backup  "+sharedPreferences.getBoolean("backup",false));

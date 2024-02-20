@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.MainActivity.LoginScreen.Presenter.LoginPresenter;
 import com.example.foodplanner.MainScreen.MainScreen;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
         tv_Login = view.findViewById(R.id.tv_login);
         btnGoogle = view.findViewById(R.id.btn_google);
         btnGuest = view.findViewById(R.id.btn_guest);
-        presenter = new LoginPresenter(HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+        presenter = new LoginPresenter(HomeRepository.getInstance(RemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
 
 
         btnGoogle.setOnClickListener(new View.OnClickListener() {

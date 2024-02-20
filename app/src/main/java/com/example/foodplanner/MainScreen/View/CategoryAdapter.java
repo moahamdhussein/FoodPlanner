@@ -19,15 +19,15 @@ import com.example.foodplanner.R;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-private List<Category> categories;
+    private List<Category> categories;
 
-private final Context context;
-private static final String TAG="CategoryAdapter";
-private IHome view;
+    private final Context context;
+    private static final String TAG = "CategoryAdapter";
+    private IHome view;
 
-    public CategoryAdapter(Context context, List<Category> categories,IHome view) {
+    public CategoryAdapter(Context context, List<Category> categories, IHome view) {
         this.context = context;
         this.categories = categories;
         this.view = view;
@@ -42,9 +42,11 @@ private IHome view;
         Log.i(TAG, "onCreateViewHolder: ");
         return vh;
     }
+
     public void setList(List<Category> categories) {
         this.categories = categories;
     }
+
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.tvTitle.setText(categories.get(holder.getAdapterPosition()).getStrCategory());
@@ -54,7 +56,7 @@ private IHome view;
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                view.categoryClick(v,categories.get(holder.getAdapterPosition()).getStrCategory());
+                view.categoryClick(v, categories.get(holder.getAdapterPosition()).getStrCategory());
             }
         });
     }
@@ -63,9 +65,10 @@ private IHome view;
     public int getItemCount() {
         return categories.size();
     }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
-        private TextView tvTitle,tvDescription;
+        private TextView tvTitle, tvDescription;
         private View layout;
 
 
@@ -74,7 +77,7 @@ private IHome view;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView;
-            tvTitle =layout.findViewById(R.id.tv_title);
+            tvTitle = layout.findViewById(R.id.tv_title);
             imageView = layout.findViewById(R.id.iv_category);
             tvDescription = layout.findViewById(R.id.tv_description);
             Log.i(TAG, "ViewHolder: ");

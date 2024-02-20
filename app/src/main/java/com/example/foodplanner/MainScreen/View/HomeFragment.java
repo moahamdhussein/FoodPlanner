@@ -25,13 +25,14 @@ import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 
 import com.example.foodplanner.InterNetConnectivity;
 import com.example.foodplanner.MainScreen.InternetConnection;
+import com.example.foodplanner.MainScreen.presenter.IHomePresenter;
 import com.example.foodplanner.model.pojos.Area;
 import com.example.foodplanner.model.pojos.Category;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.pojos.Ingredients;
 import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.MainScreen.presenter.HomePresenter;
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +54,7 @@ public class HomeFragment extends Fragment implements IHome , InterNetConnectivi
     private View layoutRandomMeal;
     private LottieAnimationView loadingBar;
 
-    private HomePresenter presenter;
+    private IHomePresenter presenter;
     private static final String TAG = "HomeFragment";
 
     @Override
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment implements IHome , InterNetConnectivi
         InternetConnection internetConnection = new InternetConnection(this);
         getContext().registerReceiver(internetConnection, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         presenter = new HomePresenter(this,
-                HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+                HomeRepository.getInstance(RemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
         presenter.getCategory();
         presenter.getRandomMeal();
         presenter.getAllIngredient();

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.foodplanner.MainActivity.RegisterationForm.Presenter.IRegisterPresenter;
 import com.example.foodplanner.MainActivity.RegisterationForm.Presenter.RegisterPresenter;
 import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.R;
@@ -25,7 +26,7 @@ public class SingupFragment extends Fragment implements View.OnClickListener , I
     Button btnSignUp;
     EditText etEmail,etPassword;
 
-    RegisterPresenter presenter;
+    IRegisterPresenter presenter;
 
     private static final String TAG = "SingupFragment";
     @Override

@@ -14,9 +14,10 @@ import android.widget.TextView;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 
-import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
+import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.setting.presenter.ISettingPresenter;
 import com.example.foodplanner.setting.presenter.SettingPresenter;
 
 public class settingFragment extends Fragment implements ISettingFragment {
@@ -24,7 +25,7 @@ public class settingFragment extends Fragment implements ISettingFragment {
     Button btnBackup;
     TextView tvUserName;
 
-    SettingPresenter presenter;
+    ISettingPresenter presenter;
 
     private static final String TAG = "settingFragment";
 
@@ -49,7 +50,7 @@ public class settingFragment extends Fragment implements ISettingFragment {
         btnBackup = view.findViewById(R.id.btn_backup);
         tvUserName = view.findViewById(R.id.tv_user_name);
         presenter = new SettingPresenter(this,HomeRepository
-                .getInstance( RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+                .getInstance( RemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
         btnBackup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
