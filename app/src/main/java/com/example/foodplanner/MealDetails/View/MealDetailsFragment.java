@@ -42,7 +42,7 @@ import java.util.Calendar;
 
 public class MealDetailsFragment extends Fragment implements IMealDetailsFragment {
 
-    private TextView tvTitle, tvCategory, tvArea, tvInstructions;
+    private TextView tvTitle, tvCategory, tvArea, tvInstructions,tvVideoTitle;
     private YouTubePlayerView playerView;
     private ImageView ivMeal;
     private RecyclerView recyclerView;
@@ -141,6 +141,7 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         tvCategory = view.findViewById(R.id.tv_category);
         tvArea = view.findViewById(R.id.tv_area);
         ivMeal = view.findViewById(R.id.iv_meal);
+        tvVideoTitle = view.findViewById(R.id.video);
         recyclerView = view.findViewById(R.id.rv_ingredients);
         tvInstructions = view.findViewById(R.id.tv_instructions);
         playerView = view.findViewById(R.id.wv_video_link);
@@ -157,21 +158,27 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
     @Override
     public void getMealDetails(Meal meal) {
         this.meal = meal;
+
         tvTitle.setText(meal.getStrMeal());
         tvCategory.setText(meal.getStrCategory());
         tvArea.setText(meal.getStrArea());
         Glide.with(getContext()).load(meal.getStrMealThumb())
                 .into(ivMeal);
         tvInstructions.setText(meal.getStrInstructions());
-        playerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+        String videoId = meal.youtubeId();
+        if (videoId.equalsIgnoreCase(" ")){
+            playerView.setVisibility(View.GONE);
+            tvVideoTitle.setVisibility(View.GONE);
+        }else {
+            playerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                    youTubePlayer.cueVideo(videoId, 0);
+                }
 
+            });
+        }
 
-            @Override
-            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                String videoId = meal.youtubeId();
-                youTubePlayer.cueVideo(videoId, 0);
-            }
-        });
         adapter.setList(meal.getIngredient(), meal.getMeasurement());
         adapter.notifyDataSetChanged();
 
