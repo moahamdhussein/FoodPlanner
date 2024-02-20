@@ -63,6 +63,7 @@ public class LoginFormFragment extends Fragment implements View.OnClickListener,
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("loggedInUser",true);
         editor.putBoolean("isGuest",false);
+        editor.putBoolean("backup",false);
         editor.apply();
         Intent intent = new Intent(getContext(), MainScreen.class);
         startActivity(intent);

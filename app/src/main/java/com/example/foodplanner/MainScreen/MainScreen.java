@@ -54,12 +54,17 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
         sharedPreferences = getSharedPreferences("setting", MODE_PRIVATE);
 
 
-        Boolean isGuest = sharedPreferences.getBoolean("isGuest",false);
-        Boolean isLoggedIn= sharedPreferences.getBoolean("loggedInUser",false);
+        boolean isGuest = sharedPreferences.getBoolean("isGuest",false);
+        boolean isLoggedIn= sharedPreferences.getBoolean("loggedInUser",false);
+        boolean isBackup = sharedPreferences.getBoolean("backup",false);
+        SharedPreferences.Editor editor =sharedPreferences.edit();
 
-
-        if (isConnected &&isLoggedIn){
+        if (isConnected &&isLoggedIn&&!isBackup){
+            Log.i(TAG, "onCreate: is backup  "+isBackup);
            RandomRemoteDataSourceImpl.getInstance(this).getDataFromFireBase();
+           editor.putBoolean("backup",true);
+           editor.apply();
+            Log.i(TAG, "onCreate: is backup  "+sharedPreferences.getBoolean("backup",false));
         }
         fabExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,18 +73,21 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
                     MealLocalDataSourceImpl localDataSource =  MealLocalDataSourceImpl.getInstance(MainScreen.this);
                     localDataSource.deleteAllData();
                     FirebaseAuth.getInstance().signOut();
+                    editor.putBoolean("isGuest",false);
+                    editor.putBoolean("loggedInUser",false);
+                    editor.apply();
+                }else if (!isConnected){
+                    editor.putBoolean("isGuest",false);
+                    editor.putBoolean("loggedInUser",true);
+                    editor.apply();
                 }
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isGuest",false);
-                editor.putBoolean("loggedInUser",false);
-                editor.apply();
                 finish();
             }
         });
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.i(TAG, "onNavigationItemSelected: "+isConnected);
+
                 if (item.getItemId() == R.id.favouriteFragment) {
                     if (!isGuest){
                         navigateToFragment(R.id.favouriteFragment);
@@ -167,6 +175,7 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isGuest",false);
                 editor.putBoolean("loggedInUser",false);
+
                 editor.apply();
                 finish();
             }
@@ -190,5 +199,11 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
         Log.i(TAG, "onNetworkDisconnected: ");
         isConnected = false;
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: "+sharedPreferences.getBoolean("backup",false));
     }
 }

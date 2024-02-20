@@ -90,7 +90,7 @@ public class PlanningFragment extends Fragment implements IPlanningFragment, OnR
                                         emitter.onNext(selectedDate);
                                     }
                                 }, year, month, dayOfMonth);
-                        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
                         datePickerDialog.show();
                     }
                 });
