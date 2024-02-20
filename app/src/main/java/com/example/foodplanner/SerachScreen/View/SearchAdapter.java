@@ -43,7 +43,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     public void setList(List<Meal> meals) {
         this.meals = meals;
-        Log.i(TAG, "setList: "+meals.size());
         notifyDataSetChanged();
     }
 

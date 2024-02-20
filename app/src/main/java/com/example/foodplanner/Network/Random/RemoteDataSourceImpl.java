@@ -30,6 +30,7 @@ import java.util.Map;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Cache;
@@ -200,7 +201,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
 
     @Override
     public void searchForAMealWithName(NetworkCallback callback, String name, String type) {
-        Observable<ParentMeal> observable;
+        Maybe<ParentMeal> observable;
         Log.i(TAG, "searchForAMealWithName: " + type + "    name   " + name);
         if (type.equalsIgnoreCase("s")) {
             observable = service.searchForAMealWithName(name);
@@ -235,7 +236,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
     @Override
     public void getMeals(NetworkCallback callback, String name, String type) {
 
-        Observable<ParentMeal> observable;
+        Maybe<ParentMeal> observable;
         if (type.equalsIgnoreCase("c")) {
             Log.i(TAG, "getMeals: " + type);
             observable = service.getMealsFilteredBasedOnCategory(name);
