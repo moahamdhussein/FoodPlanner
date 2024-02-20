@@ -141,6 +141,7 @@ public class LoginFragment extends Fragment {
                         editor.apply();
                         Intent intent = new Intent(getContext(), MainScreen.class);
                         startActivity(intent);
+                        getActivity().finish();
 
                     } else {
                         Snackbar.make(requireView(),"failed to login",Snackbar.LENGTH_SHORT).show();
