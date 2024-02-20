@@ -84,4 +84,7 @@ dependencies {
 
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
 
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+
 }

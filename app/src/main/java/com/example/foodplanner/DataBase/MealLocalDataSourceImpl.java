@@ -46,13 +46,22 @@ public class MealLocalDataSourceImpl implements MealLocalDataSource {
 
     @Override
     public void insertFavouriteMeal(Meal meal) {
-        Log.i(TAG, "insertFavouriteMeal: "+meal.toString());
         dao.insertFavouriteMeal(meal).subscribeOn(Schedulers.io()).subscribe();
     }
 
     @Override
     public void deleteFromFavourite(Meal meal) {
         dao.deleteFromFavourite(meal).subscribeOn(Schedulers.io()).subscribe();
+    }
+
+    @Override
+    public Flowable<List<Meal>> getAllMeals() {
+        return dao.getAllMeals();
+    }
+
+    @Override
+    public void deleteAllData() {
+        dao.deleteAllData().subscribeOn(Schedulers.io()).subscribe();
     }
 
 

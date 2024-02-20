@@ -1,5 +1,9 @@
 package com.example.foodplanner.MainActivity.SplashScreen;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +21,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.foodplanner.MainActivity.MainActivity;
+import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.R;
 
 
@@ -55,13 +61,19 @@ public class SpashScreenFragment extends Fragment {
         tvTitle.setAnimation(bottomAnim);
         tvSlogan.setAnimation(bottomAnim);
         handler = new Handler();
+        NavController controller = Navigation.findNavController(view);
+        SharedPreferences preferences = getActivity().getSharedPreferences("setting",MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("loggedInUser",false);
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                NavController controller = Navigation.findNavController(view);
-
-                controller.navigate(SpashScreenFragmentDirections.actionSpashScreenFragmentToLoginFragment());
+                if (isLoggedIn){
+                    startActivity(new Intent(getContext(), MainScreen.class));
+                    getActivity().finish();
+                }else {
+                    controller.navigate(SpashScreenFragmentDirections.actionSpashScreenFragmentToLoginFragment());
+                }
 
             }
         },3200);

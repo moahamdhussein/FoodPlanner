@@ -1,10 +1,15 @@
 package com.example.foodplanner.MealDetails.View;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Constant;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Meal;
@@ -39,7 +45,7 @@ import java.util.Calendar;
 
 public class MealDetailsFragment extends Fragment implements IMealDetailsFragment {
 
-    private TextView tvTitle, tvCategory,tvArea,tvInstructions;
+    private TextView tvTitle, tvCategory, tvArea, tvInstructions;
     private YouTubePlayerView playerView;
     private ImageView ivMeal;
     private RecyclerView recyclerView;
@@ -47,10 +53,11 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
     private MealDetailsAdapter adapter;
     private static final String TAG = "MealDetailsFragment";
     private MealDetailsPresenterImpl presenter;
-    private boolean Colored = false ;
-    private FloatingActionButton fabAddToFav,addToPlanning;
+    private boolean Colored = false;
+    private FloatingActionButton fabAddToFav, addToPlanning;
 
     private Meal meal;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,22 +84,19 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         playerView = view.findViewById(R.id.wv_video_link);
         fabAddToFav = view.findViewById(R.id.fab_add_to_fav);
         addToPlanning = view.findViewById(R.id.fab_add_to_plan);
-
         getLifecycle().addObserver(playerView);
-
-
-        layoutManager =new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new MealDetailsAdapter(new ArrayList<>(),new ArrayList<>(),getContext());
+        adapter = new MealDetailsAdapter(new ArrayList<>(), new ArrayList<>(), getContext());
         recyclerView.setAdapter(adapter);
-        String mealName = MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName();
-        Log.i(TAG, "onViewCreated: "+Constant.CountryCode.get("American"));
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("setting", MODE_PRIVATE);
+        boolean isGuest = sharedPreferences.getBoolean("isGuest", false);
         presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
                 RandomRemoteDataSourceImpl.getInstance(getContext()),
                 IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
-        Log.i(TAG, "onViewCreated: "+MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
+        Log.i(TAG, "onViewCreated: " + MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
 
 
         presenter.getMealDetails(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
@@ -100,16 +104,20 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         fabAddToFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Colored ) {
-                    Colored = !Colored;
-                    fabAddToFav.setIcon(R.drawable.favorite_outline);
-                    presenter.removeFromFavourite(meal);
-                }else {
-                    Colored = !Colored;
-                    fabAddToFav.setIcon(R.drawable.favorite__colored);
-                    meal.setPlanDate("-");
-                    meal.setDbType("Favourite");
-                    presenter.addToFav(meal);
+                if (isGuest) {
+                    showGuestDialog();
+                } else {
+                    if (Colored) {
+                        Colored = !Colored;
+                        fabAddToFav.setIcon(R.drawable.favorite_outline);
+                        presenter.removeFromFavourite(meal);
+                    } else {
+                        Colored = !Colored;
+                        fabAddToFav.setIcon(R.drawable.favorite__colored);
+                        meal.setPlanDate("-");
+                        meal.setDbType("Favourite");
+                        presenter.addToFav(meal);
+                    }
                 }
 
             }
@@ -118,32 +126,38 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         addToPlanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                Log.i(TAG, "onClick: "+year+"-"+(month+1)+"-"+dayOfMonth);
+                if (isGuest) {
+                    showGuestDialog();
+                } else {
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                    Log.i(TAG, "onClick: " + year + "-" + (month + 1) + "-" + dayOfMonth);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // Do something with the selected date
-                                String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                                Toast.makeText(getContext(), "Meal Saved with Date: " + selectedDate, Toast.LENGTH_SHORT).show();
-                                meal.setPlanDate(selectedDate);
-                                meal.setDbType("Plan");
-                                presenter.addToFav(meal);
-                            }
-                        }, year, month, dayOfMonth);
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                datePickerDialog.show();
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    // Do something with the selected date
+                                    String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                                    Toast.makeText(getContext(), "Meal Saved with Date: " + selectedDate, Toast.LENGTH_SHORT).show();
+                                    meal.setPlanDate(selectedDate);
+                                    meal.setDbType("Plan");
+                                    presenter.addToFav(meal);
+                                }
+                            }, year, month, dayOfMonth);
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                    datePickerDialog.show();
+
+                }
 
             }
         });
     }
+
     @Override
-    public void getMealDetails(Meal meal){
+    public void getMealDetails(Meal meal) {
         this.meal = meal;
         tvTitle.setText(meal.getStrMeal());
         tvCategory.setText(meal.getStrCategory());
@@ -160,9 +174,24 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
                 youTubePlayer.cueVideo(videoId, 0);
             }
         });
-        adapter.setList(meal.getIngredient(),meal.getMeasurement());
+        adapter.setList(meal.getIngredient(), meal.getMeasurement());
         adapter.notifyDataSetChanged();
 
+    }
+
+    void showGuestDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("don't have and account").setMessage("please login with your account to see our all features").setPositiveButton("login", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // navigate to login screen
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
 

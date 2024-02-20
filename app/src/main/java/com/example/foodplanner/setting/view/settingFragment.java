@@ -1,4 +1,4 @@
-package com.example.foodplanner.setting;
+package com.example.foodplanner.setting.view;
 
 import android.os.Bundle;
 
@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
@@ -20,6 +22,7 @@ import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.setting.presenter.SettingPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,11 +45,14 @@ import java.util.Objects;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class settingFragment extends Fragment {
+public class settingFragment extends Fragment implements ISettingFragment {
 
+    Button btnBackup;
+    TextView tvUserName;
 
-    List<Meal> meals;
-    FirebaseFirestore db;
+    SettingPresenter presenter;
+
+    private static final String TAG = "settingFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,54 +64,30 @@ public class settingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        FirebaseApp.initializeApp(getContext());
-        db = FirebaseFirestore.getInstance();
         return inflater.inflate(R.layout.fragment_setting, container, false);
     }
 
-    private static final String TAG = "settingFragment";
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        meals = new ArrayList<>();
+        btnBackup = view.findViewById(R.id.btn_backup);
+        tvUserName = view.findViewById(R.id.tv_user_name);
+        presenter = new SettingPresenter(this,HomeRepository
+                .getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()), RandomRemoteDataSourceImpl.getInstance(getContext()),
+                        IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+        btnBackup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        HomeRepository repository = HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
-                RandomRemoteDataSourceImpl.getInstance(getContext()),
-                IngredientsRemoteDataSourceImpl.getInstance(getContext()),
-                MealLocalDataSourceImpl.getInstance(getContext()));
-
-        repository.getAllSavedMeal().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(meal -> setList(meal),
-                        throwable -> Log.i(TAG, "onViewCreated: " + throwable.getMessage()));
-
-
+                presenter.backup();
+            }
+        });
     }
-
-    private void setList(List<Meal> meals) {
-
-            Map<String, Object> userData = new HashMap<>();
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            userData.put(user.getUid(),meals);
-        Log.i(TAG, "setList: "+user.getUid());
-
-            db.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                    List<Meal> mealList =(List<Meal>) documentSnapshot.getData().get(user.getUid());
-                    Log.i(TAG, "onSuccess: "+mealList.size());
-                }
-            });
-            db.collection("users").document(user.getUid()).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.i(TAG, "onSuccess: done");
-                }
-            });
-
-//        }
-        }
+    @Override
+    public  void setData(String username){
+        tvUserName.setText(username);
     }
+}
 

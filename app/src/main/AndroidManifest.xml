@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
     <application
         android:name=".App"
@@ -16,12 +18,21 @@
         android:theme="@style/Theme.FoodPlanner"
         tools:targetApi="31">
         <receiver
-            android:name=".InternetConnection"
+            android:name=".MainScreen.InternetConnection"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".MainScreen.MainScreen"
+            android:exported="false"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MainActivity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -29,11 +40,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity
-            android:name=".MainActivity.MainActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

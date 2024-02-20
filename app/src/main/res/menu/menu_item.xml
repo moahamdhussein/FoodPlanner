@@ -7,23 +7,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/person"
-        android:title="Home" />
+        android:title="@string/Home" />
     <item
         android:id="@+id/favouriteFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/favorite"
-        android:title="Favourite" />
+        android:title="@string/favourite" />
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/search"
-        android:title="Search" />
+        android:title="@string/search" />
     <item
         android:id="@+id/planningFragment"
         android:icon="@drawable/save"
-        android:title="Saved" />
+        android:title="@string/saved" />
     <item
         android:id="@+id/settingFragment"
         android:icon="@drawable/settings"
-        android:title="setting" />
+        android:title="@string/setting" />
 </menu>

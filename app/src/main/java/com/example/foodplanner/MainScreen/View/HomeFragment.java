@@ -1,5 +1,9 @@
 package com.example.foodplanner.MainScreen.View;
 
+import static androidx.core.content.ContextCompat.registerReceiver;
+
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +24,9 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+
+import com.example.foodplanner.InterNetConnectivity;
+import com.example.foodplanner.MainScreen.InternetConnection;
 import com.example.foodplanner.model.Area;
 import com.example.foodplanner.model.Category;
 import com.example.foodplanner.model.HomeRepository;
@@ -30,32 +37,27 @@ import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceIm
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
 import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements IHome{
+public class HomeFragment extends Fragment implements IHome , InterNetConnectivity {
 
 
-    RecyclerView categoryRecyclerView,ingredientRecyclerView,areaRecyclerView;
+    private RecyclerView categoryRecyclerView,ingredientRecyclerView,areaRecyclerView;
+    private CategoryAdapter categoryAdapter;
+    private IngredientAdapter ingredientAdapter;
+    private AreaAdapter areaAdapter;
 
-    CategoryAdapter categoryAdapter;
+    private LinearLayoutManager categoryLayoutManager, ingredientLayoutManager,areaLayoutManager;
+    private ImageView ivRandomMeal;
+    private TextView tvRandomMealTitle, tv_RandomMealCategory ,tvCategoryTitle,tvIngredientTitle,tvTrendingFoodTitle;
+    private View layoutRandomMeal;
+    private LottieAnimationView loadingBar;
 
-    IngredientAdapter ingredientAdapter;
-
-    AreaAdapter areaAdapter;
-
-    LinearLayoutManager categoryLayoutManager, ingredientLayoutManager,areaLayoutManager;
-    ImageView ivRandomMeal;
-    TextView tvRandomMealTitle, tv_RandomMealCategory ,tvCategoryTitle,tvIngredientTitle,tvTrendingFoodTitle;
-    View layoutRandomMeal;
-    LottieAnimationView loadingBar;
-
-    HomePresenter presenter;
+    private HomePresenter presenter;
     private static final String TAG = "HomeFragment";
 
     @Override
@@ -75,8 +77,9 @@ public class HomeFragment extends Fragment implements IHome{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Initialization(view);
-
-
+        disableVisibility();
+        InternetConnection internetConnection = new InternetConnection(this);
+        getContext().registerReceiver(internetConnection, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         presenter = new HomePresenter(this,
                 HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
                         RandomRemoteDataSourceImpl.getInstance(getContext()),
@@ -84,12 +87,6 @@ public class HomeFragment extends Fragment implements IHome{
         presenter.getCategory();
         presenter.getRandomMeal();
         presenter.getAllIngredient();
-        tvCategoryTitle.setVisibility(View.GONE);
-        tvIngredientTitle.setVisibility(View.GONE);
-        tvTrendingFoodTitle.setVisibility(View.GONE);
-        layoutRandomMeal.setVisibility(View.GONE);
-        categoryRecyclerView.setVisibility(View.GONE);
-        ingredientRecyclerView.setVisibility(View.GONE);
 
 
         presenter.getAllContinues();
@@ -131,48 +128,67 @@ public class HomeFragment extends Fragment implements IHome{
         categoryRecyclerView.setAdapter(categoryAdapter);
         ingredientAdapter = new IngredientAdapter(getContext() ,new ArrayList<>(),this);
         ingredientRecyclerView.setAdapter(ingredientAdapter);
+
+
+
     }
+
+    private void disableVisibility(){
+        tvCategoryTitle.setVisibility(View.GONE);
+        tvIngredientTitle.setVisibility(View.GONE);
+        tvTrendingFoodTitle.setVisibility(View.GONE);
+        layoutRandomMeal.setVisibility(View.GONE);
+        categoryRecyclerView.setVisibility(View.GONE);
+        ingredientRecyclerView.setVisibility(View.GONE);
+        areaRecyclerView.setVisibility(View.GONE);
+        loadingBar.setVisibility(View.VISIBLE);
+        loadingBar.playAnimation();
+    }
+    private void enableVisibility(){
+        tvCategoryTitle.setVisibility(View.VISIBLE);
+        tvIngredientTitle.setVisibility(View.VISIBLE);
+        tvTrendingFoodTitle.setVisibility(View.VISIBLE);
+        layoutRandomMeal.setVisibility(View.VISIBLE);
+        categoryRecyclerView.setVisibility(View.VISIBLE);
+        ingredientRecyclerView.setVisibility(View.VISIBLE);
+        areaRecyclerView.setVisibility(View.VISIBLE);
+        loadingBar.setVisibility(View.GONE);
+    }
+
+
 
     @Override
     public void showData(List<Category> categories) {
         categoryAdapter.setList(categories);
         categoryAdapter.notifyDataSetChanged();
-        tvCategoryTitle.setVisibility(View.VISIBLE);
-        categoryRecyclerView.setVisibility(View.VISIBLE);
-        loadingBar.setVisibility(View.GONE);
+        enableVisibility();
+
     }
 
     @Override
     public void showErrorMessage(String error) {
-        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void setRandomMeal(Meal meal) {
         tvRandomMealTitle.setText(meal.getStrMeal());
         tv_RandomMealCategory.setText("Category : " + meal.getStrCategory());
         Picasso.get().load(meal.getStrMealThumb()).into(ivRandomMeal);
-        Log.i(TAG, "setRandomMeal: "+meal.getStrMealThumb());
-        layoutRandomMeal.setVisibility(View.VISIBLE);
-        tvTrendingFoodTitle.setVisibility(View.VISIBLE);
-        loadingBar.setVisibility(View.GONE);
-
-
+        enableVisibility();
     }
     @Override
     public void setIngredientData(List<Ingredients> ingredients) {
         Collections.shuffle(ingredients);
         ingredientAdapter.setList(ingredients.subList(0,20));
         ingredientAdapter.notifyDataSetChanged();
-        ingredientRecyclerView.setVisibility(View.VISIBLE);
-        tvIngredientTitle.setVisibility(View.VISIBLE);
-        loadingBar.setVisibility(View.GONE);
+        enableVisibility();
 
     }
     @Override
     public void setAreaList(List<Area> areas){
-
         areaAdapter.setList(areas);
         areaAdapter.notifyDataSetChanged();
+        enableVisibility();
     };
 
     @Override
@@ -196,8 +212,18 @@ public class HomeFragment extends Fragment implements IHome{
         Navigation.findNavController(view).navigate( HomeFragmentDirections.
                 actionHomeFragmentToMealsFragment("i",name));
     }
+    @Override
+    public void onNetworkConnected() {
+        disableVisibility();
+        loadingBar.setAnimation(R.raw.animation8);
+        loadingBar.playAnimation();
+    }
 
+    @Override
+    public void onNetworkDisconnected() {
+        disableVisibility();
+        loadingBar.setAnimation(R.raw.not_internet);
+        loadingBar.playAnimation();
 
-
-
+    }
 }

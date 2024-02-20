@@ -17,5 +17,9 @@ public interface MealLocalDataSource {
 
     void deleteFromFavourite(Meal meal);
 
+    Flowable<List<Meal>> getAllMeals();
+
+    void deleteAllData();
+
 
 }

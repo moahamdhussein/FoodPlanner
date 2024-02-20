@@ -33,7 +33,7 @@ public class LoginFormPresenter implements OnCompleteListener, ILoginFormPresent
     public void login(String name, String password) {
         repositoryImp = new RegistrationRepositoryImp();
         firebaseUser = repositoryImp.login(name, password, activity, this);
-        Log.i(TAG, "Login To an Account: test " + firebaseUser.getEmail());
+
     }
 
     @Override

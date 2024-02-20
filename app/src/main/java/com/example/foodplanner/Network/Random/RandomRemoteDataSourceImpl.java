@@ -6,15 +6,37 @@ import android.content.Context;
 import android.util.Log;
 
 
+import androidx.annotation.NonNull;
+
+import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.ParentArea;
 import com.example.foodplanner.model.ParentMeal;
 import com.example.foodplanner.Network.ApiServices;
 import com.example.foodplanner.Network.NetworkCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -31,7 +53,10 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
 
     private Meal meal;
 
-    Context context;
+    private FirebaseFirestore firestore;
+
+    MealLocalDataSourceImpl localDataSource;
+
 
     public Meal getMeal() {
         return meal;
@@ -53,6 +78,9 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
         service = retrofit.create(ApiServices.class);
+        FirebaseApp.initializeApp(context);
+        firestore = FirebaseFirestore.getInstance();
+        localDataSource = MealLocalDataSourceImpl.getInstance(context);
     }
 
     public static RandomRemoteDataSourceImpl getInstance(Context context) {
@@ -60,6 +88,74 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
             client = new RandomRemoteDataSourceImpl(context);
         }
         return client;
+    }
+
+    public void backup(List<Meal> meals) {
+        Map<String, List<Meal>> userData = new HashMap<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userData.put(user.getUid(), meals);
+        firestore.collection("users").document(user.getUid()).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i(TAG, "onSuccess: done");
+            }
+        });
+    }
+
+    public void getDataFromFireBase() {
+        String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Log.i(TAG, "onSuccess: " + user);
+        firestore.collection("users").document(user).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot snapshot) {
+                if (snapshot != null && snapshot.getData() != null && snapshot.getData().get(user) != null) {
+                    List<Map<String, Object>> meal1 = (List<Map<String, Object>>) snapshot.getData().get(user);
+                    List<String[]> strings = new ArrayList<>();
+                    for (int i = 0; i < meal1.size(); i++) {
+                        Meal meal2 = new Meal();
+                        meal2.setDbType(meal1.get(i).get("dbType").toString());
+                        meal2.setPlanDate(meal1.get(i).get("planDate").toString());
+                        meal2.setStrMeal(meal1.get(i).get("strMeal").toString());
+                        meal2.setIdMeal(meal1.get(i).get("idMeal").toString());
+                        meal2.setStrMealThumb(meal1.get(i).get("strMealThumb").toString());
+                        meal2.setStrYoutube(meal1.get(i).get("strYoutube").toString());
+                        meal2.setStrCategory(meal1.get(i).get("strCategory").toString());
+                        meal2.setStrArea(meal1.get(i).get("strArea").toString());
+                        meal2.setStrInstructions(meal1.get(i).get("strInstructions").toString());
+                        localDataSource.insertFavouriteMeal(meal2);
+
+
+                        Log.i(TAG, "onSuccess: " + meal2.getDbType());
+                        Log.i(TAG, "onSuccess: " + meal2.getPlanDate());
+                        Log.i(TAG, "onSuccess: " + meal2.getStrMeal());
+                    }
+
+                }
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, "onFailure: " + e.getMessage());
+            }
+        });
+
+//        Map<String, Object> map = documentSnapshot.getData();
+//        List<Map<String, Object>> mealList = (List<Map<String, Object>>) map.get(user.getUid());
+//        for (int i = 0; i < mealList.size(); i++) {
+//            Log.i(TAG, "onSuccess: " + i + "    " + mealList.get(i).get("dbType"));
+//            meal.setDbType(String.valueOf(mealList.get(i).get("dbType")));
+//            meal.setIdMeal(String.valueOf(mealList.get(i).get("idMeal")));
+//            meal.setPlanDate(String.valueOf(mealList.get(i).get("planDate")));
+//            meal.setStrArea(String.valueOf(mealList.get(i).get("strArea")));
+//            meal.setStrCategory(String.valueOf(mealList.get(i).get("strCategory")));
+//            meal.setStrInstructions(String.valueOf(mealList.get(i).get("strInstructions")));
+//            meal.setStrMeal(String.valueOf(mealList.get(i).get("strMeal")));
+//            meal.setStrMealThumb(String.valueOf(mealList.get(i).get("strMealThumb")));
+//            meal.setStrYoutube(String.valueOf(mealList.get(i).get("strYoutube")));
+//        }
+//        Log.i(TAG, "onSuccess: Done");
     }
 
 
@@ -134,9 +230,9 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
         if (type.equalsIgnoreCase("c")) {
             Log.i(TAG, "getMeals: " + type);
             observable = service.getMealsFilteredBasedOnCategory(name);
-        } else if (type.equalsIgnoreCase("i")){
+        } else if (type.equalsIgnoreCase("i")) {
             observable = service.getMealsFilteredBasedOnIngredient(name);
-        }else {
+        } else {
             observable = service.getMealsFilteredBasedOnArea(name);
         }
 

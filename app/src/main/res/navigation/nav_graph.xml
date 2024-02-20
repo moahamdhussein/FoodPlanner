@@ -64,7 +64,7 @@
         tools:layout="@layout/fragment_planning" />
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.foodplanner.setting.settingFragment"
+        android:name="com.example.foodplanner.setting.view.settingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
 </navigation>

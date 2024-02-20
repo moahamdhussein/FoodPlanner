@@ -1,6 +1,9 @@
 package com.example.foodplanner.Network.Random;
 
 import com.example.foodplanner.Network.NetworkCallback;
+import com.example.foodplanner.model.Meal;
+
+import java.util.List;
 
 public interface RandomRemoteDataSource {
     void makeNetworkCallback(NetworkCallback callback);
@@ -12,4 +15,10 @@ public interface RandomRemoteDataSource {
     void searchForAMealWithName(NetworkCallback callback , String name,String type);
 
     void getAllCountries(NetworkCallback callback);
+
+     void backup(List<Meal> meals);
+
+     void getDataFromFireBase();
+
+
 }

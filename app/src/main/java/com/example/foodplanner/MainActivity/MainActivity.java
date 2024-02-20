@@ -5,9 +5,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,11 +26,11 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
-
-
         navController = Navigation.findNavController(this,R.id.nav_host_home_fragment);
         NavigationUI.setupActionBarWithNavController(this,navController);
+
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

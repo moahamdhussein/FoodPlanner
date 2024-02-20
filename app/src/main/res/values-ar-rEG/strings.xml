@@ -1,38 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="app_name">FoodPlanner</string>
     <string name="TitleOfApp">Food Planner</string>
-    <string name="slogan">best plan for your day</string>
+    <string name="slogan">افضل خطة اكل ليومك</string>
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
-    <string name="sign_up_with_email">Sign Up with Email</string>
+    <string name="sign_up_with_email">انشاء حساب بواسطة البريد الالكتروني</string>
     <string name="facebook_app_id">1402524423970821</string>
     <string name="facebook_client_token">d5ab004d3f3ff2c04682b2095ff67f45</string>
     <string name="fb_login_protocol_scheme">fb1402524423970821</string>
-    <string name="category">Category</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="signup">SignUp</string>
-    <string name="sub_title">Save delicious recipes and get personalized content</string>
-    <string name="random_meal">Random meal</string>
+    <string name="category">تصنيف الوجبات</string>
+    <string name="email">البريد الالكتروني </string>
+    <string name="password">الرقم السري</string>
+    <string name="signup">اشتراك</string>
+    <string name="sub_title">احفظ الوصفات اللذيذة واحصل على محتوى مخصص لك</string>
+    <string name="random_meal">وجبة عشوائية</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ingredients">Ingredients</string>
-    <string name="login">Login </string>
-    <string name="already_have_an_account">Already Have an account?</string>
-    <string name="log_in"><u>Log in</u></string>
-    <string name="meal_image">Meal Image</string>
-    <string name="instructions">Instructions</string>
-    <string name="video_for_preparation_meal">Video for preparation meal</string>
-    <string name="favourite_meals">Favourite Meals</string>
+    <string name="ingredients">المكونات</string>
+    <string name="login">تسيجل الدخول </string>
+    <string name="already_have_an_account">لديك حساب بالفعل ؟</string>
+    <string name="log_in"><u>تسجيل الدخول</u></string>
+    <string name="meal_image">صورة الوجبة</string>
+    <string name="instructions">التعليمات / الخطوات</string>
+    <string name="video_for_preparation_meal">فيديو لطريقة عمل الوجبة</string>
+    <string name="favourite_meals">الوجبات المفضلة</string>
     <string name="default_web_client_id">66089852740-q7s43pn0joveggtb2cs2pdun96cmbva4.apps.googleusercontent.com</string>
-    <string name="area">Area</string>
-    <string name="meal">Meal</string>
-    <string name="country">Country</string>
+    <string name="area">المنطقة / البلد</string>
+    <string name="meal">الوجبة</string>
+    <string name="country">البلد</string>
     <string name="title_activity_test">testActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="next">التالي</string>
+    <string name="previous">السابق</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -70,19 +72,21 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="planning_meal">Planning Meal</string>
-    <string name="signout">Signout</string>
-    <string name="exit">Exit</string>
-    <string name="backup">Backup</string>
-    <string name="login_as_guest">Login as Guest</string>
-    <string name="offline_mode_text">There is not internet connection please open wifi\nyou can use favourite or planning lists</string>
-    <string name="Home">Home</string>
-    <string name="favourite">Favourite</string>
-    <string name="search">Search</string>
-    <string name="saved">Saved</string>
-    <string name="setting">setting</string>
-    <string name="guest_dialog_title">don\'t have and account</string>
-    <string name="guest_dialog_content">please login with your account to see our all features</string>
-    <string name="internet_error">internet Error</string>
-    <string name="offline_mode_content">Please Open wifi or cullar data or\ngo to plan or favorite meals</string>
+    <string name="planning_meal">جدول الوجبات</string>
+    <string name="signout">تسيجل الخروج</string>
+    <string name="exit">الخروج</string>
+    <string name="backup">نسخة احتياطية</string>
+    <string name="login_as_guest">تسجيل الدخول كزائر</string>
+    <string name="offline_mode_text">لا يمكننا الاتصال بالانترنت من فضلك قم بفتح بيانات الهاتف او الواي فاي \n او يمكنك التصفح في الوجبات المفضلة او جدول الطعام الخاص بك </string>
+
+    <string name="Home">الرئيسية</string>
+    <string name="favourite">المفضلة</string>
+    <string name="search">البحث</string>
+    <string name="saved">الجدول</string>
+    <string name="setting">الاعدادات</string>
+
+    <string name="guest_dialog_title">ليس لديك حساب </string>
+    <string name="guest_dialog_content">من فضلك قم بتسجل الدخول او انشاء حساب لكي تري جميع  المميزات</string>
+    <string name="internet_error">خطأ في الاتصال بالانترنت</string>
+    <string name="offline_mode_content">ا يمكننا الاتصال بالانترنت من فضلك قم بفتح بيانات الهاتف او الواي فاي \n او يمكنك التصفح في الوجبات المفضلة او جدول الطعام الخاص بك </string>
 </resources>

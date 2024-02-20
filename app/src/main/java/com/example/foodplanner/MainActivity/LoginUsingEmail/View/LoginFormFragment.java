@@ -1,6 +1,8 @@
 package com.example.foodplanner.MainActivity.LoginUsingEmail.View;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -57,6 +59,11 @@ public class LoginFormFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onSuccessCompleteLogin() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("loggedInUser",true);
+        editor.putBoolean("isGuest",false);
+        editor.apply();
         Intent intent = new Intent(getContext(), MainScreen.class);
         startActivity(intent);
         getActivity().finish();

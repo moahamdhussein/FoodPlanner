@@ -7,11 +7,14 @@ import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSource;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSource;
 import com.example.foodplanner.Network.category.CategoryRemoteDataSource;
 import com.example.foodplanner.Network.NetworkCallback;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import kotlinx.coroutines.flow.Flow;
 
 public class HomeRepository implements IHomeRepository {
@@ -22,6 +25,8 @@ public class HomeRepository implements IHomeRepository {
     MealLocalDataSourceImpl localDataSource;
 
     IngredientsRemoteDataSource ingredientsRemoteDataSource;
+
+
 
     private static final String TAG = "HomeRepository";
     private static HomeRepository repository= null;
@@ -40,6 +45,7 @@ public class HomeRepository implements IHomeRepository {
         this.randomRemoteDataSource =randomRemoteDataSource;
         this.ingredientsRemoteDataSource = ingredientsRemoteDataSource;
         this.localDataSource = localDataSource;
+
     }
 
     @Override
@@ -87,5 +93,18 @@ public class HomeRepository implements IHomeRepository {
 
     public void getAllContinues(NetworkCallback callback) {
         randomRemoteDataSource.getAllCountries(callback);
+    }
+
+    public void backup() {
+        Log.i(TAG, "backup: ");
+        localDataSource.getAllMeals().observeOn(AndroidSchedulers.mainThread()).subscribe(meals ->
+            randomRemoteDataSource.backup(meals),
+                throwable -> Log.i(TAG, "backup: ")
+        );
+
+    }
+
+    public void downloadBackup() {
+        randomRemoteDataSource.getDataFromFireBase();
     }
 }

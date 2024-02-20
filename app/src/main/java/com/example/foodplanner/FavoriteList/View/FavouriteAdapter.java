@@ -1,6 +1,9 @@
 package com.example.foodplanner.FavoriteList.View;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +58,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
       holder.fabDeleteItem.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
+
             removeListener.onRemoveClick(meals.get(holder.getAdapterPosition()));
          }
       });

@@ -13,28 +13,14 @@ import java.util.List;
 @Entity(tableName = "favourite_meal",primaryKeys = {"dbType","name","planDate"})
 
 public class Meal {
+    public Meal() {
+    }
 
     @NonNull
     String dbType;
 
     @NonNull
     String planDate;
-
-    public String getPlanDate() {
-        return planDate;
-    }
-
-    public void setPlanDate(String planDate) {
-        this.planDate = planDate;
-    }
-
-    public String getDbType() {
-        return dbType;
-    }
-
-    public void setDbType(String dbType) {
-        this.dbType = dbType;
-    }
 
     @ColumnInfo(name = "id")
     private String idMeal;
@@ -55,16 +41,25 @@ public class Meal {
     @ColumnInfo(name = "image url")
     private String strMealThumb;
 
-//    @ColumnInfo(name = "image_bitmap")
-//    byte[] imageInByte;
 
-//    public byte[] getImageInByte() {
-//        return imageInByte;
-//    }
-//
-//    public void setImageInByte(byte[] imageInByte) {
-//        this.imageInByte = imageInByte;
-//    }
+    @ColumnInfo(name = "youtube link")
+    private String strYoutube;
+
+    public String getPlanDate() {
+        return planDate;
+    }
+
+    public void setPlanDate(String planDate) {
+        this.planDate = planDate;
+    }
+
+    public String getDbType() {
+        return dbType;
+    }
+
+    public void setDbType(String dbType) {
+        this.dbType = dbType;
+    }
 
     public String getStrYoutube() {
         return strYoutube;
@@ -73,9 +68,6 @@ public class Meal {
     public void setStrYoutube(String strYoutube) {
         this.strYoutube = strYoutube;
     }
-
-    @ColumnInfo(name = "youtube link")
-    private String strYoutube;
 
     @Ignore
     private String strIngredient1;
