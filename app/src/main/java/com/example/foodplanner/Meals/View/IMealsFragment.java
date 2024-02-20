@@ -1,6 +1,6 @@
 package com.example.foodplanner.Meals.View;
 
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.List;
 

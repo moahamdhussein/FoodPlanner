@@ -2,7 +2,7 @@ package com.example.foodplanner.Planning.Presenter;
 
 import com.example.foodplanner.Planning.View.IPlanningFragment;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 
 public class PlanningPresenterImpl implements PlanningPresenter {
     private IPlanningFragment view;

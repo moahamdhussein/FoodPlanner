@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.Planning.Presenter.PlanningPresenterImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
-
-import org.reactivestreams.Publisher;
+import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,11 +33,9 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.functions.Function;
-import io.reactivex.rxjava3.functions.Predicate;
 
 
-public class PlanningFragment extends Fragment implements IPlanningFragment ,OnRemoveClick {
+public class PlanningFragment extends Fragment implements IPlanningFragment, OnRemoveClick {
 
     private static final String TAG = "PlanningFragment";
     private TextView textDate;
@@ -104,26 +97,26 @@ public class PlanningFragment extends Fragment implements IPlanningFragment ,OnR
             }
         });
         observable.observeOn(AndroidSchedulers.mainThread()).subscribe(
-                item-> {
+                item -> {
                     textDate.setText(item);
                     filterListMeal(item);
                 });
 
 
-
     }
-    private void initialization(View view){
+
+    private void initialization(View view) {
         textDate = view.findViewById(R.id.tv_date);
         dropDownMenu = view.findViewById(R.id.iv_drop_down_date_menu);
-        planningRecyclerView =view.findViewById(R.id.rv_planning_meal);
-        gridLayoutManager = new GridLayoutManager(getContext(),2);
+        planningRecyclerView = view.findViewById(R.id.rv_planning_meal);
+        gridLayoutManager = new GridLayoutManager(getContext(), 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         planningRecyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new PlanningAdapter(getContext() , new ArrayList<>(),this);
+        adapter = new PlanningAdapter(getContext(), new ArrayList<>(), this);
         planningRecyclerView.setAdapter(adapter);
-        presenter = new PlanningPresenterImpl(this , HomeRepository.getInstance(
-                CategoryRemoteDataSourceImpl.getInstance(getContext()), RandomRemoteDataSourceImpl.getInstance(getContext())
-                , IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())
+        presenter = new PlanningPresenterImpl(this, HomeRepository.getInstance(
+                RandomRemoteDataSourceImpl.getInstance(getContext())
+                , MealLocalDataSourceImpl.getInstance(getContext())
         ));
         calendar = Calendar.getInstance();
         textDate.setText(calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH));
@@ -140,9 +133,9 @@ public class PlanningFragment extends Fragment implements IPlanningFragment ,OnR
     }
 
     @Override
-    public void filterListMeal(String date){
+    public void filterListMeal(String date) {
 
-        List<Meal> filteredList = mealList.stream().filter(meal-> meal.getPlanDate().equalsIgnoreCase(textDate.getText().toString())).collect(Collectors.toList());
+        List<Meal> filteredList = mealList.stream().filter(meal -> meal.getPlanDate().equalsIgnoreCase(textDate.getText().toString())).collect(Collectors.toList());
         adapter.setList(filteredList);
 
     }

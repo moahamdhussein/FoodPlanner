@@ -52,9 +52,12 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
         internetConnection = new InternetConnection(this);
         registerReceiver(internetConnection, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         sharedPreferences = getSharedPreferences("setting", MODE_PRIVATE);
+
+
         Boolean isGuest = sharedPreferences.getBoolean("isGuest",false);
         Boolean isLoggedIn= sharedPreferences.getBoolean("loggedInUser",false);
-        Log.i(TAG, "onCreate: "+isConnected + "\t"+isLoggedIn);
+
+
         if (isConnected &&isLoggedIn){
            RandomRemoteDataSourceImpl.getInstance(this).getDataFromFireBase();
         }
@@ -186,6 +189,6 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
     public void onNetworkDisconnected() {
         Log.i(TAG, "onNetworkDisconnected: ");
         isConnected = false;
-//        setOfflineMode();
+
     }
 }

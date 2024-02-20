@@ -2,8 +2,8 @@ package com.example.foodplanner.MainScreen.View;
 
 
 
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 
 interface OnItemClicked {
- public void onClick(Meal meal);
+  void onClick(Meal meal);
 }

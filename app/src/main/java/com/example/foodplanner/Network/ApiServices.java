@@ -1,10 +1,10 @@
 package com.example.foodplanner.Network;
 
 
-import com.example.foodplanner.model.ParentArea;
-import com.example.foodplanner.model.ParentCategories;
-import com.example.foodplanner.model.ParentIngredients;
-import com.example.foodplanner.model.ParentMeal;
+import com.example.foodplanner.model.pojos.ParentArea;
+import com.example.foodplanner.model.pojos.ParentCategories;
+import com.example.foodplanner.model.pojos.ParentIngredients;
+import com.example.foodplanner.model.pojos.ParentMeal;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;

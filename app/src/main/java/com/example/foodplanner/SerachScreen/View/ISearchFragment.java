@@ -1,8 +1,6 @@
 package com.example.foodplanner.SerachScreen.View;
 
-import android.view.View;
-
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.List;
 

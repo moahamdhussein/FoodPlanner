@@ -13,13 +13,11 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -27,15 +25,13 @@ import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 
 import com.example.foodplanner.InterNetConnectivity;
 import com.example.foodplanner.MainScreen.InternetConnection;
-import com.example.foodplanner.model.Area;
-import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.pojos.Area;
+import com.example.foodplanner.model.pojos.Category;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Ingredients;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Ingredients;
+import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.MainScreen.presenter.HomePresenter;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.squareup.picasso.Picasso;
 
@@ -81,14 +77,10 @@ public class HomeFragment extends Fragment implements IHome , InterNetConnectivi
         InternetConnection internetConnection = new InternetConnection(this);
         getContext().registerReceiver(internetConnection, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         presenter = new HomePresenter(this,
-                HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
-                        RandomRemoteDataSourceImpl.getInstance(getContext()),
-                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+                HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
         presenter.getCategory();
         presenter.getRandomMeal();
         presenter.getAllIngredient();
-
-
         presenter.getAllContinues();
         layoutRandomMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,10 +183,7 @@ public class HomeFragment extends Fragment implements IHome , InterNetConnectivi
         enableVisibility();
     };
 
-    @Override
-    public void onDailyMailClick(Meal meal) {
-        Toast.makeText(getContext(), meal.getIdMeal(), Toast.LENGTH_SHORT).show();
-    }
+
 
     @Override
     public void categoryClick(View view,String name) {

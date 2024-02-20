@@ -17,13 +17,11 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.SerachScreen.Presenter.SearchPresenterImpl;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -34,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.core.Observer;
 
 
 public class SearchFragment extends Fragment implements ISearchFragment, OnItemClick {
@@ -94,8 +91,7 @@ public class SearchFragment extends Fragment implements ISearchFragment, OnItemC
         type = "s";
 
         presenter = new SearchPresenterImpl(this, HomeRepository
-                .getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()), RandomRemoteDataSourceImpl.getInstance(getContext()),
-                        IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+                .getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
 
 
         Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {

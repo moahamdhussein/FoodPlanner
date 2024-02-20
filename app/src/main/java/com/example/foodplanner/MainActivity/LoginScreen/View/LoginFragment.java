@@ -9,22 +9,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.MainActivity.LoginScreen.Presenter.LoginPresenter;
-import com.example.foodplanner.MainActivity.MainActivity;
 import com.example.foodplanner.MainScreen.MainScreen;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,7 +30,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
@@ -84,9 +78,7 @@ public class LoginFragment extends Fragment {
         tv_Login = view.findViewById(R.id.tv_login);
         btnGoogle = view.findViewById(R.id.btn_google);
         btnGuest = view.findViewById(R.id.btn_guest);
-        presenter = new LoginPresenter(HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
-                RandomRemoteDataSourceImpl.getInstance(getContext()),
-                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
+        presenter = new LoginPresenter(HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
 
 
         btnGoogle.setOnClickListener(new View.OnClickListener() {

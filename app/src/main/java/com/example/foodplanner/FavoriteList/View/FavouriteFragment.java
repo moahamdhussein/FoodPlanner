@@ -15,13 +15,10 @@ import android.view.ViewGroup;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.FavoriteList.Presenter.FavouritePresenterImpl;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
-import com.example.foodplanner.SerachScreen.View.SearchFragmentDirections;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +60,8 @@ public class FavouriteFragment extends Fragment implements IFavouriteFragment, O
         adapter = new FavouriteAdapter(getContext(),new ArrayList<>(),this,this);
         recyclerFavouriteList.setAdapter(adapter);
         presenter = new FavouritePresenterImpl(this, HomeRepository.getInstance(
-                CategoryRemoteDataSourceImpl.getInstance(getContext()), RandomRemoteDataSourceImpl.getInstance(getContext())
-                , IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())
+                 RandomRemoteDataSourceImpl.getInstance(getContext())
+                , MealLocalDataSourceImpl.getInstance(getContext())
         ));
         presenter.getLocalData();
 

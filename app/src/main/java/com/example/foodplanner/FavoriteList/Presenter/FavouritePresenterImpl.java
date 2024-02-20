@@ -2,7 +2,7 @@ package com.example.foodplanner.FavoriteList.Presenter;
 
 import com.example.foodplanner.FavoriteList.View.IFavouriteFragment;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 
 public class FavouritePresenterImpl implements IFavouritePresenter {
 

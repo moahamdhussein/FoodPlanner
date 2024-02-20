@@ -9,15 +9,15 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
-import com.example.foodplanner.model.Meal;
-import com.example.foodplanner.model.ParentArea;
-import com.example.foodplanner.model.ParentMeal;
+import com.example.foodplanner.model.pojos.Meal;
+import com.example.foodplanner.model.pojos.ParentArea;
+import com.example.foodplanner.model.pojos.ParentCategories;
+import com.example.foodplanner.model.pojos.ParentIngredients;
+import com.example.foodplanner.model.pojos.ParentMeal;
 import com.example.foodplanner.Network.ApiServices;
 import com.example.foodplanner.Network.NetworkCallback;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,25 +25,20 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@SuppressLint("CheckResult")
+
 public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
     private static final String TAG = "RandomRemoteDataSourceI";
 
@@ -90,6 +85,7 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
         return client;
     }
 
+    @Override
     public void backup(List<Meal> meals) {
         Map<String, List<Meal>> userData = new HashMap<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -102,6 +98,7 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
         });
     }
 
+    @Override
     public void getDataFromFireBase() {
         String user = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.i(TAG, "onSuccess: " + user);
@@ -156,6 +153,33 @@ public class RandomRemoteDataSourceImpl implements RandomRemoteDataSource {
 //            meal.setStrYoutube(String.valueOf(mealList.get(i).get("strYoutube")));
 //        }
 //        Log.i(TAG, "onSuccess: Done");
+    }
+
+
+    @Override
+    public void getAllCategory(NetworkCallback callback) {
+        Observable<ParentCategories> observable = service.getAllCategories();
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        parentCategories -> callback.onSuccessResults(parentCategories.getCategories()),
+                        throwable -> callback.onFailureResult("Error on observe"),
+                        () -> {
+                        }
+                );
+
+
+    }
+
+    @Override
+    public void getAllIngredients(NetworkCallback callback) {
+        Observable<ParentIngredients> observable = service.getAllIngredients();
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        parentIngredients-> callback.onSuccessResultsIngredients(parentIngredients.getIngredients()),
+                        throwable -> callback.onFailureResult(throwable.getMessage()),
+                        ()->{}
+                );
     }
 
 

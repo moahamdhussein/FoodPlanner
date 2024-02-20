@@ -3,13 +3,12 @@ package com.example.foodplanner.MainScreen.presenter;
 
 import android.util.Log;
 
-import com.example.foodplanner.Constant;
 import com.example.foodplanner.MainScreen.View.IHome;
-import com.example.foodplanner.model.Area;
-import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.pojos.Area;
+import com.example.foodplanner.model.pojos.Category;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Ingredients;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Ingredients;
+import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;
@@ -78,15 +77,12 @@ public class HomePresenter implements NetworkCallback, IHomePresenter {
       homeRepository.getRandomMean(this);
    }
 
+   @Override
    public void getAllIngredient() {
       homeRepository.getAllIngredient(this);
 
    }
-
-   public void OnRandomMealClick() {
-      view.onDailyMailClick(meal);
-   }
-
+   @Override
     public void getAllContinues() {
       homeRepository.getAllContinues(this);
     }

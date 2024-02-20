@@ -31,9 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/bottom_background"
-        app:itemIconTint="@color/white"
+        app:itemIconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/black"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="5dp"
         app:menu="@menu/menu_item" />

@@ -1,4 +1,4 @@
-package com.example.foodplanner.model;
+package com.example.foodplanner.model.pojos;
 
 public class Area{
    private String strArea;

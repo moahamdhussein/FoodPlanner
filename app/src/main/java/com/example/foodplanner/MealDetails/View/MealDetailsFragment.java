@@ -25,15 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.foodplanner.Constant;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
-import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
+import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -75,29 +71,13 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvTitle = view.findViewById(R.id.tv_title);
-        tvCategory = view.findViewById(R.id.tv_category);
-        tvArea = view.findViewById(R.id.tv_area);
-        ivMeal = view.findViewById(R.id.iv_meal);
-        recyclerView = view.findViewById(R.id.rv_ingredients);
-        tvInstructions = view.findViewById(R.id.tv_instructions);
-        playerView = view.findViewById(R.id.wv_video_link);
-        fabAddToFav = view.findViewById(R.id.fab_add_to_fav);
-        addToPlanning = view.findViewById(R.id.fab_add_to_plan);
-        getLifecycle().addObserver(playerView);
-        layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new MealDetailsAdapter(new ArrayList<>(), new ArrayList<>(), getContext());
-        recyclerView.setAdapter(adapter);
+        initialization(view);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("setting", MODE_PRIVATE);
         boolean isGuest = sharedPreferences.getBoolean("isGuest", false);
-        presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
-                RandomRemoteDataSourceImpl.getInstance(getContext()),
-                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
-        Log.i(TAG, "onViewCreated: " + MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
 
+        presenter = new MealDetailsPresenterImpl(this, HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()),
+                 MealLocalDataSourceImpl.getInstance(getContext())));
 
         presenter.getMealDetails(MealDetailsFragmentArgs.fromBundle(getArguments()).getMealName());
 
@@ -122,7 +102,6 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
 
             }
         });
-
         addToPlanning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +135,24 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         });
     }
 
+    private void initialization(View view){
+        tvTitle = view.findViewById(R.id.tv_title);
+        tvCategory = view.findViewById(R.id.tv_category);
+        tvArea = view.findViewById(R.id.tv_area);
+        ivMeal = view.findViewById(R.id.iv_meal);
+        recyclerView = view.findViewById(R.id.rv_ingredients);
+        tvInstructions = view.findViewById(R.id.tv_instructions);
+        playerView = view.findViewById(R.id.wv_video_link);
+        fabAddToFav = view.findViewById(R.id.fab_add_to_fav);
+        addToPlanning = view.findViewById(R.id.fab_add_to_plan);
+        getLifecycle().addObserver(playerView);
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MealDetailsAdapter(new ArrayList<>(), new ArrayList<>(), getContext());
+        recyclerView.setAdapter(adapter);
+    }
+
     @Override
     public void getMealDetails(Meal meal) {
         this.meal = meal;
@@ -179,9 +176,10 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
 
     }
 
-    void showGuestDialog() {
+    @Override
+    public void showGuestDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("don't have and account").setMessage("please login with your account to see our all features").setPositiveButton("login", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.guest_dialog_title)).setMessage(getString(R.string.guest_dialog_content)).setPositiveButton(getString(R.string.login), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // navigate to login screen

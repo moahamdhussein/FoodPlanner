@@ -12,14 +12,14 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.R;
 
 import java.util.List;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHoder> {
-    List<Meal> meals;
-    Context context;
+    private List<Meal> meals;
+    private Context context;
 
     public MealsAdapter( Context context,List<Meal> meals) {
         this.meals = meals;

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.Constant;
 import com.example.foodplanner.R;
-import com.example.foodplanner.model.Area;
+import com.example.foodplanner.model.pojos.Area;
 
 import java.util.List;
 

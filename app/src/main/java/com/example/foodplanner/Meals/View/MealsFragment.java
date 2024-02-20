@@ -14,11 +14,9 @@ import android.view.ViewGroup;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Meals.Presenter.MealsPresenterImpl;
-import com.example.foodplanner.Network.Ingredients.IngredientsRemoteDataSourceImpl;
 import com.example.foodplanner.Network.Random.RandomRemoteDataSourceImpl;
-import com.example.foodplanner.Network.category.CategoryRemoteDataSourceImpl;
 import com.example.foodplanner.R;
 
 import java.util.ArrayList;
@@ -26,12 +24,10 @@ import java.util.List;
 
 
 public class MealsFragment extends Fragment implements IMealsFragment {
-    RecyclerView recyclerView;
-    LinearLayoutManager layoutManager;
-
-    MealsAdapter mealsAdapter;
-
-    MealsPresenterImpl presenter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private MealsAdapter mealsAdapter;
+    private MealsPresenterImpl presenter;
     private static final String TAG = "MealsFragment";
 
     @Override
@@ -50,26 +46,26 @@ public class MealsFragment extends Fragment implements IMealsFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = view.findViewById(R.id.my_rv_meals);
-        layoutManager = new LinearLayoutManager(getContext());
+        initialization(view);
 
-
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
-        mealsAdapter = new MealsAdapter(getContext(),new ArrayList<>());
-        recyclerView.setAdapter(mealsAdapter);
-
-        presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(CategoryRemoteDataSourceImpl.getInstance(getContext()),
-                RandomRemoteDataSourceImpl.getInstance(getContext()),
-                IngredientsRemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
-
+        presenter =new MealsPresenterImpl(this, HomeRepository.getInstance(RandomRemoteDataSourceImpl.getInstance(getContext()),
+               MealLocalDataSourceImpl.getInstance(getContext())));
 
         presenter.getMeals(MealsFragmentArgs.fromBundle(getArguments()).getQueryName()
                 ,MealsFragmentArgs.fromBundle(getArguments()).getTypeOfSender());
 
 
     }
+
+    private void initialization(@NonNull View view) {
+        recyclerView = view.findViewById(R.id.my_rv_meals);
+        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        mealsAdapter = new MealsAdapter(getContext(),new ArrayList<>());
+        recyclerView.setAdapter(mealsAdapter);
+    }
+
     @Override
     public void setMealsList(List<Meal> meals){
         mealsAdapter.setList(meals);

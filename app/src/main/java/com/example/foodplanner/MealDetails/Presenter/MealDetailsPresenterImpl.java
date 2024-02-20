@@ -1,13 +1,11 @@
 package com.example.foodplanner.MealDetails.Presenter;
 
-import android.util.Log;
-
 import com.example.foodplanner.MealDetails.View.IMealDetailsFragment;
-import com.example.foodplanner.model.Area;
-import com.example.foodplanner.model.Category;
+import com.example.foodplanner.model.pojos.Area;
+import com.example.foodplanner.model.pojos.Category;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.Ingredients;
-import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.pojos.Ingredients;
+import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Network.NetworkCallback;
 
 import java.util.List;
