@@ -4,6 +4,8 @@ import com.example.foodplanner.Planning.View.IPlanningFragment;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.pojos.Meal;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+
 public class PlanningPresenterImpl implements PlanningPresenter {
     private IPlanningFragment view;
     private HomeRepository repository = null;
@@ -16,7 +18,8 @@ public class PlanningPresenterImpl implements PlanningPresenter {
 
     @Override
     public void getPlanningItem(){
-        view.setData(repository.getAllSavedMeal());
+        repository.getAllSavedMeal().observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(mealList-> view.setData(mealList));
     }
 
     @Override

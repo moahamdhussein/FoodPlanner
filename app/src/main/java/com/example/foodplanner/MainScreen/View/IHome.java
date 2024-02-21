@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IHome {
 
- void showData(List<Category> products);
+ void showCategoryData(List<Category> products);
 
  void showErrorMessage(String error);
 

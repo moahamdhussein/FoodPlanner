@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -151,7 +152,7 @@ public class HomeFragment extends Fragment implements IHome , InterNetConnectivi
 
 
     @Override
-    public void showData(List<Category> categories) {
+    public void showCategoryData(List<Category> categories) {
         categoryAdapter.setList(categories);
         categoryAdapter.notifyDataSetChanged();
         enableVisibility();
@@ -160,7 +161,7 @@ public class HomeFragment extends Fragment implements IHome , InterNetConnectivi
 
     @Override
     public void showErrorMessage(String error) {
-//        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void setRandomMeal(Meal meal) {

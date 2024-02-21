@@ -4,13 +4,18 @@ import android.util.Log;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.Network.Random.RemoteDataSource;
-import com.example.foodplanner.Network.NetworkCallback;
 import com.example.foodplanner.model.pojos.Meal;
+import com.example.foodplanner.model.pojos.ParentArea;
+import com.example.foodplanner.model.pojos.ParentCategories;
+import com.example.foodplanner.model.pojos.ParentIngredients;
+import com.example.foodplanner.model.pojos.ParentMeal;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 
 public class HomeRepository implements IHomeRepository {
 
@@ -38,35 +43,35 @@ public class HomeRepository implements IHomeRepository {
     }
 
     @Override
-    public void getRemoteData(NetworkCallback callback) {
-        randomRemoteDataSource.getAllCategory(callback);
+    public Single<ParentCategories> getRemoteData() {
+        return randomRemoteDataSource.getAllCategory();
     }
 
     @Override
-    public void getRandomMean(NetworkCallback callback) {
-        randomRemoteDataSource.makeNetworkCallback(callback);
+    public Single<ParentMeal> getRandomMeal() {
+        return randomRemoteDataSource.getRandomMeal();
     }
 
     @Override
-    public void getAllIngredient(NetworkCallback callback) {
+    public Single<ParentIngredients> getAllIngredient() {
 
-        randomRemoteDataSource.getAllIngredients(callback);
+        return randomRemoteDataSource.getAllIngredients();
     }
 
     @Override
-    public void getMealWithName(NetworkCallback callback, String name) {
-        randomRemoteDataSource.getMealWithName(callback, name);
+    public Single<ParentMeal> getMealWithName( String name) {
+        return randomRemoteDataSource.getMealWithName( name);
     }
 
     @Override
 
-    public void searchForAMeal(NetworkCallback callback, String name, String type) {
-        randomRemoteDataSource.searchForAMealWithName(callback, name, type);
+    public Maybe<ParentMeal> searchForAMeal(String name, String type) {
+        return randomRemoteDataSource.searchForAMealWithName(name, type);
     }
 
     @Override
-    public void getMeals(NetworkCallback callback, String name, String type) {
-        randomRemoteDataSource.getMeals(callback, name, type);
+    public Maybe<ParentMeal> getMeals(String name, String type) {
+       return randomRemoteDataSource.getMeals( name, type);
     }
 
     @Override
@@ -90,8 +95,8 @@ public class HomeRepository implements IHomeRepository {
     }
 
     @Override
-    public void getAllContinues(NetworkCallback callback) {
-        randomRemoteDataSource.getAllCountries(callback);
+    public Single<ParentArea> getAllContinues() {
+       return randomRemoteDataSource.getAllCountries();
     }
 
     @Override

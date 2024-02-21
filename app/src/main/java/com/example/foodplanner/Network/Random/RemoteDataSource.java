@@ -1,28 +1,34 @@
 package com.example.foodplanner.Network.Random;
 
-import com.example.foodplanner.Network.NetworkCallback;
 import com.example.foodplanner.model.pojos.Meal;
+import com.example.foodplanner.model.pojos.ParentArea;
+import com.example.foodplanner.model.pojos.ParentCategories;
+import com.example.foodplanner.model.pojos.ParentIngredients;
+import com.example.foodplanner.model.pojos.ParentMeal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+
 public interface RemoteDataSource {
-    void makeNetworkCallback(NetworkCallback callback);
+    Single<ParentMeal> getRandomMeal();
 
-    void getMealWithName(NetworkCallback callback,String name);
+    Single<ParentMeal> getMealWithName(String name);
 
-    void getMeals(NetworkCallback callback , String name,String type);
+    Maybe<ParentMeal> getMeals(String name, String type);
 
-    void searchForAMealWithName(NetworkCallback callback , String name,String type);
+    Maybe<ParentMeal> searchForAMealWithName(String name, String type);
 
-    void getAllCountries(NetworkCallback callback);
+    Single<ParentArea> getAllCountries();
 
      void backup(List<Meal> meals);
 
      void getDataFromFireBase();
 
-     void getAllCategory(NetworkCallback callback);
+    Single<ParentCategories> getAllCategory();
 
-     void getAllIngredients(NetworkCallback callback);
+    Single<ParentIngredients> getAllIngredients();
 
 
 }

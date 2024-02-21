@@ -124,12 +124,10 @@ public class PlanningFragment extends Fragment implements IPlanningFragment, OnR
     }
 
     @Override
-    public void setData(Flowable<List<Meal>> meals) {
-        meals.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> {
-                    mealList = items;
-                    filterListMeal(textDate.getText().toString());
-                });
+    public void setData(List<Meal> meals) {
+        this.mealList = meals;
+        filterListMeal(textDate.getText().toString());
+
     }
 
     @Override

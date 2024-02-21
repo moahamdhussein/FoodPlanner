@@ -14,7 +14,6 @@ import com.example.foodplanner.model.pojos.ParentCategories;
 import com.example.foodplanner.model.pojos.ParentIngredients;
 import com.example.foodplanner.model.pojos.ParentMeal;
 import com.example.foodplanner.Network.ApiServices;
-import com.example.foodplanner.Network.NetworkCallback;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -29,10 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -50,7 +47,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
 
     private FirebaseFirestore firestore;
 
-    MealLocalDataSourceImpl localDataSource;
+    private MealLocalDataSourceImpl localDataSource;
 
 
     public Meal getMeal() {
@@ -90,12 +87,19 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         Map<String, List<Meal>> userData = new HashMap<>();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userData.put(user.getUid(), meals);
+        final boolean[] isSuccess = new boolean[1];
         firestore.collection("users").document(user.getUid()).set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.i(TAG, "onSuccess: done");
+               isSuccess[0] = true;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                isSuccess[0] = false;
             }
         });
+//        return isSuccess[0];
     }
 
     @Override
@@ -143,64 +147,66 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
 
 
     @Override
-    public void getAllCategory(NetworkCallback callback) {
-        Observable<ParentCategories> observable = service.getAllCategories();
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        parentCategories -> callback.onSuccessResults(parentCategories.getCategories()),
-                        throwable -> callback.onFailureResult("Error on observe"),
-                        () -> {
-                        }
-                );
+    public Single<ParentCategories> getAllCategory() {
+       return service.getAllCategories();
+//        observable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        parentCategories -> callback.onSuccessResults(parentCategories.getCategories()),
+//                        throwable -> callback.onFailureResult("Error on observe"),
+//                        () -> {
+//                        }
+//                );
 
 
     }
 
     @Override
-    public void getAllIngredients(NetworkCallback callback) {
-        Observable<ParentIngredients> observable = service.getAllIngredients();
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        parentIngredients-> callback.onSuccessResultsIngredients(parentIngredients.getIngredients()),
-                        throwable -> callback.onFailureResult(throwable.getMessage()),
-                        ()->{}
-                );
+    public Single<ParentIngredients> getAllIngredients() {
+       return service.getAllIngredients();
+//        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        parentIngredients-> callback.onSuccessResults(parentIngredients.getIngredients()),
+//                        throwable -> callback.onFailureResult(throwable.getMessage()),
+//                        ()->{}
+//                );
+//
     }
 
 
     @Override
-    public void makeNetworkCallback(NetworkCallback callback) {
-        Observable<ParentMeal> observable = service.getRandomMeal();
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-
-                        parentMeal -> callback.onSuccessResultsRandomMeal(parentMeal.getMeals().get(0)),
-                        throwable -> callback.onFailureResult(throwable.getMessage()),
-                        () -> {
-                        }
-                );
-
-    }
-
-    @Override
-    public void getMealWithName(NetworkCallback callback, String name) {
-
-        Observable<ParentMeal> observable = service.getMealUsingName(name);
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        parentMeal -> callback.onSuccessResultsRandomMeal(parentMeal.getMeals().get(0)),
-                        throwable -> Log.i(TAG, "getMealWithName: " + throwable.getMessage()),
-                        () -> {
-                        }
-
-                );
-
+    public Single<ParentMeal> getRandomMeal() {
+        Single<ParentMeal> singleMeal = service.getRandomMeal();
+        return singleMeal;
+//        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//
+//                        parentMeal -> callback.onSuccessResults(parentMeal.getMeals().get(0)),
+//                        throwable -> callback.onFailureResult(throwable.getMessage()),
+//                        () -> {
+//                        }
+//                );
 
     }
 
     @Override
-    public void searchForAMealWithName(NetworkCallback callback, String name, String type) {
+    public Single<ParentMeal> getMealWithName( String name) {
+
+        return   service.getMealUsingName(name);
+//        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        parentMeal -> callback.onSuccessResults(parentMeal.getMeals().get(0)),
+//                        throwable -> Log.i(TAG, "getMealWithName: " + throwable.getMessage()),
+//                        () -> {
+//                        }
+//
+//                );
+
+
+    }
+
+    @Override
+    public Maybe<ParentMeal> searchForAMealWithName(String name, String type) {
         Maybe<ParentMeal> observable;
         Log.i(TAG, "searchForAMealWithName: " + type + "    name   " + name);
         if (type.equalsIgnoreCase("s")) {
@@ -212,47 +218,49 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         } else {
             observable = service.getMealsFilteredBasedOnArea(name);
         }
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        parentMeal -> callback.onSuccessResultsMealS(parentMeal.getMeals()),
-                        throwable -> Log.i(TAG, "getMealWithName: " + throwable.getMessage()),
-                        () -> {
-                        }
-
-                );
+        return observable;
+//        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        parentMeal -> callback.onSuccessResults(parentMeal.getMeals()),
+//                        throwable -> Log.i(TAG, "getMealWithName: " + throwable.getMessage()),
+//                        () -> {
+//                        }
+//
+//                );
     }
 
     @Override
-    public void getAllCountries(NetworkCallback callback) {
-        Observable<ParentArea> observable = service.getAllCountries();
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        parentArea -> callback.onSuccessAreaResult(parentArea.getCountries()),
-                        throwable -> Log.i(TAG, "getAllCountries: " + throwable.getMessage())
-                );
+    public Single<ParentArea> getAllCountries() {
+        return service.getAllCountries();
+//        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        parentArea -> callback.onSuccessResults(parentArea.getCountries()),
+//                        throwable -> Log.i(TAG, "getAllCountries: " + throwable.getMessage())
+//                );
     }
 
 
     @Override
-    public void getMeals(NetworkCallback callback, String name, String type) {
+    public Maybe<ParentMeal> getMeals(String name, String type) {
 
-        Maybe<ParentMeal> observable;
+        Maybe<ParentMeal> maybeMeal;
         if (type.equalsIgnoreCase("c")) {
             Log.i(TAG, "getMeals: " + type);
-            observable = service.getMealsFilteredBasedOnCategory(name);
+            maybeMeal = service.getMealsFilteredBasedOnCategory(name);
         } else if (type.equalsIgnoreCase("i")) {
-            observable = service.getMealsFilteredBasedOnIngredient(name);
+            maybeMeal = service.getMealsFilteredBasedOnIngredient(name);
         } else {
-            observable = service.getMealsFilteredBasedOnArea(name);
+            maybeMeal = service.getMealsFilteredBasedOnArea(name);
         }
+        return maybeMeal;
 
-        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(parentMeal ->
-                                callback.onSuccessResultsMealS(parentMeal.getMeals()),
-                        throwable -> Log.i(TAG, "getMeals: " + throwable.getMessage()),
-                        () -> {
-                        })
-        ;
+//        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(parentMeal ->
+//                                callback.onSuccessResults(parentMeal.getMeals()),
+//                        throwable -> Log.i(TAG, "getMeals: " + throwable.getMessage()),
+//                        () -> {
+//                        })
+//        ;
 
     }
 

@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 public interface IPlanningFragment {
 
-  public void setData(Flowable<List<Meal>> meals);
+  public void setData(List<Meal> meals);
 
   public void filterListMeal(String date);
 

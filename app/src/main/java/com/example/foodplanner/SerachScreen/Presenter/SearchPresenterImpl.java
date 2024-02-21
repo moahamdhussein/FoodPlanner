@@ -1,16 +1,12 @@
 package com.example.foodplanner.SerachScreen.Presenter;
 
-import com.example.foodplanner.Network.NetworkCallback;
 import com.example.foodplanner.SerachScreen.View.ISearchFragment;
-import com.example.foodplanner.model.pojos.Area;
-import com.example.foodplanner.model.pojos.Category;
 import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.pojos.Ingredients;
-import com.example.foodplanner.model.pojos.Meal;
 
-import java.util.List;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SearchPresenterImpl implements NetworkCallback, SearchPresenter {
+public class    SearchPresenterImpl implements  SearchPresenter {
 
     private HomeRepository homeRepository;
     private static final String TAG = "SearchPresenterImpl";
@@ -22,37 +18,11 @@ public class SearchPresenterImpl implements NetworkCallback, SearchPresenter {
         this.homeRepository = homeRepository;
     }
 
-    @Override
-    public void onSuccessResults(List<Category> categories) {
-
-    }
 
     @Override
     public void searchForAMeal(String type, String name){
-        homeRepository.searchForAMeal(this ,name,type);
+        homeRepository.searchForAMeal(name,type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(parentMeal-> view.setData(parentMeal.getMeals()));
     }
 
-    @Override
-    public void onSuccessResultsRandomMeal(Meal meals) {
-
-    }
-
-    @Override
-    public void onFailureResult(String msg) {
-    }
-
-    @Override
-    public void onSuccessResultsMealS(List<Meal> meals) {
-        view.setData(meals);
-    }
-
-    @Override
-    public void onSuccessResultsIngredients(List<Ingredients> ingredients) {
-
-    }
-
-    @Override
-    public void onSuccessAreaResult(List<Area> areas) {
-
-    }
 }

@@ -1,16 +1,15 @@
 package com.example.foodplanner.MealDetails.Presenter;
 
+import android.util.Log;
+
 import com.example.foodplanner.MealDetails.View.IMealDetailsFragment;
 import com.example.foodplanner.model.IHomeRepository;
-import com.example.foodplanner.model.pojos.Area;
-import com.example.foodplanner.model.pojos.Category;
-import com.example.foodplanner.model.pojos.Ingredients;
 import com.example.foodplanner.model.pojos.Meal;
-import com.example.foodplanner.Network.NetworkCallback;
 
-import java.util.List;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MealDetailsPresenterImpl implements NetworkCallback, IMealDetailsPresenter {
+public class MealDetailsPresenterImpl implements  IMealDetailsPresenter {
 
     private IMealDetailsFragment view;
 
@@ -23,42 +22,18 @@ public class MealDetailsPresenterImpl implements NetworkCallback, IMealDetailsPr
         this.homeRepository = homeRepository;
     }
 
-    @Override
-    public void onSuccessResults(List<Category> categories) {
-
-    }
 
     @Override
     public void getMealDetails(String name) {
-        homeRepository.getMealWithName(this, name);
+        homeRepository.getMealWithName(name).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(parentMeal -> {
+                Meal meal = parentMeal.getMeals().get(0);
+                meal.setIngredientAndMeasurement();
+                view.getMealDetails(meal);
+                },
+                        throwable -> Log.i(TAG, "getMealDetails: "));
     }
 
-    @Override
-    public void onSuccessResultsRandomMeal(Meal meals) {
-        meals.setIngredientAndMeasurement();
-
-        view.getMealDetails(meals);
-    }
-
-    @Override
-    public void onFailureResult(String msg) {
-
-    }
-
-    @Override
-    public void onSuccessResultsMealS(List<Meal> meals) {
-
-    }
-
-    @Override
-    public void onSuccessResultsIngredients(List<Ingredients> ingredients) {
-
-    }
-
-    @Override
-    public void onSuccessAreaResult(List<Area> areas) {
-
-    }
 
     @Override
     public void addToFav(Meal meal) {
