@@ -35,8 +35,8 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
     private View view;
     private NavController navController;
 
-    SharedPreferences sharedPreferences;
-    private boolean isConnected ;
+    private SharedPreferences sharedPreferences;
+    private boolean isConnected;
     private static final String TAG = "MainScreen";
     private InternetConnection internetConnection;
 
@@ -44,55 +44,37 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        isConnected=true;
+        isConnected = true;
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         navController = Navigation.findNavController(this, R.id.nav_host_main_screen_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        FloatingActionButton fabExit = findViewById(R.id.fab_exit);
         internetConnection = new InternetConnection(this);
         registerReceiver(internetConnection, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         sharedPreferences = getSharedPreferences("setting", MODE_PRIVATE);
 
 
-        boolean isGuest = sharedPreferences.getBoolean("isGuest",false);
-        boolean isLoggedIn= sharedPreferences.getBoolean("loggedInUser",false);
-        boolean isBackup = sharedPreferences.getBoolean("backup",false);
-        SharedPreferences.Editor editor =sharedPreferences.edit();
+        boolean isGuest = sharedPreferences.getBoolean("isGuest", false);
+        boolean isLoggedIn = sharedPreferences.getBoolean("loggedInUser", false);
+        boolean isBackup = sharedPreferences.getBoolean("backup", false);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        if (isConnected &&isLoggedIn&&!isBackup){
-            Log.i(TAG, "onCreate: is backup  "+isBackup);
-           RemoteDataSourceImpl.getInstance(this).getDataFromFireBase();
-           editor.putBoolean("backup",true);
-           editor.apply();
-            Log.i(TAG, "onCreate: is backup  "+sharedPreferences.getBoolean("backup",false));
+        if (isConnected && isLoggedIn && !isBackup) {
+            Log.i(TAG, "onCreate: is backup  " + isBackup);
+            RemoteDataSourceImpl.getInstance(this).getDataFromFireBase();
+            editor.putBoolean("backup", true);
+            editor.apply();
+            Log.i(TAG, "onCreate: is backup  " + sharedPreferences.getBoolean("backup", false));
         }
-        fabExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isConnected&&!isGuest) {
-                    MealLocalDataSourceImpl localDataSource =  MealLocalDataSourceImpl.getInstance(MainScreen.this);
-                    localDataSource.deleteAllData();
-                    FirebaseAuth.getInstance().signOut();
-                    editor.putBoolean("isGuest",false);
-                    editor.putBoolean("loggedInUser",false);
-                    editor.apply();
-                }else if (!isConnected){
-                    editor.putBoolean("isGuest",false);
-                    editor.putBoolean("loggedInUser",true);
-                    editor.apply();
-                }
-                finish();
-            }
-        });
+
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 if (item.getItemId() == R.id.favouriteFragment) {
-                    if (!isGuest){
+                    if (!isGuest) {
                         navigateToFragment(R.id.favouriteFragment);
 
-                    }else {
+                    } else {
                         showGuestDialog();
                         return false;
                     }
@@ -113,20 +95,20 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
                     }
 
                 } else if (item.getItemId() == R.id.planningFragment) {
-                    if (!isGuest){
+                    if (!isGuest) {
                         navigateToFragment(R.id.planningFragment);
-                    }else {
+                    } else {
                         showGuestDialog();
                         return false;
                     }
 
                 } else if (item.getItemId() == R.id.settingFragment) {
-                    if (isConnected &&!isGuest) {
+                    if (isConnected && !isGuest) {
                         navigateToFragment(R.id.settingFragment);
-                    } else if (isGuest){
+                    } else if (isGuest) {
                         showGuestDialog();
                         return false;
-                    }else {
+                    } else {
                         showOfflineDialog();
                         return false;
                     }
@@ -167,14 +149,15 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
             }
         }).show();
     }
-    void showGuestDialog(){
+
+    void showGuestDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this);
         builder.setTitle(getString(R.string.guest_dialog_title)).setMessage(getString(R.string.guest_dialog_content)).setPositiveButton(getString(R.string.login), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isGuest",false);
-                editor.putBoolean("loggedInUser",false);
+                editor.putBoolean("isGuest", false);
+                editor.putBoolean("loggedInUser", false);
 
                 editor.apply();
                 finish();
@@ -188,7 +171,6 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
     }
 
 
-
     @Override
     public void onNetworkConnected() {
         isConnected = true;
@@ -196,14 +178,12 @@ public class MainScreen extends AppCompatActivity implements InterNetConnectivit
 
     @Override
     public void onNetworkDisconnected() {
-        Log.i(TAG, "onNetworkDisconnected: ");
         isConnected = false;
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy: "+sharedPreferences.getBoolean("backup",false));
+        Log.i(TAG, "onDestroy: " + sharedPreferences.getBoolean("backup", false));
     }
 }

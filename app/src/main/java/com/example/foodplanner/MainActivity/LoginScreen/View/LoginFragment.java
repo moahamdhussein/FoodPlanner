@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.MainActivity.LoginScreen.Presenter.LoginPresenter;
 import com.example.foodplanner.MainScreen.MainScreen;
@@ -37,18 +39,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginFragment extends Fragment {
 
 
-    Button btnSignUp ,btnGoogle,btnGuest;
-    TextView tv_Login;
-
-    View view;
-
-    GoogleSignInClient googleSignInClient;
-
-    LoginPresenter presenter;
-
+    private  Button btnSignUp ,btnGoogle,btnGuest;
+    private  TextView tv_Login;
+    private  GoogleSignInClient googleSignInClient;
     private static final int RC_SIGN_IN = 123;
-
     private static final String TAG = "LoginFragment";
+    LottieAnimationView lottieAnimationView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,10 +52,7 @@ public class LoginFragment extends Fragment {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
         googleSignInClient = GoogleSignIn.getClient(requireContext(),gos);
-
         super.onCreate(savedInstanceState);
-
-
     }
 
 
@@ -71,16 +64,14 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated( View view,  Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.view = view;
         btnSignUp = view.findViewById(R.id.btn_signup);
         tv_Login = view.findViewById(R.id.tv_login);
         btnGoogle = view.findViewById(R.id.btn_google);
         btnGuest = view.findViewById(R.id.btn_guest);
-        presenter = new LoginPresenter(HomeRepository.getInstance(RemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
-
-
+        lottieAnimationView = view.findViewById(R.id.lottie_logo);
+        lottieAnimationView.setMaxFrame(50);
         btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +81,7 @@ public class LoginFragment extends Fragment {
         btnGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("isGuest",true);
                 editor.putBoolean("loggedInUser",false);
@@ -135,7 +126,7 @@ public class LoginFragment extends Fragment {
         FirebaseAuth.getInstance().signInWithCredential(credential)
                 .addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("setting",Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("setting",Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean("loggedInUser",true);
                         editor.putBoolean("isGuest",false);
@@ -143,7 +134,7 @@ public class LoginFragment extends Fragment {
                         editor.apply();
                         Intent intent = new Intent(getContext(), MainScreen.class);
                         startActivity(intent);
-                        getActivity().finish();
+                        requireActivity().finish();
 
                     } else {
                         Snackbar.make(requireView(),"failed to login",Snackbar.LENGTH_SHORT).show();

@@ -11,6 +11,11 @@
         android:label="Spash Screen"
         tools:layout="@layout/fragment_spash_screen">
         <action
+            android:id="@+id/action_spashScreenFragment_to_onbordingFragment"
+            app:destination="@id/onbordingFragment"
+            app:popUpTo="@id/spashScreenFragment"
+            app:popUpToInclusive="true" />
+        <action
             android:id="@+id/action_spashScreenFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/spashScreenFragment"
@@ -38,4 +43,15 @@
         android:name="com.example.foodplanner.MainActivity.RegisterationForm.View.SingupFragment"
         android:label="Singup"
         tools:layout="@layout/fragment_singup" />
+    <fragment
+        android:id="@+id/onbordingFragment"
+        android:name="com.example.foodplanner.MainActivity.OnbordingFragment"
+        android:label="fragment_onbording"
+        tools:layout="@layout/fragment_onbording" >
+        <action
+            android:id="@+id/action_onbordingFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/onbordingFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

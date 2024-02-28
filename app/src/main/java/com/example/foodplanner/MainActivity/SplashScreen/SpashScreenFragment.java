@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,13 +26,13 @@ import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.R;
 
 
-
 public class SpashScreenFragment extends Fragment {
 
     Animation topAnim, bottomAnim;
     LottieAnimationView lottieAnimationView;
     TextView tvTitle, tvSlogan;
     Handler handler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,20 +62,25 @@ public class SpashScreenFragment extends Fragment {
         tvSlogan.setAnimation(bottomAnim);
         handler = new Handler();
         NavController controller = Navigation.findNavController(view);
-        SharedPreferences preferences = getActivity().getSharedPreferences("setting",MODE_PRIVATE);
-        boolean isLoggedIn = preferences.getBoolean("loggedInUser",false);
-
+        SharedPreferences preferences = requireActivity().getSharedPreferences("setting", MODE_PRIVATE);
+        boolean isLoggedIn = preferences.getBoolean("loggedInUser", false);
+        boolean onBoardingDone = preferences.getBoolean("OnBoardingDone", false);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (isLoggedIn){
-                    startActivity(new Intent(getContext(), MainScreen.class));
-                    getActivity().finish();
-                }else {
-                    controller.navigate(SpashScreenFragmentDirections.actionSpashScreenFragmentToLoginFragment());
+                if (!onBoardingDone) {
+                    controller.navigate(SpashScreenFragmentDirections.actionSpashScreenFragmentToOnbordingFragment());
+                } else {
+                    if (isLoggedIn) {
+                        startActivity(new Intent(getContext(), MainScreen.class));
+                        requireActivity().finish();
+                    } else {
+                        controller.navigate(SpashScreenFragmentDirections.actionSpashScreenFragmentToLoginFragment());
+                    }
                 }
 
+
             }
-        },3200);
+        }, 3200);
     }
 }

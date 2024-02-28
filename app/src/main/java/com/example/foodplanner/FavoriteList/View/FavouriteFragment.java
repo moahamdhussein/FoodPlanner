@@ -72,12 +72,9 @@ public class FavouriteFragment extends Fragment implements IFavouriteFragment, O
     public void onRemoveClick(Meal meal){
         presenter.removeItem(meal);
     }
-
     @Override
-    public void setData(Flowable<List<Meal>> meals){
-
-        meals.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> adapter.setList(items));
+    public void setData(List<Meal> meals){
+         adapter.setList(meals);
     }
 
     @Override

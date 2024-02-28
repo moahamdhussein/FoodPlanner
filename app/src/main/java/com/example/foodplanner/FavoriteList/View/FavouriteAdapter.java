@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.pojos.Meal;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
       holder.fabDeleteItem.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-
+            Snackbar.make(v,"Meal Removed from favorite ",Snackbar.LENGTH_SHORT).show();
             removeListener.onRemoveClick(meals.get(holder.getAdapterPosition()));
          }
       });

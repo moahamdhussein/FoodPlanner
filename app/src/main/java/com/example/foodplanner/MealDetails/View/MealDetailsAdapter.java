@@ -59,7 +59,6 @@ public class MealDetailsAdapter extends RecyclerView.Adapter<MealDetailsAdapter.
       notifyDataSetChanged();
    }
 
-
    public class ViewHolder extends RecyclerView.ViewHolder{
 
       ImageView ivIngredient;

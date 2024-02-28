@@ -4,21 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login"
+
     tools:context=".MainActivity.LoginScreen.View.LoginFragment">
 
-    <View
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_logo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#74000000" />
+        android:layout_height="250dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/test" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lottie_logo"
         app:layout_constraintEnd_toStartOf="@id/tv_title">
 
         <ImageView
@@ -34,15 +40,16 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="120dp"
         android:layout_marginBottom="250dp"
-        android:fontFamily="@font/open_sans"
+        android:fontFamily="@font/handlee"
         android:text="@string/TitleOfApp"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="#0857a0"
         android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lottie_logo" />
 
 
     <TextView
@@ -53,7 +60,7 @@
         android:layout_marginBottom="250dp"
         android:text="@string/slogan"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="#0857a0"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -64,9 +71,9 @@
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/buttontext"
         android:text="@string/google"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:icon="@drawable/google"
         app:iconGravity="start"
         app:iconPadding="4dp"
@@ -84,7 +91,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/buttontext"
         android:text="@string/login_as_guest"
         app:iconGravity="start"
         app:iconSize="25dp"
@@ -98,32 +105,29 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="#F7EFE5"
+        android:backgroundTint="@color/buttontext"
         android:text="@string/sign_up_with_email"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:icon="@drawable/email_logo"
-
         app:iconGravity="textStart"
         app:iconSize="30dp"
-        app:iconTint="@color/black"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_guest" />
-
     <TextView
         android:id="@+id/tv_have_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/open_sans"
         android:text="@string/already_have_an_account"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/btn_signup"
         app:layout_constraintTop_toBottomOf="@id/btn_signup" />
-
     <TextView
         android:id="@+id/tv_login"
         android:layout_width="0dp"
@@ -131,11 +135,10 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:text="@string/log_in"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_have_account"
         app:layout_constraintTop_toBottomOf="@id/btn_signup" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

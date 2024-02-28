@@ -33,6 +33,7 @@ import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
@@ -92,7 +93,17 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
                         Colored = !Colored;
                         fabAddToFav.setIcon(R.drawable.favorite_outline);
                         presenter.removeFromFavourite(meal);
+                        Snackbar.make(view,"Removed From Favourite",Snackbar.LENGTH_LONG).setAction("Undo",v1 -> {
+                            presenter.addToFav(meal);
+                            Colored=!Colored;
+                            fabAddToFav.setIcon(R.drawable.favorite__colored);
+                        }).show();
                     } else {
+                        Snackbar.make(view,"Add Meal to Favourite",Snackbar.LENGTH_LONG).setAction("Undo",v1 -> {
+                            presenter.removeFromFavourite(meal);
+                            Colored=!Colored;
+                            fabAddToFav.setIcon(R.drawable.favorite_outline);
+                        }).show();
                         Colored = !Colored;
                         fabAddToFav.setIcon(R.drawable.favorite__colored);
                         meal.setPlanDate("-");
@@ -114,17 +125,17 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
                     int month = calendar.get(Calendar.MONTH);
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                     Log.i(TAG, "onClick: " + year + "-" + (month + 1) + "-" + dayOfMonth);
-
                     DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                     // Do something with the selected date
                                     String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                                    Toast.makeText(getContext(), "Meal Saved with Date: " + selectedDate, Toast.LENGTH_SHORT).show();
                                     meal.setPlanDate(selectedDate);
                                     meal.setDbType("Plan");
                                     presenter.addToFav(meal);
+                                    Snackbar.make(v,"Meal Saved with Date: " + selectedDate,Snackbar.LENGTH_LONG).setAction(
+                                            "Undo", view1->presenter.removeFromFavourite(meal)).show();
                                 }
                             }, year, month, dayOfMonth);
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);

@@ -29,18 +29,34 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_backup"
-        android:layout_width="wrap_content"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_user_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/backup"
-        android:backgroundTint="#F00399FD"
+        android:backgroundTint="#419197"
         android:textColor="@color/white"
         android:textSize="25sp"
         app:iconSize="30dp"
         app:icon="@drawable/cloud_upload"
         android:textStyle="bold"
         android:layout_marginTop="60dp"/>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_logout"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/btn_backup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/logout"
+        android:backgroundTint="#419197"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:iconSize="30dp"
+        app:icon="@drawable/logout"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

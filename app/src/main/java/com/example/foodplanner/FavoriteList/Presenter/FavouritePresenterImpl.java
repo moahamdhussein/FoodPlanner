@@ -5,6 +5,8 @@ import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.model.IHomeRepository;
 import com.example.foodplanner.model.pojos.Meal;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+
 public class FavouritePresenterImpl implements IFavouritePresenter {
 
     private IFavouriteFragment view;
@@ -19,7 +21,9 @@ public class FavouritePresenterImpl implements IFavouritePresenter {
 
     @Override
     public void getLocalData(){
-        view.setData(repository.getStoredMeals());
+        repository.getStoredMeals().observeOn(AndroidSchedulers.mainThread())
+                .subscribe(items -> view.setData(items));
+
     }
     @Override
     public void removeItem(Meal meal){

@@ -7,5 +7,5 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Flowable;
 
 public interface IFavouriteFragment {
-    public void setData(Flowable<List<Meal>> meals);
+    public void setData(List<Meal>meals);
 }
