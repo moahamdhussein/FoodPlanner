@@ -1,4 +1,4 @@
-package com.example.foodplanner.MainActivity;
+package com.example.foodplanner.MainActivity.onBoarding;
 
 import static android.content.Context.MODE_PRIVATE;
 

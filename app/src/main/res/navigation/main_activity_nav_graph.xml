@@ -45,7 +45,7 @@
         tools:layout="@layout/fragment_singup" />
     <fragment
         android:id="@+id/onbordingFragment"
-        android:name="com.example.foodplanner.MainActivity.OnbordingFragment"
+        android:name="com.example.foodplanner.MainActivity.onBoarding.OnbordingFragment"
         android:label="fragment_onbording"
         tools:layout="@layout/fragment_onbording" >
         <action

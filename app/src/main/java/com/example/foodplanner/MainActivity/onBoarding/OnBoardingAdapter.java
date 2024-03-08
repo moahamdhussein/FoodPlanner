@@ -1,4 +1,4 @@
-package com.example.foodplanner.MainActivity;
+package com.example.foodplanner.MainActivity.onBoarding;
 
 import android.content.Context;
 import android.view.LayoutInflater;

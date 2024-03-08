@@ -88,16 +88,16 @@
 
 
     //Headings
-    <string name="heading_one">Quick &amp; Easy Payments</string>
-    <string name="heading_two">Instant Notifications</string>
-    <string name="heading_three">Cashless Payment</string>
-    <string name="heading_fourth">Pay Anywhere</string>
+    <string name="heading_one">Made With love</string>
+    <string name="heading_two">Inspiration</string>
+    <string name="heading_three">Favourite Meal</string>
+    <string name="heading_fourth">PLan Your Meal</string>
 
     //Description
-    <string name="desc_one">Grow your Business By Accepting Card Payments with The New Card Reader</string>
-    <string name="desc_two">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
-    <string name="desc_three">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
-    <string name="desc_fourth">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</string>
-    <string name="logout">logout</string>
+    <string name="desc_one">Food suggestions application </string>
+    <string name="desc_two">get inspiration food and how to cook it</string>
+    <string name="desc_three">Add Meal to Favourite</string>
+    <string name="desc_fourth">plan your meal for another day</string>
+    <string name="logout" translatable="false">logout</string>
 
 </resources>
