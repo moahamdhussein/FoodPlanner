@@ -42,8 +42,8 @@ public class RegisterPresenter implements OnCompleteListener, IRegisterPresenter
                 view.onSuccessComplete();
 
             }else {
+                view.onFailure();
                 Log.i(TAG, "onComplete: "+task.getException());
-
             }
     }
 }

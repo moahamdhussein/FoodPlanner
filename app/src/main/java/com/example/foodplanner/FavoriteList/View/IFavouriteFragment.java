@@ -4,8 +4,6 @@ import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Flowable;
-
 public interface IFavouriteFragment {
-    public void setData(List<Meal>meals);
+    void setData(List<Meal> meals);
 }

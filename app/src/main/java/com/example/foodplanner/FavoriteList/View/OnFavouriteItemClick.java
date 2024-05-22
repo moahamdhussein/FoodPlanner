@@ -6,6 +6,6 @@ import com.example.foodplanner.model.pojos.Meal;
 
 public interface OnFavouriteItemClick {
 
- public void onFavItemClick(View view , Meal meal);
+ void onFavItemClick(View view, Meal meal);
 
 }

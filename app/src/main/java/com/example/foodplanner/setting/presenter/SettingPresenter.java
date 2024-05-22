@@ -14,7 +14,6 @@ public class SettingPresenter implements ISettingPresenter {
         this.view = view;
     }
 
-    private static final String TAG = "SettingPresenter";
 
     @Override
     public void backup() {

@@ -1,17 +1,19 @@
 package com.example.foodplanner.FavoriteList.View;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.FavoriteList.Presenter.FavouritePresenterImpl;
@@ -23,9 +25,6 @@ import com.example.foodplanner.model.pojos.Meal;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Flowable;
 
 public class FavouriteFragment extends Fragment implements IFavouriteFragment, OnRemoveClick ,OnFavouriteItemClick{
 
@@ -70,7 +69,17 @@ public class FavouriteFragment extends Fragment implements IFavouriteFragment, O
 
     @Override
     public void onRemoveClick(Meal meal){
-        presenter.removeItem(meal);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Warning").setMessage("Are you sure you want to delete this item").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.removeItem(meal);
+                dialog.dismiss();
+                Toast.makeText(getContext(),"Item deleted Successfully",Toast.LENGTH_SHORT).show();
+            }
+        }).setNegativeButton("No",(dialog, which) -> {
+            dialog.dismiss();
+        }).show();
     }
     @Override
     public void setData(List<Meal> meals){

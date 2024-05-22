@@ -6,6 +6,12 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,24 +20,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.MealDetails.Presenter.IMealDetailsPresenter;
 import com.example.foodplanner.MealDetails.Presenter.MealDetailsPresenterImpl;
-import com.example.foodplanner.model.HomeRepository;
-import com.example.foodplanner.model.pojos.Meal;
 import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
+import com.example.foodplanner.model.HomeRepository;
+import com.example.foodplanner.model.pojos.Meal;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
@@ -126,17 +122,14 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
                     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                     Log.i(TAG, "onClick: " + year + "-" + (month + 1) + "-" + dayOfMonth);
                     DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                    // Do something with the selected date
-                                    String selectedDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                                    meal.setPlanDate(selectedDate);
-                                    meal.setDbType("Plan");
-                                    presenter.addToFav(meal);
-                                    Snackbar.make(v,"Meal Saved with Date: " + selectedDate,Snackbar.LENGTH_LONG).setAction(
-                                            "Undo", view1->presenter.removeFromFavourite(meal)).show();
-                                }
+                            (view12, year1, monthOfYear, dayOfMonth1) -> {
+                                // Do something with the selected date
+                                String selectedDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth1;
+                                meal.setPlanDate(selectedDate);
+                                meal.setDbType("Plan");
+                                presenter.addToFav(meal);
+                                Snackbar.make(v,"Meal Saved with Date: " + selectedDate,Snackbar.LENGTH_LONG).setAction(
+                                        "Undo", view1->presenter.removeFromFavourite(meal)).show();
                             }, year, month, dayOfMonth);
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                     datePickerDialog.show();
@@ -201,15 +194,12 @@ public class MealDetailsFragment extends Fragment implements IMealDetailsFragmen
         builder.setTitle(getString(R.string.guest_dialog_title)).setMessage(getString(R.string.guest_dialog_content)).setPositiveButton(getString(R.string.login), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // navigate to login screen
+                 requireActivity().finish();
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).show();
+        }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).show();
     }
+
+
 
 
 }

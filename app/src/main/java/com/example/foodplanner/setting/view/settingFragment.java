@@ -1,33 +1,30 @@
 package com.example.foodplanner.setting.view;
 
 import static android.content.Context.MODE_PRIVATE;
-import static androidx.core.content.ContextCompat.registerReceiver;
 
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import com.example.foodplanner.DataBase.MealLocalDataSourceImpl;
 import com.example.foodplanner.InterNetConnectivity;
 import com.example.foodplanner.MainScreen.InternetConnection;
-import com.example.foodplanner.MainScreen.MainScreen;
 import com.example.foodplanner.Network.Random.RemoteDataSourceImpl;
 import com.example.foodplanner.R;
 import com.example.foodplanner.model.HomeRepository;
 import com.example.foodplanner.setting.presenter.ISettingPresenter;
 import com.example.foodplanner.setting.presenter.SettingPresenter;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class settingFragment extends Fragment implements ISettingFragment , InterNetConnectivity {
@@ -38,7 +35,6 @@ public class settingFragment extends Fragment implements ISettingFragment , Inte
     private SharedPreferences sharedPreferences;
     private boolean isConnected;
 
-    private static final String TAG = "settingFragment";
     private InternetConnection internetConnection;
 
     @Override
@@ -66,11 +62,15 @@ public class settingFragment extends Fragment implements ISettingFragment , Inte
         isConnected = true;
         presenter = new SettingPresenter(this,HomeRepository
                 .getInstance( RemoteDataSourceImpl.getInstance(getContext()), MealLocalDataSourceImpl.getInstance(getContext())));
-        btnBackup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnBackup.setOnClickListener(v -> {
+            if (isConnected){
                 presenter.backup();
+                Snackbar.make(requireView(),"Backup Done Successfully",Snackbar.LENGTH_SHORT).show();
+            }else {
+                Snackbar.make(requireView(),"Failed to Backup open internet and try again",Snackbar.LENGTH_SHORT).show();
+
             }
+
         });
 
         internetConnection = new InternetConnection(this);
@@ -78,23 +78,20 @@ public class settingFragment extends Fragment implements ISettingFragment , Inte
         sharedPreferences = requireActivity().getSharedPreferences("setting", MODE_PRIVATE);
         boolean isGuest = sharedPreferences.getBoolean("isGuest",false);
         SharedPreferences.Editor editor =sharedPreferences.edit();
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isConnected&&!isGuest) {
-                    MealLocalDataSourceImpl localDataSource =  MealLocalDataSourceImpl.getInstance(getContext());
-                    localDataSource.deleteAllData();
-                    FirebaseAuth.getInstance().signOut();
-                    editor.putBoolean("isGuest",false);
-                    editor.putBoolean("loggedInUser",false);
-                    editor.apply();
-                }else if (!isConnected){
-                    editor.putBoolean("isGuest",false);
-                    editor.putBoolean("loggedInUser",true);
-                    editor.apply();
-                }
-                requireActivity().finish();
+        btnLogout.setOnClickListener(v -> {
+            if (isConnected&&!isGuest) {
+                MealLocalDataSourceImpl localDataSource =  MealLocalDataSourceImpl.getInstance(getContext());
+                localDataSource.deleteAllData();
+                FirebaseAuth.getInstance().signOut();
+                editor.putBoolean("isGuest",false);
+                editor.putBoolean("loggedInUser",false);
+                editor.apply();
+            }else if (!isConnected){
+                editor.putBoolean("isGuest",false);
+                editor.putBoolean("loggedInUser",true);
+                editor.apply();
             }
+            requireActivity().finish();
         });
 
     }

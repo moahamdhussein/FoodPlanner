@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.foodplanner.MainActivity.RegisterationForm.Presenter.IRegisterPresenter;
 import com.example.foodplanner.MainActivity.RegisterationForm.Presenter.RegisterPresenter;
@@ -69,8 +70,15 @@ public class SingupFragment extends Fragment implements View.OnClickListener , I
         editor.putBoolean("isGuest",false);
         editor.putBoolean("backup",false);
         editor.apply();
+        Toast.makeText(getContext(),"Registration Done",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(getContext(), MainScreen.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    @Override
+    public void onFailure() {
+        Toast.makeText(getContext(),"Registration Fail try valid email or password",Toast.LENGTH_SHORT).show();
+
     }
 }

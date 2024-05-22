@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -72,38 +74,19 @@ public class LoginFragment extends Fragment {
         btnGuest = view.findViewById(R.id.btn_guest);
         lottieAnimationView = view.findViewById(R.id.lottie_logo);
         lottieAnimationView.setMaxFrame(50);
-        btnGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signInWithGoogle();
-            }
-        });
-        btnGuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("isGuest",true);
-                editor.putBoolean("loggedInUser",false);
-                editor.putBoolean("backup",true);
-                editor.apply();
-                startActivity(new Intent(getContext(),MainScreen.class));
-            }
+        btnGoogle.setOnClickListener(v -> signInWithGoogle());
+        btnGuest.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("setting", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isGuest",true);
+            editor.putBoolean("loggedInUser",false);
+            editor.putBoolean("backup",true);
+            editor.apply();
+            startActivity(new Intent(getContext(),MainScreen.class));
         });
 
-        tv_Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToLoginFormFragment());
-            }
-        });
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToSingupFragment());
-            }
-        });
+        tv_Login.setOnClickListener(v -> Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToLoginFormFragment()));
+        btnSignUp.setOnClickListener(v -> Navigation.findNavController(view).navigate(LoginFragmentDirections.actionLoginFragmentToSingupFragment()));
 
     }
     @Override
@@ -114,7 +97,9 @@ public class LoginFragment extends Fragment {
             try {
                 GoogleSignInAccount account = task.getResult();
                 firebaseAuthWithGoogle(account.getIdToken());
+
             } catch (Exception e) {
+                Log.i(TAG, e.toString());
                 Snackbar.make(requireView(),"Google sign in failed",Snackbar.LENGTH_SHORT).show();
 
             }
@@ -132,6 +117,7 @@ public class LoginFragment extends Fragment {
                         editor.putBoolean("isGuest",false);
                         editor.putBoolean("backup",false);
                         editor.apply();
+                        Toast.makeText(requireContext(),"Login Done",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getContext(), MainScreen.class);
                         startActivity(intent);
                         requireActivity().finish();

@@ -61,7 +61,11 @@
         android:id="@+id/planningFragment"
         android:name="com.example.foodplanner.Planning.View.PlanningFragment"
         android:label="fragment_planning"
-        tools:layout="@layout/fragment_planning" />
+        tools:layout="@layout/fragment_planning" >
+        <action
+            android:id="@+id/action_planningFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.foodplanner.setting.view.settingFragment"
